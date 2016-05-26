@@ -142,24 +142,34 @@
 	
 	
 		<p>#Hexo 快速环境搭建</p>
-<h2 id="标签（空格分隔）：-hexo-git"><a href="#标签（空格分隔）：-hexo-git" class="headerlink" title="标签（空格分隔）： hexo git"></a>标签（空格分隔）： hexo git</h2><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>用hexo搭建了一个blog，在此记录下</p>
-<h2 id="下载安装git"><a href="#下载安装git" class="headerlink" title="下载安装git"></a>下载安装git</h2><p>可以安装git命令行和TortoiseGit客户端</p>
-<h2 id="下载安装Node-js"><a href="#下载安装Node-js" class="headerlink" title="下载安装Node.js"></a>下载安装Node.js</h2><p>下载好后，双击安装，一路next即可</p>
-<h2 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h2><p>可以新建一文件夹作为博客的根目录<br>比如：E：blog/hexo<br>在此文件夹中右击任意位置，选择Git Bash，弹出命令行窗口，执行如下命令：<br><code>npm install -g hexo</code><br>如果报错，请换国内镜像源试试：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm config <span class="built_in">set</span> registry=<span class="string">"http://registry.cnpmjs.org"</span></span><br></pre></td></tr></table></figure></p>
+<p><code>hexo</code> <code>git</code></p>
+<p>前言</p>
+<p>用hexo搭建了一个blog，在此记录下</p>
+<p>下载安装git</p>
+<p>可以安装git命令行和TortoiseGit客户端</p>
+<p>下载安装Node.js</p>
+<p>下载好后，双击安装，一路next即可<br>安装Hexo</p>
+<p>可以新建一文件夹作为博客的根目录<br>比如：E：blog/hexo<br>在此文件夹中右击任意位置，选择Git Bash，弹出命令行窗口，执行如下命令：<br><code>npm install -g hexo</code><br>如果报错，请换国内镜像源试试：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm config <span class="built_in">set</span> registry=<span class="string">"http://registry.cnpmjs.org"</span></span><br></pre></td></tr></table></figure></p>
 <p>然后再执行<code>npm install -g hexo</code>,成功！</p>
-<h2 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包"></a>安装依赖包</h2><pre><code>npm install
+<p>安装依赖包</p>
+<pre><code>npm install
 </code></pre><p>相关命令缩写<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo generate=hexo g</span><br><span class="line">hexo server=hexo s</span><br><span class="line">hexo deploy=hexo d</span><br><span class="line">hexo new=hexo</span><br></pre></td></tr></table></figure></p>
-<h2 id="本地查看"><a href="#本地查看" class="headerlink" title="本地查看"></a>本地查看</h2><p>执行以下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure></p>
+<p>本地查看</p>
+<p>执行以下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure></p>
 <p>然后浏览器输入<code>http://localhost:4000</code>查看效果。<br>到此，本地博客已经搭建，但别人看不到。</p>
-<h2 id="部署到GitHub"><a href="#部署到GitHub" class="headerlink" title="部署到GitHub"></a>部署到GitHub</h2><p>编辑E:\blog\hexo下的config.yml,修改Deployment部分：</p>
+<p>部署到GitHub</p>
+<p>编辑E:\blog\hexo下的config.yml,修改Deployment部分：</p>
 <p>#Deployment</p>
 <p>#Docs: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">https://hexo.io/docs/deployment.html</a><br>deploy:<br>type: git<br>repository: <a href="https://github.com/clockbone/clockbone.github.io.git" target="_blank" rel="external">https://github.com/clockbone/clockbone.github.io.git</a><br>branch: master</p>
 <p><code>注意:</code><br>repository 地址中 clockbone对应你的github账号名</p>
-<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>执行命令：<br>    <code>hexo d</code> ,执行该命令，报错：<br>    <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR Deployer not found:git</span><br></pre></td></tr></table></figure></p>
+<p>部署</p>
+<p>执行命令：<br>    <code>hexo d</code> ,执行该命令，报错：<br>    <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR Deployer not found:git</span><br></pre></td></tr></table></figure></p>
 <p>执行命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure></p>
 <p>,再次执行<code>hexo d</code><br>会提示用户名和密码，输入github账号的用户名和密码即可。在此之前需要添加ssh key到你的github中，直接用TortoiseGit-&gt;Puttgen菜单生成key即可，保存公钥和私钥，将公钥添加到github账号中，私钥作为本地和公钥的验证。</p>
-<h2 id="访问测试"><a href="#访问测试" class="headerlink" title="访问测试"></a>访问测试</h2><p>访问：<a href="http://clockbone.github.io/">http://clockbone.github.io/</a></p>
-<h2 id="如何发布静态文章"><a href="#如何发布静态文章" class="headerlink" title=" 如何发布静态文章"></a> 如何发布静态文章</h2><p>可以用Cmd Markdown来编辑你的文章，编辑好后保存下来<br>还是在原来E:\blog\hexo目录下打开一个Git Bash，执行下面命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure></p>
+<p>访问测试</p>
+<p>访问：<a href="http://clockbone.github.io/">http://clockbone.github.io/</a></p>
+<p> 如何发布静态文章</p>
+<p>可以用Cmd Markdown来编辑你的文章，编辑好后保存下来<br>还是在原来E:\blog\hexo目录下打开一个Git Bash，执行下面命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure></p>
 <p><code>My New Post</code>是你的文章名，此时可以在<code>E:\blog\hexo\source\_posts\Hexo-create.md</code>看到生成的源文件，这是hexo文章的源文件，可以直接用Cmd Markdown编辑好的内容贴到此文件中，或者直接用其语法编写。<br>打开<code>http://localhost:4000</code>本地查看你的文章。<br>查看没问题了，可以执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br></pre></td></tr></table></figure></p>
 <p>生成html,css,js的网页文件<br>再执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure></p>
 <p>部署到远程的github上。<br>如果需要修改此文章还是重复以下步骤及可：</p>
@@ -218,8 +228,11 @@
   <div class="row">
 	
 	
-		<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+		<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems</p>
+<p>when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<p> Quick Start</p>
+<p> Create a new post</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
 <h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
@@ -417,8 +430,8 @@
   <footer> <p>
   clock bone &copy; 2013-2016.
   
-       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, <a href="https://swiftype.com/" target="_blank">Swiftype</a> 
-      <i class="fa fa-sitemap %>"></i> <a href="/sitemap.xml" target="_blank"> 站点地图</a>.
+       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      <i class="fa fa-sitemap %>"></i> <a href="/sitemap.xml" target="_blank"> 站点地图</a>. 
       <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1255163192'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1255163192' type='text/javascript'%3E%3C/script%3E"));</script>   
 </p> </footer>
 </div> <!-- container-narrow -->
