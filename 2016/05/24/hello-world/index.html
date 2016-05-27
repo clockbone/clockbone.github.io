@@ -20,6 +20,8 @@ when using Hexo, you can find the answer in ">
   
 
   
+    <link rel="alternative" href="/atom.xml" title="起今知行 | 思考者" type="application/atom+xml">
+  
   
     <link href="/favicon.ico" rel="icon">
   
@@ -59,32 +61,26 @@ when using Hexo, you can find the answer in ">
 		<ul class="nav navbar-nav">
 		  
 		  <li>
-			<a href="/tags/热点文章/" title="All the tags.">
-			  <i class="fa fa-fire"></i>热点文章
+			<a href="/archives" title="所有文章归档">
+			  <i class="fa fa-archive"></i>归档
 			</a>
 		  </li>
 		  
 		  <li>
-			<a href="/tags/博主推荐/" title="All the tags.">
-			  <i class="fa fa-volume-up"></i>博主推荐
+			<a href="/categories" title="所有文章分类">
+			  <i class="fa fa-folder"></i>分类
 			</a>
 		  </li>
 		  
 		  <li>
-			<a href="/archives" title="All the articles.">
-			  <i class="fa fa-archive"></i>文章归档
+			<a href="/tags" title="标签">
+			  <i class="fa fa-tags"></i>标签
 			</a>
 		  </li>
 		  
 		  <li>
-			<a href="/message" title="All the tags.">
-			  <i class="fa fa-pencil"></i>给我留言
-			</a>
-		  </li>
-		  
-		  <li>
-			<a href="/about" title="About me.">
-			  <i class="fa fa-info-circle"></i>关于本站
+			<a href="/about" title="关于我">
+			  <i class="fa fa-user"></i>关于我
 			</a>
 		  </li>
 		  
@@ -167,6 +163,19 @@ when using Hexo, you can find the answer in ">
 				<!-- share -->
 				
 					
+	<footer class="entry-meta">           
+	<!-- JiaThis Button BEGIN -->
+	  <div class="jiathis_style" style="float:right;">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_qzone">QQ空间</a>
+		<a class="jiathis_button_tsina">新浪微博</a>
+		<a class="jiathis_button_weixin">微信</a>
+	
+	  </div>
+
+	<!-- JiaThis Button END -->
+	</footer>
+
 
 					
      <footer class="entry-meta">      
@@ -210,7 +219,7 @@ when using Hexo, you can find the answer in ">
 
 		 
 				
-					<p class="p1">上一篇 <a href="/2016/05/24/Hexo-create/">Hexo create</a></p> 
+					<p class="p1">上一篇 <a href="/2016/05/24/Hexo-create/">Hexo、github搭建属于自己的blog</a></p> 
 
 				
 			
@@ -218,8 +227,6 @@ when using Hexo, you can find the answer in ">
 		<!-- comment -->
 		
 <section id="comment">
-  
-  	 <div class="ds-thread" data-thread-key="2016/05/24/hello-world/" data-title="Hello World" data-url="http://clockbone.github.io/2016/05/24/hello-world/"></div>  
   
 </section>
 
@@ -232,11 +239,12 @@ when using Hexo, you can find the answer in ">
       <div class="col-md-3">
 	      <div id="sidebar">
 	      
-  <div class="form-group has-success has-feedback" id="site_search">
-    <form class="site-search-form">
-        <input type="text" id="st-search-input" name="q" results="0" placeholder="搜索" class="st-search-input st-default-search-input form-control" />
-    </form>
-  </div>  
+  <div id="site_search">
+   <div class="form-group">
+    <input type="text" id="local-search-input" name="q" results="0" placeholder="搜索" class="st-search-input st-default-search-input form-control"/>
+   </div>  
+  <div id="local-search-result"></div>
+  </div>
 
 	      <style type="text/css">
   .cls_container{height:24px;overflow:hidden;}
@@ -325,8 +333,29 @@ when using Hexo, you can find the answer in ">
 	      <!-- toc -->	      
 	      	      
 
-	      	
 	      
+	<div class="widget">
+		<h4 style="font-weight: bold; color: #333;font-family: "Helvetica Neue", Helvetica, Arial, sans-serif">分类目录</h4>
+		<ul class="tag_box inline list-unstyled">
+		
+			<li><a href="/categories/hexo/">hexo<span>1</span></a></li>
+		
+		</ul>
+	</div>
+	
+	      
+	<div class="widget">
+		<h4 style="font-weight: bold; color: #333 ">标签云</h4>
+		<ul class="tag_box inline list-unstyled">		
+		
+			<li><a href="/tags/hexo/">hexo<span>1</span></a></li>
+		
+			<li><a href="/tags/git/">git<span>1</span></a></li>
+		
+		 
+		</ul>
+	</div>
+
 
 	      
 <div class="widget">
@@ -337,18 +366,6 @@ when using Hexo, you can find the answer in ">
 	
 		<li style="font-size:14px"><i class="fa fa-github"></i><a href="http://www.github.com/rudy-yuan" title="My Github account." target="_blank"]);">我的github</a></li>
 	
-		<li style="font-size:14px"><i class="fa fa-trash"></i><a href="http://yjiehn.sinaapp.com" title="My Linkin account." target="_blank"]);">我的旧版博客</a></li>
-	
-		<li style="font-size:14px"><i class="fa fa-cloud-upload"></i><a href="http://www.qiniu.com" title="My Weibo account." target="_blank"]);">七牛云存储</a></li>
-	
-		<li style="font-size:14px"><i class="fa fa-chain"></i><a href="http://netlab.pkusz.edu.cn" title="My Weibo account." target="_blank"]);">北大互联网信息工程研发中心</a></li>
-	
-		<li style="font-size:14px"><i class="fa fa-chain"></i><a href="http://cs.whu.edu.cn" title="My Weibo account." target="_blank"]);">武汉大学 计算机学院</a></li>
-	
-		<li style="font-size:14px"><i class="fa fa-chain"></i><a href="http://github.com/wzpan/hexo-theme-freemind" title="My Weibo account." target="_blank"]);">Hexo-Theme-Freemind</a></li>
-	
-		<li style="font-size:14px"><i class="fa fa-chain"></i><a href="http://www.wengweitao.com" title="My Weibo account." target="_blank"]);">WWT的博客</a></li>
-	
 	</ul>
 </div>
 
@@ -358,7 +375,7 @@ when using Hexo, you can find the answer in ">
 	<ul class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="0" data-show-admin="1" data-excerpt-length="100" ></ul>
 	
 	<script type="text/javascript">
-	    var duoshuoQuery = { short_name: 'rudy-yuan' };
+	    var duoshuoQuery = { short_name: 'null' };
 	    (function() {
 	    var ds = document.createElement('script');
 		ds.type = 'text/javascript';ds.async = true;
@@ -385,18 +402,6 @@ when using Hexo, you can find the answer in ">
 </div><!-- row -->
 
 
-	<script type="text/javascript">
-	  var duoshuoQuery = { short_name: 'rudy-yuan' };
-	  (function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';
-		ds.async = true;
-		ds.src = 'http://static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
-	  })();
-	</script>
-
 
 
 	</div>
@@ -411,15 +416,6 @@ when using Hexo, you can find the answer in ">
 </p> </footer>
 </div> <!-- container-narrow -->
   
-  <script type="text/javascript">
-  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
-    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
-    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
-  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
-
-  _st('install', 'YYG5W2xNQTns7U8J3YqW','2.0.0');
-  </script>
-
 
 
   
@@ -443,6 +439,15 @@ when using Hexo, you can find the answer in ">
 </script>
 
 
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
 
 </body>
    </html>
