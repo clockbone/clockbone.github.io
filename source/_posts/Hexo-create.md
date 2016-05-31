@@ -164,3 +164,17 @@ hexo d
  3. 执行`hexo g`，生成网页文件（Html,css,js等）
  4. 执行`hexo d`，将生成的网页文件部署到远程github。
 
+
+ 如何将blog源文件托管github
+ ------------
+ 这个时候我们发现，如果我们想到其它计算机上也随时发布blog，这个时候还是办不到的。
+ 那么我们就会想到需要把blog部署项目也提交到github上，我们的博客静态文件是在github上的。那么，我们需要在此git地址上新建一个分支作为blog部署项目的地址，以我的博客为例：
+ 我的博客git地址为：`git@github.com:clockbone/clockbone.github.io.git`
+ 1.可直接登录`github`选择`clockbone.github.io.git`项目新建一个分支分支名为：`hexo`
+ 2.设置此项目的默认分支为：`hexo`
+ 3.在git客户端拉取项目，此时可以看到默认拉下来的分支名为：`hexo`
+ 4.删除除.git外的所有文件，将之前博客源文件：`source`,`themes`,`.gitgnore`,`_config.xml`,`package.json`全部提交到此分支上去
+   >注：如果发现有文件提交框中不显示，请检查些文件夹中是否有.git文件夹，需要删除才能提交上去。
+   
+ 5.依次执行：`npm install hexo`,`npm install`,`npm install`,`hexo-deployer-git`（记得，不需要`hexo init`这条指令）
+ 6.执行`hexo g`,`hexo s`，查看效果。访问`localhost:4000`
