@@ -4,17 +4,14 @@ date: 2016-05-24 13:18:43
 categories: hexo
 tags: [ hexo, git]
 ---
-#Hexo 快速环境搭建
+Hexo 快速环境搭建
 
-`hexo` `git`
-
-前言
-------------
+###  前言
 
 用hexo搭建了一个blog，在此记录下
 
-一、环境安装
-------------
+ 一、环境安装
+
 
 下载安装git
 
@@ -36,7 +33,7 @@ tags: [ hexo, git]
 然后再执行`npm install -g hexo`,成功！
 
 二、安装依赖包
-------------
+
 
 ``` bash
 npm install
@@ -50,7 +47,7 @@ hexo new=hexo
 ```
 
 三、本地查看
-------------
+
 
 
 执行以下命令：
@@ -62,7 +59,7 @@ hexo new=hexo
 到此，本地博客已经搭建，但别人看不到。
 
 四、部署到GitHub
-------------
+
 
 
 编辑E:\blog\hexo下的config.yml,修改Deployment部分：
@@ -92,7 +89,7 @@ npm install hexo-deployer-git --save
 会提示用户名和密码，输入github账号的用户名和密码即可。在此之前需要添加ssh key到你的github中，直接用TortoiseGit->Puttgen菜单生成key即可，保存公钥和私钥，将公钥添加到github账号中，私钥作为本地和公钥的验证。
 
 五、访问测试
-------------
+
 
 
 访问：[http://clockbone.github.io/][1]
@@ -101,7 +98,7 @@ npm install hexo-deployer-git --save
   [1]: http://clockbone.github.io/
 
 六、如何更改主题
- ------------
+
 
   到官网查找主题：[https://hexo.io/themes/][1]
   [1]: https://hexo.io/themes/
@@ -111,7 +108,7 @@ npm install hexo-deployer-git --save
   如indigo主题下载下来的文件夹名称为`hexo-theme-indigo` 请重命名为`indigo`即和主题名称保持一致，否则`hexo g`命令时会报错
 
 七、如何添加首页的菜单
- ------------
+
 
  如：`归档`，`分类`，`标签`，`关于我`
  执行命令`hexo new page archives`，`hexo new page categories`，`hexo new page tags`，`hexo new page about`
@@ -127,7 +124,7 @@ npm install hexo-deployer-git --save
  ---
 
 八、如何添首页右侧标签，分类等
-  ------------
+
  在主的_config.xml 文件中，指定下列
 
  tag_dir: tags
@@ -139,7 +136,7 @@ npm install hexo-deployer-git --save
 
   
 九、如何发布静态文章
- ------------
+
 
 
 可以用Cmd Markdown来编辑你的文章，编辑好后保存下来
@@ -168,7 +165,7 @@ hexo d
 
 
 十、如何将blog源文件托管github
- ------------
+
  这个时候我们发现，如果我们想到其它计算机上也随时发布blog，这个时候还是办不到的。
  那么我们就会想到需要把blog部署项目也提交到github上，我们的博客静态文件是在github上的。那么，我们需要在此git地址上新建一个分支作为blog部署项目的地址，以我的博客为例：
  我的博客git地址为：`git@github.com:clockbone/clockbone.github.io.git`
