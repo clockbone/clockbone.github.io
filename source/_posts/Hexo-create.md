@@ -13,6 +13,9 @@ tags: [ hexo, git]
 
 用hexo搭建了一个blog，在此记录下
 
+一、环境安装
+------------
+
 下载安装git
 
 可以安装git命令行和TortoiseGit客户端
@@ -32,7 +35,7 @@ tags: [ hexo, git]
 	```
 然后再执行`npm install -g hexo`,成功！
 
-安装依赖包
+二、安装依赖包
 ------------
 
 ``` bash
@@ -46,7 +49,7 @@ hexo deploy=hexo d
 hexo new=hexo 
 ```
 
-本地查看
+三、本地查看
 ------------
 
 
@@ -58,7 +61,7 @@ hexo new=hexo
 然后浏览器输入`http://localhost:4000`查看效果。
 到此，本地博客已经搭建，但别人看不到。
 
-部署到GitHub
+四、部署到GitHub
 ------------
 
 
@@ -71,8 +74,7 @@ type: git
 repository: https://github.com/clockbone/clockbone.github.io.git  
 branch: master
 
-`注意:`
-repository 地址中 clockbone对应你的github账号名
+>注意 ：repository 地址中 clockbone对应你的github账号名
 
 部署
 
@@ -89,7 +91,7 @@ npm install hexo-deployer-git --save
 ,再次执行`hexo d`
 会提示用户名和密码，输入github账号的用户名和密码即可。在此之前需要添加ssh key到你的github中，直接用TortoiseGit->Puttgen菜单生成key即可，保存公钥和私钥，将公钥添加到github账号中，私钥作为本地和公钥的验证。
 
-访问测试
+五、访问测试
 ------------
 
 
@@ -98,7 +100,7 @@ npm install hexo-deployer-git --save
 
   [1]: http://clockbone.github.io/
 
- 如何更改主题
+六、如何更改主题
  ------------
 
   到官网查找主题：[https://hexo.io/themes/][1]
@@ -108,7 +110,7 @@ npm install hexo-deployer-git --save
   参照下列安装即可，需要注意一点，用`git clone`命令下载下来的主题需在放到themes目录下，主题所在文件夹需要修改成和主题名称一样
   如indigo主题下载下来的文件夹名称为`hexo-theme-indigo` 请重命名为`indigo`即和主题名称保持一致，否则`hexo g`命令时会报错
 
- 如何添加首页的菜单
+七、如何添加首页的菜单
  ------------
 
  如：`归档`，`分类`，`标签`，`关于我`
@@ -124,7 +126,7 @@ npm install hexo-deployer-git --save
 
  ---
 
-  如何添首页右侧标签，分类等
+八、如何添首页右侧标签，分类等
   ------------
  在主的_config.xml 文件中，指定下列
 
@@ -136,7 +138,7 @@ npm install hexo-deployer-git --save
  tags: [ hexo, git]
 
   
- 如何发布静态文章
+九、如何发布静态文章
  ------------
 
 
@@ -165,7 +167,7 @@ hexo d
  4. 执行`hexo d`，将生成的网页文件部署到远程github。
 
 
- 如何将blog源文件托管github
+十、如何将blog源文件托管github
  ------------
  这个时候我们发现，如果我们想到其它计算机上也随时发布blog，这个时候还是办不到的。
  那么我们就会想到需要把blog部署项目也提交到github上，我们的博客静态文件是在github上的。那么，我们需要在此git地址上新建一个分支作为blog部署项目的地址，以我的博客为例：
@@ -175,6 +177,6 @@ hexo d
  3.在git客户端拉取项目，此时可以看到默认拉下来的分支名为：`hexo`
  4.删除除.git外的所有文件，将之前博客源文件：`source`,`themes`,`.gitgnore`,`_config.xml`,`package.json`全部提交到此分支上去
    >注：如果发现有文件提交框中不显示，请检查些文件夹中是否有.git文件夹，需要删除才能提交上去。
-   
+
  5.依次执行：`npm install hexo`,`npm install`,`npm install`,`hexo-deployer-git`（记得，不需要`hexo init`这条指令）
  6.执行`hexo g`,`hexo s`，查看效果。访问`localhost:4000`
