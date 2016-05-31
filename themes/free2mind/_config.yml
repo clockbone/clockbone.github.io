@@ -46,7 +46,7 @@ widgets:
 rss: atom.xml
 fancybox: true
 favicon: favicon.ico
-duoshuo_shortname:
+duoshuo_shortname: true
 
 # Analytics
 google_analytics:

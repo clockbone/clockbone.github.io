@@ -35,3 +35,6 @@ See the features of [freemind](https://github.com/wzpan/hexo-theme-freemind) for
 <%- item.content %>
 为：
  <%- strip_html(item.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 140) %>
+
+../../_widget/broadcast 编辑公告
+
