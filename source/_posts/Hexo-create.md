@@ -177,3 +177,5 @@ hexo d
 
  5.依次执行：`npm install hexo`,`npm install`,`npm install`,`hexo-deployer-git`（记得，不需要`hexo init`这条指令）
  6.执行`hexo g`,`hexo s`，查看效果。访问`localhost:4000`
+ 7.部署到github，`hexo d`
+   >注：如果出现` ERROR Deployer not found:git` 错误，请先执行`npm install hexo-deployer-git --save`，再执行`hexo d`

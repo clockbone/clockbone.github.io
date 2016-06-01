@@ -46,7 +46,7 @@ widgets:
 rss: atom.xml
 fancybox: true
 favicon: favicon.ico
-duoshuo_shortname: true
+duoshuo_shortname: clockbone
 
 # Analytics
 google_analytics:
