@@ -71,7 +71,8 @@ type: git
 repository: https://github.com/clockbone/clockbone.github.io.git  
 branch: master
 
->注意 ：repository 地址中 clockbone对应你的github账号名
+>注 ：
+>* repository 地址中 clockbone对应你的github账号名
 
 部署
 
@@ -176,8 +177,11 @@ hexo d
    >注：如果发现有文件提交框中不显示，请检查些文件夹中是否有.git文件夹，需要删除才能提交上去。
 
  5.依次执行：`npm install hexo`,`npm install`,`hexo-deployer-git`（记得，不需要`hexo init`这条指令）
-  >注：执行这些命令时需要到项目根目录下，打开Git Bash执行
+  >注：
+  > * 执行这些命令时需要到项目根目录下，打开Git Bash执行
+  > * 如果报：`hexo command not found`,说明hexo没添加到环境变量中，需要将`node_modules\hexo\bin`添加到path下面，再执行`hexo g`成功！
 
  6.执行`hexo g`,`hexo s`，查看效果。访问`localhost:4000`
  7.部署到github，`hexo d`
-   >注：如果出现` ERROR Deployer not found:git` 错误，请先执行`npm install hexo-deployer-git --save`，再执行`hexo d`
+   >注：
+   > * 如果出现` ERROR Deployer not found:git` 错误，请先执行`npm install hexo-deployer-git --save`，再执行`hexo d`
