@@ -176,7 +176,7 @@ hexo d
  4.删除除.git外的所有文件，将之前博客源文件：`source`,`themes`,`.gitgnore`,`_config.xml`,`package.json`全部提交到此分支上去
    >注：如果发现有文件提交框中不显示，请检查些文件夹中是否有.git文件夹，需要删除才能提交上去。
 
- 5.依次执行：`npm install hexo`,`npm install`,`hexo-deployer-git`（记得，不需要`hexo init`这条指令）
+ 5.依次执行：`npm install hexo`,`npm install`,`npm install hexo-deployer-git`（记得，不需要`hexo init`这条指令）
   >注：
   > * 执行这些命令时需要到项目根目录下，打开Git Bash执行
   > * 如果报：`hexo command not found`,说明hexo没添加到环境变量中，需要将`node_modules\hexo\bin`添加到path下面，再执行`hexo g`成功！
@@ -185,3 +185,9 @@ hexo d
  7.部署到github，`hexo d`
    >注：
    > * 如果出现` ERROR Deployer not found:git` 错误，请先执行`npm install hexo-deployer-git --save`，再执行`hexo d`
+
+十一、总结从github上拉取blog源文件，然后修改、部署遇到的问题
+   >* 出现`hexo command not found`，解决方案：添加`node_modules\hexo\bin`到环境变量中解决
+   >* 出现`src refspec HEAD does not match any......`，解决方案：删除`.deploy_git`文件夹，执行`hexo clean`,`npm install hexo-deployer-git`
+   >* 出现`git config --global user.email "you@example"`；`git config --global user.name "Your Name"`，解决方案：直接重复执行`git config --global user.email "you@example"`；`git config --global user.name "Your Name"`即可。
+   >* 最后：`hexo g`,`hexo d`成功。
