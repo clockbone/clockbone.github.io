@@ -1,7 +1,8 @@
 layout: post
 title: redis-shell
 date: 2016-06-03 00:18:25
-tags:
+categories: hexo
+tags: redis
 ---
 
 ![](http://redis.io/images/redis-small.png) Redis-Server 集群指南

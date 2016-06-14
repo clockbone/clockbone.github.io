@@ -1,7 +1,8 @@
 layout: post
 title: redis-install
 date: 2016-06-03 00:13:30
-tags:
+categories: hexo
+tags: redis
 ---
 ![](http://redis.io/images/redis-small.png) Redis-Server 安装指南
 ================================================================
