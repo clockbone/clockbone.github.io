@@ -1,7 +1,7 @@
 layout: post
 title: redis-shell
 date: 2016-06-03 00:18:25
-categories: hexo
+categories: redis
 tags: redis
 ---
 

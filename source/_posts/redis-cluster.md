@@ -1,7 +1,7 @@
 layout: post
 title: redis-cluster
 date: 2016-06-03 00:18:04
-categories: hexo
+categories: redis
 tags: redis
 ---
 

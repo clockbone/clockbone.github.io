@@ -1,7 +1,7 @@
 layout: post
 title: redis-monitor
 date: 2016-06-03 00:18:15
-categories: hexo
+categories: redis
 tags: redis
 ---
 
