@@ -60,7 +60,7 @@ baidu_tongji:
 swiftype_key:
 
 # share widgets
-bdshare: true
+bdshare:
 jiathis: true
 
 
