@@ -1,6 +1,6 @@
 layout: post
 title: redis-install
-date: 2016-06-03 00:13:30
+date: 2015-06-03 00:13:30
 categories: redis
 tags: redis
 ---

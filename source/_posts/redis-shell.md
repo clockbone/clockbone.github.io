@@ -1,6 +1,6 @@
 layout: post
 title: redis-shell
-date: 2016-06-03 00:18:25
+date: 2015-06-03 00:18:25
 categories: redis
 tags: redis
 ---

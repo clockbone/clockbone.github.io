@@ -1,6 +1,6 @@
 layout: post
 title: redis-cluster
-date: 2016-06-03 00:18:04
+date: 2015-06-03 00:18:04
 categories: redis
 tags: redis
 ---

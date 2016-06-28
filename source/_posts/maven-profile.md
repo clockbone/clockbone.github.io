@@ -1,6 +1,6 @@
 layout: post
 title: maven profile打包时实现可指定不同环境配置文件
-date: 2016-06-14 14:08:30
+date: 2015-11-14 14:08:30
 categories: maven
 tags: maven
 ---

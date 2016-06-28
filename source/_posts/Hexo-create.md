@@ -1,6 +1,6 @@
 ---
 title: Hexo、github搭建属于自己的blog
-date: 2016-05-24 13:18:43
+date: 2015-05-24 13:18:43
 categories: hexo
 tags: [ hexo, git]
 ---

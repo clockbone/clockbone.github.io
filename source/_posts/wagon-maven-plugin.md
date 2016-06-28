@@ -1,6 +1,6 @@
 layout: post
 title: 在打包时就推送项目到远程服务器的maven插件wagon-maven-plugin
-date: 2016-06-14 13:44:47
+date: 2015-11-14 13:44:47
 categories: maven
 tags: maven
 ---
