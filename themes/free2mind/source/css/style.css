@@ -34,8 +34,8 @@ body {
 
 .content {
   padding: 20px;
-  margin-left: -179px; /* negative indent the amount of the padding to maintain the grid system */
-  margin-right: -299px; /* negative indent the amount of the padding to maintain the grid system */
+  margin-left: -152px; /* negative indent the amount of the padding to maintain the grid system */
+  margin-right: -183px; /* negative indent the amount of the padding to maintain the grid system */
   -webkit-border-radius: 6px 6px 6px 6px;
   -moz-border-radius: 6px 6px 6px 6px;
   border-radius: 6px 6px 6px 6px;

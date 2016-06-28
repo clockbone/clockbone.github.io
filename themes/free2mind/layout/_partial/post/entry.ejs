@@ -11,7 +11,8 @@
 	<% if (item.excerpt && index) { %>
 		<%- item.excerpt %>
 	<% } else { %>
-	     <%- strip_html(item.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 140) %>
+              <%- item.content.replace(/<(?:.|\n)*?>/gm, '').substr(0, 240) %><br>
+
 
 	<% } %>
 	...</div>

@@ -1,1 +1,7 @@
-TEST  用
+查看文章编写效果：
+生成文件：hexo g
+启动本地服务:hexo s
+发布：hexo d
+
+新建一个菜单：hexo new page pageName
+新建一个文章：hexo new articalName
