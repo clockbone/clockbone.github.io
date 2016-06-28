@@ -93,12 +93,12 @@ public class LogAspect {
          xsi:schemaLocation="
              http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
              http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd>
-     <bean id="registerDaoImpl" class="com.zxf.dao.RegisterDaoImpl"/>
-     <bean id="registerService" class="com.zxf.service.RegisterServiceImpl">
+     <bean id="registerDaoImpl" class="com.test.dao.RegisterDaoImpl"/>
+     <bean id="registerService" class="com.test.service.RegisterServiceImpl">
          <property name=" registerDaoImpl " ref=" RegisterDaoImpl "/>
      </bean>
      <!-- 日志切面类 -->
-     <bean id="logAspectBean" class="com.test.LogAspect"/>
+     <bean id="logAspectBean" class="com.test.aspect.LogAspect"/>
      <!-- 第1步： AOP的配置 -->
      <aop:config>
          <!-- 第2步：配置一个切面 -->
