@@ -30,7 +30,7 @@ links:
     intro: "My Linkin account."
     icon: "fa fa-share"
   - title: "我的github"
-    url: http://www.github.com/rudy-yuan
+    url:
     intro: "My Github account."
     icon: "fa fa-github"
 
