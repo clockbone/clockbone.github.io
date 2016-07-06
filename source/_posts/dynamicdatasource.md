@@ -177,3 +177,59 @@ public  @interface DataSource {
 ```
 到此就完了动态aop织入的配置，当执行dao层中注解为`Constant.DATA_SOURCE_MAIN`时就会读主库；
 
+除了以上的那种配置外，xml中动态织入数据源的另一种拦截器配置：
+```
+<!--另一种方式的数据源选择 拦截器配置-->
+    <!--配置拦截器  dataSourceMain  dataSourceBack-->
+    <bean id="dynamicDsInterceptor_galaxy" class="com.clockbone.interceptor.DynamicDataSourceInterceptor">
+        <property name="attributeSource">
+            <list>
+                <value>query*,dataSourceBack</value>
+                <value>count*,dataSourceBack</value>
+                <value>find*,dataSourceBack</value>
+                <value>get*,dataSourceBack</value>
+                <value>list*,dataSourceBack</value>
+                <value>*,dataSourceMain</value>
+            </list>
+        </property>
+    </bean>
+    <aop:config>
+        <!--切入点:设置service下的所有类，所有方法，public 所有类型返回值 -->
+        <aop:pointcut id="loginPoint"
+                      expression="execution(public * com.clockbone.service.impl.*.*(..)) "/>
+        <!--在该切入点使用自定义拦截器-->
+        <aop:advisor pointcut-ref="loginPoint" advice-ref="dynamicDsInterceptor_galaxy"/>
+    </aop:config>
+```
+DynamicDataSourceInterceptor拦截器类的实现：
+```
+//设置数据源key的拦截器
+public class DynamicDataSourceInterceptor implements MethodInterceptor {
+    //方法和使用数据源key的对应关系
+    private List<String> attributeSource = new ArrayList<String>();
+
+    public void setAttributeSource(List<String> attributeSource) {
+        this.attributeSource = attributeSource;
+    }
+    @Override
+    public Object invoke(MethodInvocation methodInvocation) throws Throwable {
+        final String methodName = methodInvocation.getMethod().getName();
+        String key = null;
+        for (String value : attributeSource) {
+            String mappedName = value.split(",")[0];
+            if(isMatch(methodName, mappedName)) {
+                key = value.split(",")[1];
+                break;
+            }
+        }
+        if (null != key) {
+            DBContextHolder.setDBType(key);
+        }
+        return methodInvocation.proceed();
+    }
+    private boolean isMatch(String methodName, String mappedName) {
+        return PatternMatchUtils.simpleMatch(mappedName, methodName);
+    }
+}
+```
+
