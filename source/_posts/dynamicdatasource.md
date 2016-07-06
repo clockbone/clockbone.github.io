@@ -47,7 +47,6 @@ tags: mybatis
         </bean>
 ```
 第二种：动态切换数据源，在程序运行时，把数据源动态织入到程序中从而选择读从库或主库，如：annotation，Spring AOP ，反射
-参考：http://blog.csdn.net/rj042/article/details/21654627、http://uule.iteye.com/blog/2126533
 下面给出配置文件：
 1、mybatis数据源配置
 ```
