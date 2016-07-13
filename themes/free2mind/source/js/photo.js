@@ -1,12 +1,12 @@
-define([], function () {
+//(
+    function photo () {
     return {
         page: 1,
         offset: 20,
         init: function () {
             var that = this;
-            $.getJSON("/photo/output.json", function (data) {
+            $.getJSON("/photos/data.json", function (data) {
                 that.render(that.page, data);
-
                 that.scroll(data);
             });
         },
@@ -18,8 +18,8 @@ define([], function () {
             var html, li = "";
             for (var i = begin; i < end && i < data.length; i++) {
                 li += '<li><div class="img-box">' +
-                '<a class="img-bg" rel="example_group" href="https://github.com/lwzhang/blog/blob/master/photos/' + data[i] + '?raw=true"></a>' +
-                '<img lazy-src="https://github.com/lwzhang/blog/blob/master/photos/' + data[i] + '?raw=true" />' +
+                '<a class="img-bg" rel="example_group" href="https://github.com/clockbone/clockbone.github.io/blob/hexo/photos//' + data[i] + '?raw=true"></a>' +
+                '<img lazy-src="https://github.com/clockbone/clockbone.github.io/blob/hexo/photos/' + data[i] + '?raw=true" />' +
                 '</li>';
             }
 
@@ -43,4 +43,5 @@ define([], function () {
             })
         }
     }
-})
+}
+//)

@@ -21,7 +21,7 @@ menu:
     intro: "关于我"
     icon: "fa fa-user"
   - title: 相册
-    url: photo
+    url: photos
     intro: "相册"
     icon: "fa fa-user"
 
@@ -49,7 +49,7 @@ widgets:
 
 rss: atom.xml
 fancybox: true
-favicon: favicon.ico
+favicon: fluidicon.png
 duoshuo_shortname: clockbone
 
 # Analytics

@@ -1,6 +1,6 @@
-<link type="text/css" href="/fancybox/jquery.fancybox.css" rel="stylesheet">
-<div class="instagram">
-    <section class="archives album">
-        <ul class="img-box-ul"></ul>
-    </section>
-</div>
+---
+layout: photo
+title: about
+date: 2016-05-27 11:26:43
+---
+

@@ -31,6 +31,9 @@ $(document).ready(function() {
 	$(window).resize(function(){
 		replaceMeta();
 	});
+    //var photo = require(['/js/photo.js']);
+
+
 });
 
 replaceMeta = function(){
@@ -52,3 +55,4 @@ replaceMeta = function(){
 		}
 	}
 }
+
