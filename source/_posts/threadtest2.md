@@ -1,6 +1,6 @@
 layout: post
 title: 多线程设计2
-date: 2016-06-14 13:28:15
+date: 2015-04-14 13:28:15
 categories: java
 tags: [java , thread]
 ---
@@ -8,7 +8,6 @@ tags: [java , thread]
 
 ```bash
 public class TheadTest1 {
-
     private static boolean bShouldMain=false;
     public static void main(String[] args){
         /*new Thread(new Runnable() {
@@ -17,55 +16,42 @@ public class TheadTest1 {
                 for(int i=0;i<50;i++){
                     for(int j=0;j<10;j++){
                         System.out.println("i="+ i + ",j=" + j);
-
                     }
                 }
             }
         });*/
         final String s ="";
-
-        new Thread(
-                new Runnable()
-                {
-                    public void run()
-                    {
-                        for(int i=0;i<50;i++)
-                        {
-                            synchronized(s) {
-                                if(bShouldMain)
-                                {
-                                    try {
-                                        s.wait();}
-                                    catch(InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                                for(int j=0;j<10;j++)
-                                {
-                                    System.out.println(
-                                            Thread.currentThread().getName()+"i="+ i + ",j=" + j);
-                                }
-                                bShouldMain= true;
-                                s.notify();
+        new Thread(new Runnable(){
+            public void run(){
+                for(int i=0;i<50;i++){
+                    synchronized(s) {
+                        if(bShouldMain){
+                            try {
+                                s.wait();}
+                            catch(InterruptedException e) {
+                                e.printStackTrace();
                             }
                         }
+                        for(int j=0;j<10;j++){
+                            System.out.println(
+                                    Thread.currentThread().getName()+"i="+ i + ",j=" + j);
+                        }
+                        bShouldMain= true;
+                        s.notify();
                     }
                 }
-        ).start();
-
-        for(int i=0;i<50;i++)
-        {
+            }
+        }).start();
+        for(int i=0;i<50;i++){
             synchronized (s){
-                if(!bShouldMain)
-                {
+                if(!bShouldMain){
                     try {
                         s.wait();}
                     catch(InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-                for(int j=0;j<5;j++)
-                {
+                for(int j=0;j<5;j++){
                     System.out.println(
                             Thread.currentThread().getName()+
                                     "i=" + i +",j=" + j);
@@ -81,11 +67,9 @@ public class TheadTest1 {
 下面使用jdk5中的并发库来实现的：
 ```bash
 public class TheadTest2 {
-
     private static Lock lock  = new ReentrantLock();
     private static Condition subThreadCondition = lock.newCondition();
     private static boolean bBhouldSubThread = false;
-
     public static void main(String [] args){
         ExecutorService threadPool = Executors.newFixedThreadPool(3);
         threadPool.execute(new Runnable() {
@@ -93,14 +77,12 @@ public class TheadTest2 {
             public void run() {
                 for(int i=0;i<50;i++){
                     lock.lock();
-
                     try {
                         if(!bBhouldSubThread){
                            subThreadCondition.await();
                         }
                         for(int j=0;j<10;j++){
                             System.out.println(Thread.currentThread().getName()+ ",j=" + j);
-
                         }
                         bBhouldSubThread=false;
                         subThreadCondition.signal();
@@ -109,7 +91,6 @@ public class TheadTest2 {
                     }finally {
                         lock.unlock();
                     }
-
                 }
             }
         });
@@ -126,14 +107,10 @@ public class TheadTest2 {
                 bBhouldSubThread= true;
                 subThreadCondition.signal();
             }catch (InterruptedException e){
-
-            }finally
-            {
+            }finally{
                 lock.unlock();
             }
-
         }
-
     }
 }
 ```

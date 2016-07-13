@@ -1,6 +1,6 @@
 layout: post
 title: 多线程设计1
-date: 2016-06-14 13:24:36
+date: 2015-04-14 13:24:36
 categories: java
 tags: [java , thread]
 ---
