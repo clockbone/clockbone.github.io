@@ -5,3 +5,9 @@
 
 新建一个菜单：hexo new page pageName
 新建一个文章：hexo new articalName
+
+相册中新添了图片，要提交到github
+再到项目根目录下 执行
+node tool.js 执行完后，会在source/photos/data.json文件下看到生成图片名称
+
+然后再执行hexo g 重新生成文件才可以看到图片

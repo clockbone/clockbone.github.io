@@ -95,32 +95,32 @@ tags: maven
 在Maven项目的pom.xml中加入以下配置：
 ```
 <profiles>
-	<profile>
-		<id>product</id>
-		<build>
-			<plugins>
-				<plugin>
-					<artifactId>maven-antrun-plugin</artifactId>
-					<version>1.8</version>
-					<executions>
-						<execution>
-							<phase>compile</phase>
-							<configuration>
-								<target>
-									<copy todir="${basedir}/target/classes/" overwrite="true">
-										<fileset dir="${basedir}/src/main/resources/distribute/product/" />
-									</copy>
-								</target>
-							</configuration>
-							<goals>
-								<goal>run</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-			</plugins>
-		</build>
-	</profile>
+    <profile>
+        <id>product</id>
+        <build>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>1.8</version>
+                    <executions>
+                        <execution>
+                            <phase>compile</phase>
+                            <configuration>
+                                <target>
+                                    <copy todir="${basedir}/target/classes/" overwrite="true">
+                                        <fileset dir="${basedir}/src/main/resources/distribute/product/" />
+                                    </copy>
+                                </target>
+                            </configuration>
+                            <goals>
+                                <goal>run</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
 	<profile>
 		<id>test</id>
 		<build>

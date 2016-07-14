@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 起今知行 | 思考者
+title: clock |
 subtitle:
 description:
 author: clock bone
@@ -65,6 +65,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
+#theme: free2mind
 theme: free2mind
 
 # Plugins
