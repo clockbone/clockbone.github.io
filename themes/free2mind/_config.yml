@@ -13,7 +13,7 @@ menu:
     intro: "所有文章分类"
     icon: "fa fa-folder"
   - title: 标签
-    url: tags
+    url: tag
     intro: "标签"
     icon: "fa fa-tags"
   - title: 关于我

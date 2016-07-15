@@ -2,7 +2,7 @@ layout: post
 title: 在打包时就推送项目到远程服务器的maven插件wagon-maven-plugin
 date: 2015-11-14 13:44:47
 categories: maven
-tags: maven
+tag: maven
 ---
 wagon-maven-plugin 让你运行`mvn package`时就可以将项目部署远程服务器的插件，只需在你的pom.xml文件中添加：
 ```bash

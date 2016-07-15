@@ -2,7 +2,7 @@ layout: post
 title: redis-cluster
 date: 2015-06-03 00:18:04
 categories: redis
-tags: redis
+tag: redis
 ---
 
 ![](http://redis.io/images/redis-small.png) Redis-Server 集群指南

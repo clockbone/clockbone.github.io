@@ -1,6 +1,6 @@
 ---
 layout: photo
-title: about
+title: photo
 date: 2016-05-27 11:26:43
 ---
 

@@ -2,7 +2,7 @@ layout: post
 title: redis-monitor
 date: 2015-06-03 00:18:15
 categories: redis
-tags: redis
+tag: redis
 ---
 
 ![](http://redis.io/images/redis-small.png) Redis-Server 监控机安装

@@ -2,7 +2,7 @@ layout: post
 title: spring4实现xml零配置，jpa作为持久层
 date: 2015-07-04 16:12:31
 categories: java
-tags: [spring , jpa]
+tag: [spring , jpa]
 ---
 1、spring4中提供了大量的注解来支持零配置，简要说明如下：
 

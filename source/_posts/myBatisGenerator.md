@@ -2,7 +2,7 @@ layout: post
 title: MyBatisGenerator 实现Model、sqlMap、dao自动生成
 date: 2015-07-04 15:32:25
 categories: java
-tags: mybatis
+tag: mybatis
 ---
 MyBatis Generator是一个用来根据表结构自动生成对应model、sqlmapper、dao层代码的工具。当表结构比较复杂、sql语句比较多的时候，用这个工具可以节省开发时间
 同时也降低了手动编写sql时出现的一些错误。下面看看MyBatis Generator如何使用。

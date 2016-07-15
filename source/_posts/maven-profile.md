@@ -2,7 +2,7 @@ layout: post
 title: maven profile打包时实现可指定不同环境配置文件
 date: 2015-11-14 14:08:30
 categories: maven
-tags: maven
+tag: maven
 ---
 通常项目部署环境可以有多个，需不同环境的配置文件参数有所不同，需要我们在打包时就可以指定打包不同环境的配置文件。
 只需要通过maven插件就可以实现

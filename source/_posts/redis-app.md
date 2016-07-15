@@ -2,7 +2,7 @@ layout: post
 title: redis应用
 date: 2015-04-15 10:26:52
 categories: redis
-tags: redis
+tag: redis
 ---
 redis是现在运用比较广泛的缓存服务器，如果我们能登录redis服务器并熟练运用redis下各种命令，那么在java项目运用redis就更加容易。
 学习redis下各种命令可以参考：http://doc.redisfans.com/

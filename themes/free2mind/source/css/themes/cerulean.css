@@ -6865,9 +6865,9 @@ button.close {
   border-bottom: 1px solid #178acc;
 }
 .page-header-inverse {
-  background-image: -webkit-linear-gradient(#04519b, #044687 60%, #033769);
+ /* background-image: -webkit-linear-gradient(#04519b, #044687 60%, #033769);
   background-image: -o-linear-gradient(#04519b, #044687 60%, #033769);
-  background-image: linear-gradient(#04519b, #044687 60%, #033769);
+  background-image: linear-gradient(#04519b, #044687 60%, #033769);*/
   background-repeat: no-repeat;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff04519b', endColorstr='#ff033769', GradientType=0);
 }

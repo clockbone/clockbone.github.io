@@ -2,7 +2,7 @@
 title: Hexo、github搭建属于自己的blog
 date: 2015-05-24 13:18:43
 categories: hexo
-tags: [ hexo, git]
+tag: [ hexo, git]
 ---
 Hexo 快速环境搭建
 

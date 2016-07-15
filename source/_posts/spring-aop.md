@@ -2,7 +2,7 @@ layout: post
 title: spring-aop基本概念及配置
 date: 2014-06-28 13:31:52
 categories: java
-tags: spring
+tag: spring
 ---
 官方文档给出的一些aop概念：
 `切面（Aspect）`：我们加入的切面类（比如log类）,在Spring AOP中，切面可以使用基于模式）或者基于Aspect注解方式来实现。

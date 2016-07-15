@@ -2,7 +2,7 @@ layout: post
 title: DynamicDataSource添加动态数据库连接
 date: 2015-17-06 10:59:04
 categories: java
-tags: mybatis
+tag: mybatis
 ---
 
 一、为什么引进动态数据库配置？
