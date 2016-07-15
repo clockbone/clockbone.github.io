@@ -32,7 +32,7 @@ links:
     intro: "My Linkin account."
     icon: "fa fa-share"
   - title: "我的github"
-    url:
+    url: ""
     intro: "My Github account."
     icon: "fa fa-github"
 
