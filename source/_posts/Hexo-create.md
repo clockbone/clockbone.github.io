@@ -10,7 +10,7 @@ Hexo 快速环境搭建
 
 用hexo搭建了一个blog，在此记录下
 
- 一、环境安装
+### 一、环境安装
 
 
 下载安装git
@@ -32,7 +32,7 @@ Hexo 快速环境搭建
 	```
 然后再执行`npm install -g hexo`,成功！
 
-二、安装依赖包
+### 二、安装依赖包
 
 
 ``` bash
@@ -46,7 +46,7 @@ hexo deploy=hexo d
 hexo new=hexo 
 ```
 
-三、本地查看
+### 三、本地查看
 
 
 
@@ -58,7 +58,7 @@ hexo new=hexo
 然后浏览器输入`http://localhost:4000`查看效果。
 到此，本地博客已经搭建，但别人看不到。
 
-四、部署到GitHub
+### 四、部署到GitHub
 
 
 
@@ -98,7 +98,7 @@ npm install hexo-deployer-git --save
 
   [1]: http://clockbone.github.io/
 
-六、如何更改主题
+### 六、如何更改主题
 
 
   到官网查找主题：[https://hexo.io/themes/][1]
@@ -108,7 +108,7 @@ npm install hexo-deployer-git --save
   参照下列安装即可，需要注意一点，用`git clone`命令下载下来的主题需在放到themes目录下，主题所在文件夹需要修改成和主题名称一样
   如indigo主题下载下来的文件夹名称为`hexo-theme-indigo` 请重命名为`indigo`即和主题名称保持一致，否则`hexo g`命令时会报错
 
-七、如何添加首页的菜单
+### 七、如何添加首页的菜单
 
 
  如：`归档`，`分类`，`标签`，`关于我`
@@ -124,7 +124,7 @@ npm install hexo-deployer-git --save
 
  ---
 
-八、如何添首页右侧标签，分类等
+### 八、如何添首页右侧标签，分类等
 
  在主的_config.xml 文件中，指定下列
 
@@ -136,7 +136,7 @@ npm install hexo-deployer-git --save
  tags: [ hexo, git]
 
   
-九、如何发布静态文章
+### 九、如何发布静态文章
 
 
 
@@ -165,7 +165,7 @@ hexo d
  4. 执行`hexo d`，将生成的网页文件部署到远程github。
 
 
-十、如何将blog源文件托管github
+### 十、如何将blog源文件托管github
 
  这个时候我们发现，如果我们想到其它计算机上也随时发布blog，这个时候还是办不到的。
  那么我们就会想到需要把blog部署项目也提交到github上，我们的博客静态文件是在github上的。那么，我们需要在此git地址上新建一个分支作为blog部署项目的地址，以我的博客为例：
@@ -186,7 +186,7 @@ hexo d
    >注：
    > * 如果出现` ERROR Deployer not found:git` 错误，请先执行`npm install hexo-deployer-git --save`，再执行`hexo d`
 
-十一、总结从github上拉取blog源文件，然后修改、部署遇到的问题
+### 十一、总结从github上拉取blog源文件，然后修改、部署遇到的问题
    >* 出现`hexo command not found`，解决方案：添加`node_modules\hexo\bin`到环境变量中解决
    >* 出现`src refspec HEAD does not match any......`，解决方案：删除`.deploy_git`文件夹，执行`hexo clean`,`npm install hexo-deployer-git`
    >* 出现`git config --global user.email "you@example"`；`git config --global user.name "Your Name"`，解决方案：直接重复执行`git config --global user.email "you@example"`；`git config --global user.name "Your Name"`即可。

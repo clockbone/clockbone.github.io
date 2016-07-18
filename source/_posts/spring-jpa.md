@@ -4,7 +4,7 @@ date: 2015-07-04 16:12:31
 categories: java
 tag: [spring , jpa]
 ---
-1、spring4中提供了大量的注解来支持零配置，简要说明如下：
+### 1、spring4中提供了大量的注解来支持零配置，简要说明如下：
 
 `@Configuration `： 类似于spring配置文件，负责注册bean，对应的提供了@Bean注解。需要org.springframework.web.context.support.AnnotationConfigWebApplicationContext注册到容器中。
 `@ComponentScan `： 注解类查找规则定义 <context:component-scan/>
@@ -13,7 +13,7 @@ tag: [spring , jpa]
 `@EnableCaching `：启用缓存注解  <cache:annotation-driven/>
 `@EnableTransactionManagement` ： 启用注解式事务管理 <tx:annotation-driven />
 `@EnableWebMvcSecurity `： 启用springSecurity安全验证
-2、结合jpa作为数据库持久层，一个具体的`JpaSourceConfig`类如下：
+### 2、结合jpa作为数据库持久层，一个具体的`JpaSourceConfig`类如下：
 ```
 @Configuration()
 @ComponentScan("")
@@ -79,7 +79,7 @@ public class JpaSourceConfig {
 }
 
 ```
-3、一个具体的实现体的定义
+### 3、一个具体的实现体的定义
 ```
 /**
  注意：
@@ -126,7 +126,7 @@ public class Test {
 }
 
 ```
-4、一个具体的repository类,即dao层类
+### 4、一个具体的repository类,即dao层类
 ```
    public interface ItemRepository extends JpaRepository<Test, Integer> {
 	 public List<Test> findByKey(String key);
@@ -136,7 +136,7 @@ public class Test {
      }
    }
 ```
-5、orm.xml配置
+### 5、orm.xml配置
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
