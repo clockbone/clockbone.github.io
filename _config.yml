@@ -27,7 +27,7 @@ archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
 
-i18n_dir: :lang
+i18n_dir: :lang   #国际化（i18n）文件夹
 skip_render:
 
 # Writing 文章布局、写作格式的定义，不修改
@@ -40,7 +40,7 @@ render_drafts: false
 post_asset_folder: false
 relative_link: false
 future: true
-highlight:
+highlight:    #代码块的设置
   enable: true
   line_number: true
   auto_detect: false
