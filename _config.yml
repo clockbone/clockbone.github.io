@@ -7,7 +7,8 @@ title: clock |
 subtitle:
 description:
 author: clock bone
-language: zh-CN
+language: zh-Hans
+#language: zh-CN  feedmind2
 timezone:
 
 # URL
@@ -66,7 +67,7 @@ pagination_dir: page
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 #theme: free2mind
-theme: free2mind
+theme: next
 
 # Plugins
 index_generator:
