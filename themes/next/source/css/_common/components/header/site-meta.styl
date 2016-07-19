@@ -1,4 +1,8 @@
 .site-meta {
+  float: left;
+  margin-left: -20px;
+}
+.site-meta {
   margin: 0;
   text-align: $site-meta-text-align;
 
@@ -10,8 +14,9 @@
   display: inline-block;
   padding: 0 40px;
   color: #222;
-  background: #eeeaea;
+  background: none;
   border-bottom: none;
+  font-family: Lato, "PingFang SC", "Microsoft YaHei", sans-serif;
 
 }
 
@@ -25,13 +30,14 @@
 .site-title {
   display: inline-block;
   vertical-align: top;
-  line-height: 36px;
-  font-size: $logo-font-size;
+  line-height: 0px;
+  font-size: 30px;
   font-weight: normal;
   font-family: $font-family-logo;
 }
 
 .site-subtitle {
+  display: none;
   margin-top: 10px;
   font-size: $subtitle-font-size;
   color: $subtitle-color;
