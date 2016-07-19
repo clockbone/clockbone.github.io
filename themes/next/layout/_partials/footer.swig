@@ -1,7 +1,7 @@
 <div class="copyright" >
   {% set current = date(Date.now(), "YYYY") %}
   &copy; {% if theme.since and theme.since != current %} {{ theme.since }} - {% endif %}
-  <span itemprop="copyrightYear">{{ current }}</span>
+  <span itemprop="copyrightYear">2015</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
