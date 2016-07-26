@@ -1,10 +1,10 @@
 layout: post
-title: spring-ws-core调用webservice客户端
+title: 调用webservice客户端几种常用方式
 date: 2016-07-26 10:49:46
 categories: spring
 tags: spring
 ---
-spring-ws-core不需要生成webservice客户端就能调用webservice也是一种很方便的方式。
+### 一、spring-ws-core的WebServiceTemplate不需要生成webservice客户端调用webservice
 #### 1、先加spring-ws-core依赖
 ```
 <dependency>
@@ -68,5 +68,25 @@ public String getUserInfo(String userAccount){
 
 }
 ```
-得到返回报文可再解析
+得到返回报文可再解析。
+### 二、jaxws根据wsdl生成客户端调用webservice
+#### 1、jdk生成webservice客户端
+```
+wsimport  -keep -p com.clockbone.ws -s codesrc http://webservice.test.cc/WebService/services/GWWS?wsdl
+```
+`-p:`指定包名，这里包名最好和工程目录下放的webservice客户端的包名一致，避免生成后的webservice客户代码放到工程目录时还要修改包名
+`-s:`指定生成webservice客户代码所在的文件夹目录，没有些目录需要手动建立
+#### 2、配置
+```
+<bean id="webservice" class="org.springframework.remoting.jaxws.JaxWsPortProxyFactoryBean">
+        <property name="serviceInterface" value="com.clockbone.ws.GWWSPortType" />
+        <property name="wsdlDocumentUrl" value="http://webservice.test.cc/WebService/services/GWWS?wsdl" />
+        <property name="namespaceUri" value="http://clock.project.sin.com" />
+        <property name="serviceName" value="serviceName" />
+        <property name="portName" value="portName" />
+    </bean>
+```
+`namespaceUri`,`serviceName`,`portName`都是wsdl文件中的名字，`wsdlDocumentUrl`为wsdl服务地址，`serviceInterface`为生成的客户端的类名
+#### 3、调用
+直接用webservice实例调用对应的方法即可
 
