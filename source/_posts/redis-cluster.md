@@ -11,9 +11,9 @@ tag: redis
 
 ---------------------------
 
-### 前置条件
+### 一、前置条件
 
-* 服务器清单(主从):
+####  1、服务器清单(主从):
 ```
 		从机1 	-> 	172.17.121.31
 		从机2 	-> 	172.17.121.32
@@ -21,7 +21,7 @@ tag: redis
 		监控		->	172.17.121.34
 ```
 
-* 服务器拓扑图
+####  2、服务器拓扑图
 
 	![](/documentation/raw/master/snapshot/deploy/redis/cluster.jpg)
 
@@ -36,7 +36,7 @@ tag: redis
 	监控安装教程请参考 [这里](/documentation/blob/master/deploy/redis/monitor.md )
 
 
-### Redis MASTER(主机)配置
+### 二、Redis MASTER(主机)配置
 
 * 创建主机的服务启动脚本 `/etc/init.d/redis-session`、`/etc/init.d/redis-site`
 ```
@@ -272,7 +272,7 @@ tag: redis
 
 
 
-### Redis SLAVE(从机)配置
+### 三、Redis SLAVE(从机)配置
 
 * 启动从机前请确保`MASTER`已正常启动并能在从机中使用`redis-cli`访问
 
@@ -593,7 +593,7 @@ tag: redis
 * 验证服务是否启动
 
 
-### 启动 `REDIS` 监控
+### 四、启动 `REDIS` 监控
 
 * 确保监控正确安装配置，详细步骤请参考[这里](/
 *
@@ -715,7 +715,7 @@ tag: redis
 
 
 
-### 验证集群状态
+### 五、验证集群状态
 
 * 使用管理员用户登陆到`MASTER`,查看当前集群状态
 

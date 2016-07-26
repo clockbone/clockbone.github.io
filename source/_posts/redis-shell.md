@@ -12,16 +12,16 @@ tag: redis
 ---------------------------
 
 
-### 服务命令
+### 一、服务命令
 
-* 启动顺序
+#### 1、启动顺序
 ```
 	1. Master
 	2. Slave1
 	3. Slave2
 	4. Monitor
 ```
-* 启动命令
+#### 2、启动命令
 
 	+ Master
 	```
@@ -50,7 +50,7 @@ tag: redis
 			sudo service redis-monitor start
 ```
 
-### CLI 命令集
+### 二、CLI 命令集
 
 请参考 [这里](http://redis.readthedocs.org/en/latest/)
 

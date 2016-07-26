@@ -1,7 +1,7 @@
 layout: post
 title: 调用webservice客户端几种常用方式
 date: 2016-07-26 10:49:46
-categories: spring
+categories: java
 tags: spring
 ---
 ### 一、spring-ws-core的WebServiceTemplate不需要生成webservice客户端调用webservice

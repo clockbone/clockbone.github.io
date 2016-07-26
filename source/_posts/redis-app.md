@@ -9,14 +9,14 @@ redis是现在运用比较广泛的缓存服务器，如果我们能登录redis�
 redis官网提供了jar包来支持redis在java开发的运用，下面结合redis命令来介绍redis在java项目中的运用：
 首先了解下redis支持的数据类型：`string`、`set`、`hash`、`list`
 上面这4种类型也是在应用程序中经常会用到的，下面看看如何运用
-### 1、存储string类型
+### 一、存储string类型
  redis下命令为：
 ```
  SET key value
  GET key
 ```
 `string类型运用`：可存储一个简单的string类型，也可将java复杂对象转成json格式字符串存储，根据key取出后再解析josn串也是一种很方便的做法。
-### 2、有序的set集合
+### 二、有序的set集合
 命令存储：
 ```
 ZADD key score member [[score member] [score member] ...]
@@ -35,7 +35,7 @@ ZADD key score member [[score member] [score member] ...]
  ```
 `WITHSCORES`参数:表示显示序号
 `有序的set集合运用`：可用来存储有序的菜单，当然这里也可用list来存，因为List本身就是用序的，但list不可控制其重复性。
-### 3、set集合
+### 三、set集合
 存储：
 ```
 SADD bbs "discuz.net"
@@ -44,7 +44,7 @@ SADD bbs "discuz.net"
 ```
 SMEMBERS bbs
 ```
-### 4、hash类型
+### 四、hash类型
 存储：
 ```
 HSET key field value
@@ -55,7 +55,7 @@ HSET key field value
 读取所有：     HGETALL key
 ```
 `hash`类型一般可用来存储一个java对象,这里的`field`就对应java对象里面定义的属性。一般当hgetall命令可直接将取出来的所有属性转化为相应的java对象存储
-###  5、list类型
+###  五、list类型
 list集合
 查看list下所有元素：
 ```

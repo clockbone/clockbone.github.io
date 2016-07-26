@@ -4,7 +4,7 @@ date: 2014-06-28 13:31:52
 categories: java
 tag: spring
 ---
-#### 官方文档给出的一些aop概念：
+###  一、官方文档给出的一些aop概念：
 `切面（Aspect）`：我们加入的切面类（比如log类）,在Spring AOP中，切面可以使用基于模式）或者基于Aspect注解方式来实现。
 `连接点（Joinpoint）`：在程序执行过程中某个特定的点，比如某方法调用的时候或者处理异常的时候。
 在Spring AOP中，一个连接点总是表示一个方法的执行。连接点就是告诉aop切面需要在哪些具体地方执行
@@ -15,7 +15,7 @@ tag: spring
 `AOP代理（AOP Proxy）`：AOP框架创建的对象，用来实现切面契约（例如通知方法执行等等）。在Spring中，AOP代理可以是JDK动态代理或者CGLIB代理。
 `织入（Weaving）`：把切面连接到其它的应用程序类型或者对象上，并创建一个被通知的对象。这些可以在编译时（例如使用AspectJ编译器），类加载时和运行时完成。Spring和其他纯Java AOP框架一样，在运行时完成织入。
 
-#### 通知类型：
+###  二、通知类型：
 `前置通知（Before advice）`：在某连接点之前执行的通知，但这个通知不能阻止连接点之前的执行流程（除非它抛出一个异常）。
 `后置通知（After returning advice）`：在某连接点正常完成后执行的通知：例如，一个方法没有抛出任何异常，正常返回。
 `异常通知（After throwing advice）`：在方法抛出异常退出时执行的通知。
@@ -84,7 +84,7 @@ public class LogAspect {
 
  这个类属于业务服务类，如果用AOP的术语来说，它就是一个切面类，它定义了许多通知。`Before()`、`afterReturn()`、`after()`和`afterThrowing()`这些方法都是通知。
 
-####  下面是aop配置：
+###   三、下面是aop配置：
  ```
  <?xml version="1.0" encoding="UTF-8"?>
  <beans xmlns="http://www.springframework.org/schema/beans"
@@ -130,27 +130,27 @@ public class LogAspect {
  `后置通知:方法正常结束了。`
  `最终通知:不管方法有没有正常执行完成，一定会返回的。 `
 
- #### spring-aop事物的配置
+ ### 四、spring-aop事物的配置
 
 
 
- > 1、配置事物管理器
+ #### 1、配置事物管理器
  ```
  <bean id=”txManager” class=”org.springframework.jdbc.datasource.DataSourceTransactionManager”>
         <property name=”dataSource” ref=”spring中配置的数据源bean的id”/>
  </bean>
  ```
- >2、 支持注解方式的事务配置项
+ #### 2、 支持注解方式的事务配置项
  ```
  <tx:annotation-driventransaction-managertx:annotation-driventransaction-manager=”txManager(spri
  ```
- > 3、配置注解的事务管理
+ ####  3、配置注解的事务管理
  ```
  <bean id=”txManager” class=”org.springframework.jdbc.datasource.DataSourceTransactionManager”>
         <property name=”dataSource” ref=”spring中配置的数据源bean的id”/>
  </bean>
  ```
- > 4、配置事物管理的切面
+ ####  4、配置事物管理的切面
  ```
  <aop:config>
         <!--配置事务切入点-->
@@ -160,7 +160,7 @@ public class LogAspect {
  <aop:advisor advice-ref=”txAdvice” pointcut-ref=”transactionPointcut”/>
  </aop:config>
  ```
- > 5、为事务通知添加事物处理特性
+ ####  5、为事务通知添加事物处理特性
  ```
  <tx:advice id=”txAdvice” transactionManager=”txManager”>
         <tx:attributes>

@@ -12,7 +12,7 @@ tag: redis
 ---------------------------
 
 
-### 安装redis
+### 一、安装redis
 
 此过程请参考　[这里](/documentation/blob/master/deploy/redis/install.md)
 
@@ -26,7 +26,7 @@ tag: redis
 		cd /usr/local/bin
 		sudo ln -s /usr/local/bin/redis-server redis-monitor
 ```
-### 配置监控
+### 二、配置监控
 
 * 创建`redis`目录
 ```

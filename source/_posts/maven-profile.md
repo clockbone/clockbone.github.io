@@ -6,8 +6,8 @@ tag: maven
 ---
 通常项目部署环境可以有多个，需不同环境的配置文件参数有所不同，需要我们在打包时就可以指定打包不同环境的配置文件。
 只需要通过maven插件就可以实现
-##### 第一种方式
-1、pom.xml中需要添加：
+### 一、第一种方式
+#### 1、pom.xml中需要添加：
 
 ```bash
 <build>
@@ -52,11 +52,11 @@ tag: maven
     </profiles>
 </build>
 ```
-2、applicationContext.xml中需要添加
+#### 2、applicationContext.xml中需要添加
 ```bash
    <util:properties id="config" location="classpath:config.properties"/>
 ```
-3、需要在src/main/java下新建filter包，包中放各环境的配置文件源文件
+#### 3、需要在src/main/java下新建filter包，包中放各环境的配置文件源文件
    结构如下：
    src/main/java/filter/
          `local.properties`
@@ -71,7 +71,7 @@ tag: maven
    `dbUrl=${db.url}`
                                 ` dbUser=${db.user}`
                                  `dbPassword=${db.password}`
-4、resource目录下xxx.Xml文件应该如何使用，求例mybatis.xml
+#### 4、resource目录下xxx.Xml文件应该如何使用，求例mybatis.xml
 ```bash
 <!-- MyBatis数据库连接配置 -->
 <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
@@ -91,7 +91,7 @@ tag: maven
 >   2、applicationContext.xml中`<util:properties id="config" location="classpath:config.properties"/>`作用就是将config.properties中的替换xxx.Xml中的placeholders。
 
 
-##### 第二种 maven profile打包时实现可指定不同环境配置文件用`maven-antrun-plugin`插件实现
+### 二、第二种 maven profile打包时实现可指定不同环境配置文件用`maven-antrun-plugin`插件实现
 在Maven项目的pom.xml中加入以下配置：
 ```
 <profiles>
