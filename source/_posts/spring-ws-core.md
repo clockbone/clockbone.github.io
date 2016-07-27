@@ -35,7 +35,7 @@ java.lang.ClassNotFoundException: org.springframework.aop.interceptor
 ```
 <bean id="webServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
     <property name="defaultUri"
-              value="http://testclock.bone/WebService/services/GWWS" />
+              value="http://testclock.bone/WebService/services/test" />
 </bean>
 ```
 > 注意这里不定不能加`?wsdl`
@@ -45,8 +45,8 @@ Java Spring WS org.springframework.ws.soap.saaj.SaajSoapEnvelopeException: Could
 ```
 #### 3、如何调用webServiceTemplate
 ```
- public String getUserInfoResult(String username)throws UnsupportedEncodingException{
-        String requestMessage = getUserInfo(username);
+ public String getUserInfoResult(String parameter1)throws UnsupportedEncodingException{
+        String requestMessage = message();
         System.out.println("参数:\r\n"+ requestMessage);
         StreamSource request_source = new StreamSource(new StringReader(requestMessage));
         ByteArrayOutputStream channel_out = new ByteArrayOutputStream();
@@ -56,13 +56,11 @@ Java Spring WS org.springframework.ws.soap.saaj.SaajSoapEnvelopeException: Could
         System.out.println("结果:\r\n"+channel_content);
         return channel_content;
 }
-public String getUserInfo(String userAccount){
-    String md5_element=Md5Util.Md5(userAccount).toLowerCase();
-    md5_element=Md5Util.Md5(md5_element).toLowerCase();
+public String message(){
     String MESSAGE =
             "<interfaceName xmlns=\"http://WSInterface.project.sin.com\">" +
-                    "<parameter1>"+userAccount+"</parameter1>"+
-                    "<parameter2>"+md5_element+"</parameter2>" +
+                    "<parameter1>"+parameter1+"</parameter1>"+
+                    "<parameter2>"+parameter2+"</parameter2>" +
                     "</interfaceName>";
     return MESSAGE;
 
@@ -80,7 +78,7 @@ wsimport  -keep -p com.clockbone.ws -s codesrc http://webservice.test.cc/WebServ
 ```
 <bean id="webservice" class="org.springframework.remoting.jaxws.JaxWsPortProxyFactoryBean">
         <property name="serviceInterface" value="com.clockbone.ws.GWWSPortType" />
-        <property name="wsdlDocumentUrl" value="http://webservice.test.cc/WebService/services/GWWS?wsdl" />
+        <property name="wsdlDocumentUrl" value="http://webservice.test.cc/WebService/services/test?wsdl" />
         <property name="namespaceUri" value="http://clock.project.sin.com" />
         <property name="serviceName" value="serviceName" />
         <property name="portName" value="portName" />
