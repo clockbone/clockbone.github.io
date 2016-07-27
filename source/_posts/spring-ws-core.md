@@ -70,7 +70,7 @@ public String message(){
 ### 二、jaxws根据wsdl生成客户端调用webservice
 #### 1、jdk生成webservice客户端
 ```
-wsimport  -keep -p com.clockbone.ws -s codesrc http://webservice.test.cc/WebService/services/GWWS?wsdl
+wsimport  -keep -p com.clockbone.ws -s codesrc http://webservice.test.cc/WebService/services/test?wsdl
 ```
 `-p:`指定包名，这里包名最好和工程目录下放的webservice客户端的包名一致，避免生成后的webservice客户代码放到工程目录时还要修改包名
 `-s:`指定生成webservice客户代码所在的文件夹目录，没有些目录需要手动建立
