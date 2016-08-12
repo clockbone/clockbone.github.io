@@ -14,6 +14,7 @@ tags: spring
 </dependency>
 ```
 当spring-ws-core整合spring-webmvc 4.1.2时会出现一个异常如下：
+<!-- more -->
 ```
 java.lang.ClassNotFoundException: org.springframework.aop.interceptor
 ```

@@ -5,6 +5,7 @@ categories: maven
 tag: maven
 ---
 wagon-maven-plugin 让你运行`mvn package`时就可以将项目部署远程服务器的插件，只需在你的pom.xml文件中添加：
+<!-- more -->
 ```bash
 <build>
     <finalName>${finalName.name}</finalName>
