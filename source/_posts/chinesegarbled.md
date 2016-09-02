@@ -1,6 +1,6 @@
 layout: post
 title: tomcat request.getParameter() 乱码解释
-date: 2016-09-02 15:09:25
+date: 2014-09-02 15:09:25
 tags: java
 ---
 初学的时候经常会遇到在某些服务器上request.getParameter("中文")获取中文的时候得到乱码，而有些不是。
@@ -18,10 +18,13 @@ tags: java
 URIEncoding和useBodyEncodingForURI区别是
 `URIEncoding是对所有GET方式的请求的数据进行统一的重新编码，而useBodyEncodingForURI则是根据响应该请求的页面的request.setCharacterEncoding参数对数据进行的重新编码，不同的页面可以有不同的重新编码的编码`
 设置了URIEncoding="UTF-8"，那么代码中request.getParameters()时就可以得到正确的中文
-如果没有设置那么tomcat中，当我们用request.getParameters()是用“ISO-8859-1”来解码的，要解决此问题就需要这样来接收字符串
+如果没有设置，那么tomcat中，当我们用request.getParameters()tomcat是用“ISO-8859-1”来解码的，而我们的参数是用utf-8编码的，tomcat用了其它编码方式来解码就出了乱码。要解决此问题就需要这样来接收字符串
 ```
 String str = new String(request.getParameter("参数名").getBytes("iso-8859-1"), "utf-8");
 ```
 也可指定request接收字符编码
 在request.getParameter()前设置 request.setCharacterEncoding("UTF-8");
-或者用filter过滤器实现request统一设置接收编码为“UTF-8”
+或者用filter过滤器实现request统一设置接收编码为“UTF-8”。
+
+另外：
+在没有设置字符集的tomcat下，request.getParameter()得到乱码，而request.getQueryString，可以得到原始值，是因为request.getQueryString没有对参数decode保留了原始值，所以接收到的数据是正常的。
