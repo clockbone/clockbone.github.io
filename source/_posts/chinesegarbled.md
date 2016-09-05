@@ -22,9 +22,10 @@ URIEncoding和useBodyEncodingForURI区别是
 ```
 String str = new String(request.getParameter("参数名").getBytes("iso-8859-1"), "utf-8");
 ```
-也可指定request接收字符编码
-在request.getParameter()前设置 request.setCharacterEncoding("UTF-8");
-或者用filter过滤器实现request统一设置接收编码为“UTF-8”。
+另一种方式是在设置了`useBodyEncodingForURI="true"` 的情况下用 `request.setCharacterEncoding("UTF-8");` 也能解决乱码。
+此时可以试下，在设置`request.setCharacterEncoding("iso-8859-1");`后，直接用`request.getParameters()`接收到的中文变成的乱码，说明这个设置是可以改变字符设置的,
+而用`String str = new String(request.getParameter("参数名").getBytes("iso-8859-1"), "utf-8");` 得到的中文是正确的。
+
 
 另外：
 在没有设置字符集的tomcat下，request.getParameter()得到乱码，而request.getQueryString，可以得到原始值，是因为request.getQueryString没有对参数decode保留了原始值，所以接收到的数据是正常的。
