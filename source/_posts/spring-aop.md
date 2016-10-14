@@ -4,6 +4,7 @@ date: 2014-06-28 13:31:52
 categories: java
 tag: spring
 ---
+
 ###  一、官方文档给出的一些aop概念：
 `切面（Aspect）`：我们加入的切面类（比如log类）,在Spring AOP中，切面可以使用基于模式）或者基于Aspect注解方式来实现。
 `连接点（Joinpoint）`：在程序执行过程中某个特定的点，比如某方法调用的时候或者处理异常的时候。
@@ -170,6 +171,52 @@ public class LogAspect {
                <tx:method name=”*”/>
         </tx:attributes>
  </tx:advice>
+ ```
+
+ ###补充理解
+ 1、AOP是一种面向切面编程的思想类似于oop(面向对象编程)，spring aop运用aop的编程思想，aspectj是spring aop的具体实现方案，spring整合了aspectj，使得在spring框架中可以运用aspectj语法来实现aop。
+ 2、spring aop拦截器，只拦截spring管理bean的访问（业务层service）
+ 3、srping mvc里的Interceptor拦截器，需要定义到springmvc-servlet.xml文件中，去拦截url请求资源
+ 一个具体配置如下：
+ ```
+ //用来用户访问权限的控制，当请求admin匹配的url时会执行AdminInterceptor，此方法中获取用户信息，对用户进行校验，只有admin权限用户才可以执行相应操作
+ <mvc:interceptors>
+         <!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->
+         <!--<bean class="com.test.clockbone.interceptor.AdminInterceptor"/>-->
+         <mvc:interceptor>
+             <mvc:mapping path="/admin/*"/>
+             <!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 -->
+             <bean class="com.test.clockbone.interceptor.AdminInterceptor"/>
+         </mvc:interceptor>
+     </mvc:interceptors>
+ ```
+ AdminInterceptor：
+ ```
+ public class AdminInterceptor  implements HandlerInterceptor {
+
+     @Autowired
+     private LoginService loginService;
+     @Override
+     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
+         String userName=loginService.getUsername(httpServletRequest);//获取用户名
+         if(StringUtils.isEmpty(userName)){
+             return false;
+         }
+         if(Constant.adminAccount.contains(userName)){
+             return true;
+         }else{
+             return false;
+         }
+     }
+     @Override
+     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
+     }
+     @Override
+     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
+
+     }
+
+ }
  ```
 
 
