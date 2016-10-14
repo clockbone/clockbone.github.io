@@ -5,12 +5,13 @@ categories: java
 tag: spring
 ---
 
-###  一、官方文档给出的一些aop概念：
+###  一、给出的一些aop概念：
 `切面（Aspect）`：我们加入的切面类（比如log类）,在Spring AOP中，切面可以使用基于模式）或者基于Aspect注解方式来实现。
 `连接点（Joinpoint）`：在程序执行过程中某个特定的点，比如某方法调用的时候或者处理异常的时候。
 在Spring AOP中，一个连接点总是表示一个方法的执行。连接点就是告诉aop切面需要在哪些具体地方执行
 `通知（Advice）`：在切面的某个特定的连接点上执行的动作。其中包括了“around”、“before”和“after”等不同类型的通知（通知的类型将在后面部分进行讨论）。许多AOP框架（包括Spring）都是以拦截器做通知模型，并维护一个以连接点为中心的拦截器链。
 `切入点（Pointcut）`：匹配连接点的断言。是指一系列连接点的集合，通常用一个表达式表示
+<!-- more -->
 `引入（Introduction）`：用来给一个类型声明额外的方法或属性（也被称为连接类型声明（inter-type declaration））。Spring允许引入新的接口（以及一个对应的实现）到任何被代理的对象。例如，你可以使用引入来使一个bean实现IsModified接口，以便简化缓存机制。
 `目标对象（Target Object）`： 被一个或者多个切面所通知的对象。也被称做被通知（advised）对象。 既然Spring AOP是通过运行时代理实现的，这个对象永远是一个被代理（proxied）对象。
 `AOP代理（AOP Proxy）`：AOP框架创建的对象，用来实现切面契约（例如通知方法执行等等）。在Spring中，AOP代理可以是JDK动态代理或者CGLIB代理。
@@ -173,7 +174,7 @@ public class LogAspect {
  </tx:advice>
  ```
 
- ###补充理解
+ ### 补充理解
  1、AOP是一种面向切面编程的思想类似于oop(面向对象编程)，spring aop运用aop的编程思想，aspectj是spring aop的具体实现方案，spring整合了aspectj，使得在spring框架中可以运用aspectj语法来实现aop。
  2、spring aop拦截器，只拦截spring管理bean的访问（业务层service）
  3、srping mvc里的Interceptor拦截器，需要定义到springmvc-servlet.xml文件中，去拦截url请求资源

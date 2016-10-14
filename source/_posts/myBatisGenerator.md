@@ -13,6 +13,7 @@ MyBatis Generator是一个用来根据表结构自动生成对应model、sqlmapp
    ```
    java -jar E:\repository\org\mybatis\generator\mybatis-generator-core\1.3.2\mybatis-generator-core-1.3.2.jar -configfile src\main\resources\generatorConfig.xml -overwrite
    ```
+   <!-- more -->
    #### 4、给出一个具体的`generatorConfig.xml`文件如下：
    ```
    <?xml version="1.0" encoding="UTF-8"?>

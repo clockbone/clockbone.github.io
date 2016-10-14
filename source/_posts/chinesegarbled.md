@@ -12,6 +12,7 @@ tags: java
     redirectPort="8444"
     useBodyEncodingForURI="true" URIEncoding="UTF-8"/>
 ```
+<!-- more -->
 重点在 userBodyEncodingForURI 和 URIEncoding 这两个属性意思是
 `useBodyEncodingForURI参数表示是否用request.setCharacterEncoding参数对URL提交的数据和表单中GET方式提交的数据进行重新编码，在默认情况下，该参数为false。`
 `URIEncoding参数指定对所有GET方式请求进行统一的重新编码（解码）的编码。`

@@ -15,6 +15,7 @@ redis官网提供了jar包来支持redis在java开发的运用，下面结合red
  SET key value
  GET key
 ```
+<!-- more -->
 `string类型运用`：可存储一个简单的string类型，也可将java复杂对象转成json格式字符串存储，根据key取出后再解析josn串也是一种很方便的做法。
 ### 二、有序的set集合
 命令存储：

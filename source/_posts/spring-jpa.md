@@ -13,6 +13,7 @@ tag: [spring , jpa]
 `@EnableCaching `：启用缓存注解  <cache:annotation-driven/>
 `@EnableTransactionManagement` ： 启用注解式事务管理 <tx:annotation-driven />
 `@EnableWebMvcSecurity `： 启用springSecurity安全验证
+<!-- more -->
 ### 二、结合jpa作为数据库持久层，一个具体的`JpaSourceConfig`类如下：
 ```
 @Configuration()
