@@ -7,25 +7,51 @@ tag: [thread , java]
 要想知道如何实现线安全，首先要了解什么是线程安全，下面来看下什么是线程安全以及如何实现。
 ### 一、什么是线程安全
 线程安全是指：当多个线程访问一个对象时，调用这个对象的行为都可以获得正确的结果，那这个对象就是线程安全的。或者说当多个线程能有序的访问共享资源也是线程安全的。
-### 二、如何实现线程安全
-#### 1、互斥同步。（会进行线程阻塞和唤醒带来性问题，也称阻塞同步---悲观的同步策略）
-<!-- more -->
-同步：指多个线程并发访问共享数据时，保证共享数据在同一时刻只被一条线程使用。
-互斥是同步实现的种手段。
-常用的互斥实现方式：临界区、互斥量、信号量。
-互斥是方法，同步是目的。
-最基本的互斥手段：synchronized关键字、ReecntrantLock（重入锁）。
-ReecntrantLock比synchronized增加了一些高级功能：等待可中断、可实现公平锁、锁可绑定多个条件（一个ReecntrantLock可等待多个Codition对象）
-通俗讲：无论共享数据是否出现竞争，都要进行加锁
-> `说明：`
-> jdk后来对synchronized作了优化性能已不比ReecntrantLock低，所以建议使用synchronized来进行同步，可增加代码的可读性。但是如果需要用到多个条件的同步那么使用ReecntrantLock是更好的
+> 其它概念：
+> 同步：指多个线程并发访问共享数据时，保证共享数据在同一时刻只被一条线程使用。
+>  互斥是同步实现的种手段。
+>  常用的互斥实现方式：临界区、互斥量、信号量。
+>  互斥是方法，同步是目的。
+>  最基本的互斥手段：synchronized关键字、ReecntrantLock（重入锁）。
+>  ReecntrantLock比synchronized增加了一些高级功能：等待可中断、可实现公平锁、锁可绑定多个条件（一个ReecntrantLock可等待多个Codition对象）
+>  通俗讲：无论共享数据是否出现竞争，都要进行加锁
 
-#### 2、非阻塞同步（基于冲突检测的   ----乐观并策略）
-通俗讲：就是先进行操作，如果没有其它线程争用共享数据，那操作就成功；如果产生冲突，再进行其化补偿措施（常用不断重试试来补偿）---需要靠 ”硬件指令集的发展“完成
-#### 3、无同步方案
-如果一方法本来就不涉及共享数据，那它就无须任何同步措施
-a 、可重入代码，如果一个方法，返回结果是可预测的，只要输入相同的数据，就都能返回相同的结查，就是可重入的
-b 、线程本地存储，如果一段码中所需的数所必须与其他代码共享，如果能保证 这些共享数据代码在同一个线程中执行，就不需同步。
+### 二、如何实现线程安全
+实现线程安全通过锁机制，锁机制有以下二个层面
+#### 1、代码层次上的，如java中同步锁，如比synchronized关键字、ReecntrantLock（重入锁）。
+这种实现方式有一个典型的缺点就是，当在分布式应用中就会出现问题了
+#### 2、数据链层次上的，比较典型的就是悲观锁和乐观锁
+悲观锁：就是不管是否发生多线程冲突，假设都存在这种可能，就每次访问都加锁
+比如：select …… for update语句，获取数据的时候就去加锁
+> `说明：`
+> 以MySQL中select * for update锁表的问题为例
+> 由于InnoDB预设是Row-Level Lock，所以只有「明确」的指定主键，MySQL才会执行Row lock (只锁住被选取的资料例) ，否则MySQL将会执行Table
+> 举个例子: 假设有个表单order ，里面有orderId跟amount二个栏位，orderId是主键。
+> 例1: (明确指定主键，并且有此笔资料，row lock)
+> SELECT * FROM order WHERE orderId='3' FOR UPDATE;
+> SELECT * FROM order WHERE orderId='3' and type=1 FOR UPDATE;
+> 例2: (明确指定主键，若查无此笔资料，无lock)
+> SELECT * FROM order WHERE orderId='-1' FOR UPDATE;
+> 例2: (无主键，table lock)
+> SELECT * FROM order WHERE amount='Mouse' FOR UPDATE;
+> 例3: (主键不明确，table lock)
+> SELECT * FROM order WHERE orderId<>'3' FOR UPDATE;
+> 例4: (主键不明确，table lock)
+> SELECT * FROM order WHERE orderId LIKE '3' FOR UPDATE;
+> 注1: FOR UPDATE仅适用于InnoDB，且必须在交易区块(BEGIN/COMMIT)中才能生效。
+
+乐观锁：假设不会发生并发冲突，只在提交操作时检查是否违反数据完整性。
+乐观锁，大多是基于数据版本   Version ）记录机制实现。何谓数据版本？即为数据增加一个版本标识，在基于数据库表的版本解决方案中，一般是通过为数据库表增加一个 “version” 字段来 实现。 读取出数据时，将此版本号一同读出，之后更新时，对此版本号加一。此时，将提 交数据的版本数据与数据比如一张order表，orderId,amount,version字段
+select orderId,amount,version as oldVersion from order where orderId=3;
+update order set amount=amount-100 where orderId=#{orderId} and version=#{oldVersion}
+更新的时候带上旧的版本号，如果不相同表明此记录已经修改过，就会更新失败。
+> 一个具体的红包案例(有一个主红包分成10个子红包，有100个人来抢，如何控制并发，红包主表mainorder)
+> select remain_amt,orderid from mainorder t where orderId = #{orderId}
+> update mainorder set remain_amt=remain_amt-#{amount} where orderId=#{orderId} and remain_amt=#{remain_amt}
+> 这里的remain_amt就是控制乐观锁的字段，相当于version
+> 当更新失败表明抢红包失败，但通常会发现，并发量大的时候红包余额还有，但也会失败的情况，可以在外层加一个while循环来控制，如果update成功退出while，如失败继续while，但还是有风险，如果些时这条记录锁住，会导致死循环，我们加一个重试的控制变量，定义retry_count=0,每更新失败一次就retry+1,当retry_count>10时就退出循环，避免死循环
+
+
 
 ### 三、轻量级同步机制volatile型量介绍
 volatile型变量的特殊规则
