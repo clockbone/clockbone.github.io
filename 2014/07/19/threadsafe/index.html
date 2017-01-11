@@ -1,0 +1,688 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java,thread," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="要想知道如何实现线安全，首先要了解什么是线程安全，下面来看下什么是线程安全以及如何实现。
+一、什么是线程安全线程安全是指：当多个线程访问一个对象时，调用这个对象的行为都可以获得正确的结果，那这个对象就是线程安全的。或者说当多个线程能有序的访问共享资源也是线程安全的。
+
+其它概念：同步：指多个线程并发访问共享数据时，保证共享数据在同一时刻只被一条线程使用。 互斥是同步实现的种手段。 常用的互斥实现方">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程安全的实现方法">
+<meta property="og:url" content="/2014/07/19/threadsafe/index.html">
+<meta property="og:site_name" content="clock |">
+<meta property="og:description" content="要想知道如何实现线安全，首先要了解什么是线程安全，下面来看下什么是线程安全以及如何实现。
+一、什么是线程安全线程安全是指：当多个线程访问一个对象时，调用这个对象的行为都可以获得正确的结果，那这个对象就是线程安全的。或者说当多个线程能有序的访问共享资源也是线程安全的。
+
+其它概念：同步：指多个线程并发访问共享数据时，保证共享数据在同一时刻只被一条线程使用。 互斥是同步实现的种手段。 常用的互斥实现方">
+<meta property="og:updated_time" content="2017-01-10T10:55:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="线程安全的实现方法">
+<meta name="twitter:description" content="要想知道如何实现线安全，首先要了解什么是线程安全，下面来看下什么是线程安全以及如何实现。
+一、什么是线程安全线程安全是指：当多个线程访问一个对象时，调用这个对象的行为都可以获得正确的结果，那这个对象就是线程安全的。或者说当多个线程能有序的访问共享资源也是线程安全的。
+
+其它概念：同步：指多个线程并发访问共享数据时，保证共享数据在同一时刻只被一条线程使用。 互斥是同步实现的种手段。 常用的互斥实现方">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6290795255344137000,
+      author: 'clockbone'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="/2014/07/19/threadsafe/"/>
+
+  <title> 线程安全的实现方法 | clock | </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">clock |</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                线程安全的实现方法
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-07-19T18:48:17+08:00" content="2014-07-19">
+              2014-07-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/07/19/threadsafe/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/07/19/threadsafe/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>要想知道如何实现线安全，首先要了解什么是线程安全，下面来看下什么是线程安全以及如何实现。</p>
+<h3 id="一、什么是线程安全"><a href="#一、什么是线程安全" class="headerlink" title="一、什么是线程安全"></a>一、什么是线程安全</h3><p>线程安全是指：当多个线程访问一个对象时，调用这个对象的行为都可以获得正确的结果，那这个对象就是线程安全的。或者说当多个线程能有序的访问共享资源也是线程安全的。</p>
+<blockquote>
+<p>其它概念：<br>同步：指多个线程并发访问共享数据时，保证共享数据在同一时刻只被一条线程使用。<br> 互斥是同步实现的种手段。<br> 常用的互斥实现方式：临界区、互斥量、信号量。<br> 互斥是方法，同步是目的。<br> 最基本的互斥手段：synchronized关键字、ReecntrantLock（重入锁）。<br> ReecntrantLock比synchronized增加了一些高级功能：等待可中断、可实现公平锁、锁可绑定多个条件（一个ReecntrantLock可等待多个Codition对象）<br> 通俗讲：无论共享数据是否出现竞争，都要进行加锁</p>
+</blockquote>
+<h3 id="二、如何实现线程安全"><a href="#二、如何实现线程安全" class="headerlink" title="二、如何实现线程安全"></a>二、如何实现线程安全</h3><p>实现线程安全通过锁机制，锁机制有以下二个层面</p>
+<h4 id="1、代码层次上的，如java中同步锁，如比synchronized关键字、ReecntrantLock（重入锁）。"><a href="#1、代码层次上的，如java中同步锁，如比synchronized关键字、ReecntrantLock（重入锁）。" class="headerlink" title="1、代码层次上的，如java中同步锁，如比synchronized关键字、ReecntrantLock（重入锁）。"></a>1、代码层次上的，如java中同步锁，如比synchronized关键字、ReecntrantLock（重入锁）。</h4><p>这种实现方式有一个典型的缺点就是，当在分布式应用中就会出现问题了</p>
+<h4 id="2、数据链层次上的，比较典型的就是悲观锁和乐观锁"><a href="#2、数据链层次上的，比较典型的就是悲观锁和乐观锁" class="headerlink" title="2、数据链层次上的，比较典型的就是悲观锁和乐观锁"></a>2、数据链层次上的，比较典型的就是悲观锁和乐观锁</h4><p>悲观锁：就是不管是否发生多线程冲突，假设都存在这种可能，就每次访问都加锁<br>比如：select …… for update语句，获取数据的时候就去加锁</p>
+<blockquote>
+<p><code>说明：</code><br>以MySQL中select <em> for update锁表的问题为例<br>由于InnoDB预设是Row-Level Lock，所以只有「明确」的指定主键，MySQL才会执行Row lock (只锁住被选取的资料例) ，否则MySQL将会执行Table<br>举个例子: 假设有个表单order ，里面有orderId跟amount二个栏位，orderId是主键。<br>例1: (明确指定主键，并且有此笔资料，row lock)<br>SELECT </em> FROM order WHERE orderId=’3’ FOR UPDATE;<br>SELECT <em> FROM order WHERE orderId=’3’ and type=1 FOR UPDATE;<br>例2: (明确指定主键，若查无此笔资料，无lock)<br>SELECT </em> FROM order WHERE orderId=’-1’ FOR UPDATE;<br>例2: (无主键，table lock)<br>SELECT <em> FROM order WHERE amount=’Mouse’ FOR UPDATE;<br>例3: (主键不明确，table lock)<br>SELECT </em> FROM order WHERE orderId&lt;&gt;’3’ FOR UPDATE;<br>例4: (主键不明确，table lock)<br>SELECT * FROM order WHERE orderId LIKE ‘3’ FOR UPDATE;<br>注1: FOR UPDATE仅适用于InnoDB，且必须在交易区块(BEGIN/COMMIT)中才能生效。</p>
+</blockquote>
+<p>乐观锁：假设不会发生并发冲突，只在提交操作时检查是否违反数据完整性。<br>乐观锁，大多是基于数据版本   Version ）记录机制实现。何谓数据版本？即为数据增加一个版本标识，在基于数据库表的版本解决方案中，一般是通过为数据库表增加一个 “version” 字段来 实现。 读取出数据时，将此版本号一同读出，之后更新时，对此版本号加一。此时，将提 交数据的版本数据与数据比如一张order表，orderId,amount,version字段<br>select orderId,amount,version as oldVersion from order where orderId=3;<br>update order set amount=amount-100 where orderId=#{orderId} and version=#{oldVersion}<br>更新的时候带上旧的版本号，如果不相同表明此记录已经修改过，就会更新失败。</p>
+<blockquote>
+<p>一个具体的红包案例(有一个主红包分成10个子红包，有100个人来抢，如何控制并发，红包主表mainorder)<br>select remain_amt,orderid from mainorder t where orderId = #{orderId}<br>update mainorder set remain_amt=remain_amt-#{amount} where orderId=#{orderId} and remain_amt=#{remain_amt}<br>这里的remain_amt就是控制乐观锁的字段，相当于version<br>当更新失败表明抢红包失败，但通常会发现，并发量大的时候红包余额还有，但也会失败的情况，可以在外层加一个while循环来控制，如果update成功退出while，如失败继续while，但还是有风险，如果些时这条记录锁住，会导致死循环，我们加一个重试的控制变量，定义retry_count=0,每更新失败一次就retry+1,当retry_count&gt;10时就退出循环，避免死循环</p>
+</blockquote>
+<h3 id="三、轻量级同步机制volatile型量介绍"><a href="#三、轻量级同步机制volatile型量介绍" class="headerlink" title="三、轻量级同步机制volatile型量介绍"></a>三、轻量级同步机制volatile型量介绍</h3><p>volatile型变量的特殊规则<br>volatile是java JVM提供的轻量级同步机制，</p>
+<h4 id="1、可保证变量可见性，但对于非原子操作-并不能保证线程安全。"><a href="#1、可保证变量可见性，但对于非原子操作-并不能保证线程安全。" class="headerlink" title="1、可保证变量可见性，但对于非原子操作 并不能保证线程安全。"></a>1、可保证变量可见性，但对于非原子操作 并不能保证线程安全。</h4><p>一般用于：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">volatile  boolean shutdownRequested;</div><div class="line"></div><div class="line">    public void shutDown()&#123;</div><div class="line">        shutdownRequested = true;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void doWork()&#123;</div><div class="line">        while(!shutdownRequested)&#123;</div><div class="line">            //do stuff</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<h4 id="2、使用他的第二个语义是禁止指令重排序优化。"><a href="#2、使用他的第二个语义是禁止指令重排序优化。" class="headerlink" title="2、使用他的第二个语义是禁止指令重排序优化。"></a>2、使用他的第二个语义是禁止指令重排序优化。</h4><p>一般用于处理配置文件是用到，比如下面一段代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">Map configOptions;</div><div class="line">    char[] confitText;</div><div class="line">    volatile  boolean initialized = false;</div><div class="line">    //假设以下代码在线程A中执行</div><div class="line">    //模拟读取配置信息，当读取完成后，将initialized设置为true来通知其他线配置可用</div><div class="line">    public void init()&#123;</div><div class="line">        configOptions = new HashMap();</div><div class="line">        confitText = readConfigFile(finalName);</div><div class="line">        processsConfigOptions(confitText,configOptions);</div><div class="line">        initialized = true;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //假设以下代码在线程B中执行</div><div class="line">    //等待initialized为true，代码线程A已经把配置信息初始化守成</div><div class="line">    public void getWork()&#123;</div><div class="line">        while ((!initialized))&#123;</div><div class="line">            sleep();</div><div class="line">        &#125;</div><div class="line">        doSomethingWithConfig();</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>volatile型变量使用场景：<br>要使 volatile 变量提供理想的线程安全，必须同时满足下面两个条件：<br>对变量的写操作不依赖于当前值。<br>该变量没有包含在具有其他变量的不变式中。</p>
+</blockquote>
+<h3 id="四、ReecntrantLock用法举例"><a href="#四、ReecntrantLock用法举例" class="headerlink" title="四、ReecntrantLock用法举例"></a>四、ReecntrantLock用法举例</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">public class TheadTest2 &#123;</div><div class="line">    private static Lock lock  = new ReentrantLock();</div><div class="line">    private static Condition subThreadCondition = lock.newCondition();</div><div class="line">    private static boolean bBhouldSubThread = <span class="literal">false</span>;</div><div class="line">    public static void main(String [] args)&#123;</div><div class="line">        ExecutorService threadPool = Executors.newFixedThreadPool(3);</div><div class="line">        threadPool.execute(new <span class="function"><span class="title">Runnable</span></span>() &#123;</div><div class="line">            @Override</div><div class="line">            public void <span class="function"><span class="title">run</span></span>() &#123;</div><div class="line">                <span class="keyword">for</span>(int i=0;i&lt;50;i++)&#123;</div><div class="line">                    lock.lock();</div><div class="line">                    try &#123;</div><div class="line">                        <span class="keyword">if</span>(!bBhouldSubThread)&#123;</div><div class="line">                           subThreadCondition.await();</div><div class="line">                        &#125;</div><div class="line">                        <span class="keyword">for</span>(int j=0;j&lt;10;j++)&#123;</div><div class="line">                            System.out.println(Thread.currentThread().getName()+ <span class="string">",j="</span> + j);</div><div class="line">                        &#125;</div><div class="line">                        bBhouldSubThread=<span class="literal">false</span>;</div><div class="line">                        subThreadCondition.signal();</div><div class="line">                    &#125; catch (InterruptedException e) &#123;</div><div class="line">                        e.printStackTrace();</div><div class="line">                    &#125;finally &#123;</div><div class="line">                        lock.unlock();</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        threadPool.shutdown();</div><div class="line">        <span class="keyword">for</span>(int i=0;i&lt;50;i++)&#123;</div><div class="line">           lock.lock();</div><div class="line">            try&#123;</div><div class="line">                <span class="keyword">if</span>(bBhouldSubThread)&#123;</div><div class="line">                    subThreadCondition.await();</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">for</span>(int j=0;j&lt;10;j++)&#123;</div><div class="line">                    System.out.println(Thread.currentThread().getName()+ <span class="string">",j="</span> + j);</div><div class="line">                &#125;</div><div class="line">                bBhouldSubThread= <span class="literal">true</span>;</div><div class="line">                subThreadCondition.signal();</div><div class="line">            &#125;catch (InterruptedException e)&#123;</div><div class="line">            &#125;finally&#123;</div><div class="line">                lock.unlock();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag">#java</a>
+          
+            <a href="/tags/thread/" rel="tag">#thread</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/06/28/spring-aop/" rel="next" title="spring-aop基本概念及配置">
+                <i class="fa fa-chevron-left"></i> spring-aop基本概念及配置
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/09/02/chinesegarbled/" rel="prev" title="tomcat request.getParameter() 乱码解释">
+                tomcat request.getParameter() 乱码解释 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2014/07/19/threadsafe/"
+     data-title="线程安全的实现方法"
+     data-content=""
+     data-url="/2014/07/19/threadsafe/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/07/19/threadsafe/"
+           data-title="线程安全的实现方法" data-url="/2014/07/19/threadsafe/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/fluidicon.png"
+               alt="clock bone" />
+          <p class="site-author-name" itemprop="name">clock bone</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、什么是线程安全"><span class="nav-text">一、什么是线程安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、如何实现线程安全"><span class="nav-text">二、如何实现线程安全</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、代码层次上的，如java中同步锁，如比synchronized关键字、ReecntrantLock（重入锁）。"><span class="nav-text">1、代码层次上的，如java中同步锁，如比synchronized关键字、ReecntrantLock（重入锁）。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、数据链层次上的，比较典型的就是悲观锁和乐观锁"><span class="nav-text">2、数据链层次上的，比较典型的就是悲观锁和乐观锁</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、轻量级同步机制volatile型量介绍"><span class="nav-text">三、轻量级同步机制volatile型量介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、可保证变量可见性，但对于非原子操作-并不能保证线程安全。"><span class="nav-text">1、可保证变量可见性，但对于非原子操作 并不能保证线程安全。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、使用他的第二个语义是禁止指令重排序优化。"><span class="nav-text">2、使用他的第二个语义是禁止指令重排序优化。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、ReecntrantLock用法举例"><span class="nav-text">四、ReecntrantLock用法举例</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">clock bone</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"clockbone"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

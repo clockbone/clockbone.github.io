@@ -1,0 +1,791 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="redis," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Redis-Server 集群指南
+一、前置条件1、服务器清单(主从):1234从机1 	-&amp;gt; 	172.17.121.31从机2 	-&amp;gt; 	172.17.121.32主机		-&amp;gt; 	172.17.121.33监控		-&amp;gt;	172.17.121.34
+2、服务器拓扑图![](/documentation/raw/master/snapshot/deploy/redis/c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="redis-cluster">
+<meta property="og:url" content="/2015/06/03/redis-cluster/index.html">
+<meta property="og:site_name" content="clock |">
+<meta property="og:description" content="Redis-Server 集群指南
+一、前置条件1、服务器清单(主从):1234从机1 	-&amp;gt; 	172.17.121.31从机2 	-&amp;gt; 	172.17.121.32主机		-&amp;gt; 	172.17.121.33监控		-&amp;gt;	172.17.121.34
+2、服务器拓扑图![](/documentation/raw/master/snapshot/deploy/redis/c">
+<meta property="og:image" content="http://redis.io/images/redis-small.png">
+<meta property="og:updated_time" content="2017-01-10T10:55:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="redis-cluster">
+<meta name="twitter:description" content="Redis-Server 集群指南
+一、前置条件1、服务器清单(主从):1234从机1 	-&amp;gt; 	172.17.121.31从机2 	-&amp;gt; 	172.17.121.32主机		-&amp;gt; 	172.17.121.33监控		-&amp;gt;	172.17.121.34
+2、服务器拓扑图![](/documentation/raw/master/snapshot/deploy/redis/c">
+<meta name="twitter:image" content="http://redis.io/images/redis-small.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6290795255344137000,
+      author: 'clockbone'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="/2015/06/03/redis-cluster/"/>
+
+  <title> redis-cluster | clock | </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">clock |</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                redis-cluster
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-03T00:18:04+08:00" content="2015-06-03">
+              2015-06-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/06/03/redis-cluster/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/03/redis-cluster/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Redis-Server-集群指南"><a href="#Redis-Server-集群指南" class="headerlink" title=" Redis-Server 集群指南"></a><img src="http://redis.io/images/redis-small.png" alt=""> Redis-Server 集群指南</h1><hr>
+<h3 id="一、前置条件"><a href="#一、前置条件" class="headerlink" title="一、前置条件"></a>一、前置条件</h3><h4 id="1、服务器清单-主从"><a href="#1、服务器清单-主从" class="headerlink" title="1、服务器清单(主从):"></a>1、服务器清单(主从):</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">从机1 	-&gt; 	172.17.121.31</div><div class="line">从机2 	-&gt; 	172.17.121.32</div><div class="line">主机		-&gt; 	172.17.121.33</div><div class="line">监控		-&gt;	172.17.121.34</div></pre></td></tr></table></figure>
+<h4 id="2、服务器拓扑图"><a href="#2、服务器拓扑图" class="headerlink" title="2、服务器拓扑图"></a>2、服务器拓扑图</h4><pre><code>![](/documentation/raw/master/snapshot/deploy/redis/cluster.jpg)
+</code></pre><ul>
+<li><p><code>SLAVE</code> 及 <code>MASTER</code> 都已按单机模式安装启动成功</p>
+<p>  单机安装教程请参考 <a href="/documentation/blob/master/deploy/redis/install.md">这里</a></p>
+</li>
+<li><p><code>MONITOR</code> 已安装并成功启动</p>
+<p>  监控安装教程请参考 <a href="/documentation/blob/master/deploy/redis/monitor.md">这里</a></p>
+</li>
+</ul>
+<h3 id="二、Redis-MASTER-主机-配置"><a href="#二、Redis-MASTER-主机-配置" class="headerlink" title="二、Redis MASTER(主机)配置"></a>二、Redis MASTER(主机)配置</h3><ul>
+<li><p>创建主机的服务启动脚本 <code>/etc/init.d/redis-session</code>、<code>/etc/init.d/redis-site</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo touch /etc/init.d/redis-session</div><div class="line">sudo touch /etc/init.d/redis-site</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>redis-session</code> 脚本如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div></pre></td><td class="code"><pre><div class="line">#!/bin/sh</div><div class="line">#</div><div class="line"># redis - this script starts and stops the redis-server daemon</div><div class="line">#</div><div class="line"># chkconfig:   - 85 15</div><div class="line"># description:  Redis is a persistent key-value database</div><div class="line"># processname: redis-server</div><div class="line"># config:      /etc/redis/redis.conf</div><div class="line"># config:      /etc/sysconfig/redis</div><div class="line"># pidfile:     /var/run/redis.pid</div><div class="line"></div><div class="line"># Source function library.</div><div class="line">. /etc/rc.d/init.d/functions</div><div class="line"></div><div class="line"># Source networking configuration.</div><div class="line">. /etc/sysconfig/network</div><div class="line"></div><div class="line"># Check that networking is up.</div><div class="line">[ &quot;$NETWORKING&quot; = &quot;no&quot; ] &amp;&amp; exit 0</div><div class="line"></div><div class="line">redis=&quot;/usr/local/bin/redis-session&quot;</div><div class="line">prog=$(basename $redis)</div><div class="line"></div><div class="line">REDIS_CONF_FILE=&quot;/etc/redis/session.conf&quot;</div><div class="line"></div><div class="line">[ -f /etc/sysconfig/redis ] &amp;&amp; . /etc/sysconfig/redis</div><div class="line"></div><div class="line">lockfile=/var/lock/redis/session</div><div class="line"></div><div class="line">start() &#123;</div><div class="line">    [ -x $redis ] || exit 5</div><div class="line">    [ -f $REDIS_CONF_FILE ] || exit 6</div><div class="line">    echo -n $&quot;Starting $prog: &quot;</div><div class="line">    daemon $redis $REDIS_CONF_FILE</div><div class="line">    retval=$?</div><div class="line">    echo</div><div class="line">    [ $retval -eq 0 ] &amp;&amp; touch $lockfile</div><div class="line">    return $retval</div><div class="line">&#125;</div><div class="line"></div><div class="line">stop() &#123;</div><div class="line">    echo -n $&quot;Stopping $prog: &quot;</div><div class="line">    killproc $prog -QUIT</div><div class="line">    retval=$?</div><div class="line">    echo</div><div class="line">    [ $retval -eq 0 ] &amp;&amp; rm -f $lockfile</div><div class="line">    return $retval</div><div class="line">&#125;</div><div class="line"></div><div class="line">restart() &#123;</div><div class="line">    stop</div><div class="line">    start</div><div class="line">&#125;</div><div class="line"></div><div class="line">reload() &#123;</div><div class="line">    echo -n $&quot;Reloading $prog: &quot;</div><div class="line">    killproc $redis -HUP</div><div class="line">    RETVAL=$?</div><div class="line">    echo</div><div class="line">&#125;</div><div class="line"></div><div class="line">force_reload() &#123;</div><div class="line">    restart</div><div class="line">&#125;</div><div class="line"></div><div class="line">rh_status() &#123;</div><div class="line">    status $prog</div><div class="line">&#125;</div><div class="line"></div><div class="line">rh_status_q() &#123;</div><div class="line">    rh_status &gt;/dev/null 2&gt;&amp;1</div><div class="line">&#125;</div><div class="line"></div><div class="line">case &quot;$1&quot; in</div><div class="line">    start)</div><div class="line">        rh_status_q &amp;&amp; exit 0</div><div class="line">        $1</div><div class="line">        ;;</div><div class="line">    stop)</div><div class="line">        rh_status_q || exit 0</div><div class="line">        $1</div><div class="line">        ;;</div><div class="line">    restart|configtest)</div><div class="line">        $1</div><div class="line">        ;;</div><div class="line">    reload)</div><div class="line">        rh_status_q || exit 7</div><div class="line">        $1</div><div class="line">        ;;</div><div class="line">    force-reload)</div><div class="line">        force_reload</div><div class="line">        ;;</div><div class="line">    status)</div><div class="line">        rh_status</div><div class="line">        ;;</div><div class="line">    condrestart|try-restart)</div><div class="line">        rh_status_q || exit 0</div><div class="line">        ;;</div><div class="line">    *)</div><div class="line">        echo $&quot;Usage: $0 &#123;start|stop|status|restart|condrestart|try-restart|reload|force-reload&#125;&quot;</div><div class="line">        exit 2</div><div class="line">esac</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>redis-site</code> 脚本如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div></pre></td><td class="code"><pre><div class="line">#!/bin/sh</div><div class="line">#</div><div class="line"># redis - this script starts and stops the redis-server daemon</div><div class="line">#</div><div class="line"># chkconfig:   - 85 15</div><div class="line"># description:  Redis is a persistent key-value database</div><div class="line"># processname: redis-server</div><div class="line"># config:      /etc/redis/redis.conf</div><div class="line"># config:      /etc/sysconfig/redis</div><div class="line"># pidfile:     /var/run/redis.pid</div><div class="line"></div><div class="line"># Source function library.</div><div class="line">. /etc/rc.d/init.d/functions</div><div class="line"></div><div class="line"># Source networking configuration.</div><div class="line">. /etc/sysconfig/network</div><div class="line"></div><div class="line"># Check that networking is up.</div><div class="line">[ &quot;$NETWORKING&quot; = &quot;no&quot; ] &amp;&amp; exit 0</div><div class="line"></div><div class="line">redis=&quot;/usr/local/bin/redis-site&quot;</div><div class="line">prog=$(basename $redis)</div><div class="line"></div><div class="line">REDIS_CONF_FILE=&quot;/etc/redis/site.conf&quot;</div><div class="line"></div><div class="line">[ -f /etc/sysconfig/redis ] &amp;&amp; . /etc/sysconfig/redis</div><div class="line"></div><div class="line">lockfile=/var/lock/redis/site</div><div class="line"></div><div class="line">start() &#123;</div><div class="line">    [ -x $redis ] || exit 5</div><div class="line">    [ -f $REDIS_CONF_FILE ] || exit 6</div><div class="line">    echo -n $&quot;Starting $prog: &quot;</div><div class="line">    daemon $redis $REDIS_CONF_FILE</div><div class="line">    retval=$?</div><div class="line">    echo</div><div class="line">    [ $retval -eq 0 ] &amp;&amp; touch $lockfile</div><div class="line">    return $retval</div><div class="line">&#125;</div><div class="line"></div><div class="line">stop() &#123;</div><div class="line">    echo -n $&quot;Stopping $prog: &quot;</div><div class="line">    killproc $prog -QUIT</div><div class="line">    retval=$?</div><div class="line">    echo</div><div class="line">    [ $retval -eq 0 ] &amp;&amp; rm -f $lockfile</div><div class="line">    return $retval</div><div class="line">&#125;</div><div class="line"></div><div class="line">restart() &#123;</div><div class="line">    stop</div><div class="line">    start</div><div class="line">&#125;</div><div class="line"></div><div class="line">reload() &#123;</div><div class="line">    echo -n $&quot;Reloading $prog: &quot;</div><div class="line">    killproc $redis -HUP</div><div class="line">    RETVAL=$?</div><div class="line">    echo</div><div class="line">&#125;</div><div class="line"></div><div class="line">force_reload() &#123;</div><div class="line">    restart</div><div class="line">&#125;</div><div class="line"></div><div class="line">rh_status() &#123;</div><div class="line">    status $prog</div><div class="line">&#125;</div><div class="line"></div><div class="line">rh_status_q() &#123;</div><div class="line">    rh_status &gt;/dev/null 2&gt;&amp;1</div><div class="line">&#125;</div><div class="line"></div><div class="line">case &quot;$1&quot; in</div><div class="line">    start)</div><div class="line">        rh_status_q &amp;&amp; exit 0</div><div class="line">        $1</div><div class="line">        ;;</div><div class="line">    stop)</div><div class="line">        rh_status_q || exit 0</div><div class="line">        $1</div><div class="line">        ;;</div><div class="line">    restart|configtest)</div><div class="line">        $1</div><div class="line">        ;;</div><div class="line">    reload)</div><div class="line">        rh_status_q || exit 7</div><div class="line">        $1</div><div class="line">        ;;</div><div class="line">    force-reload)</div><div class="line">        force_reload</div><div class="line">        ;;</div><div class="line">    status)</div><div class="line">        rh_status</div><div class="line">        ;;</div><div class="line">    condrestart|try-restart)</div><div class="line">        rh_status_q || exit 0</div><div class="line">        ;;</div><div class="line">    *)</div><div class="line">        echo $&quot;Usage: $0 &#123;start|stop|status|restart|condrestart|try-restart|reload|force-reload&#125;&quot;</div><div class="line">        exit 2</div><div class="line">esac</div></pre></td></tr></table></figure>
+</li>
+<li><p>添加启动服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo chkconfig --add redis-session</div><div class="line">sudo chkconfig --add redis-site</div><div class="line">sudo chkconfig --level redis-site on</div><div class="line">sudo chkconfig --level redis-session on</div></pre></td></tr></table></figure>
+</li>
+<li><p>启动服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo service redis-session start</div><div class="line">sudo service redis-site start</div></pre></td></tr></table></figure>
+</li>
+<li><p>验证服务是否启动</p>
+</li>
+</ul>
+<h3 id="三、Redis-SLAVE-从机-配置"><a href="#三、Redis-SLAVE-从机-配置" class="headerlink" title="三、Redis SLAVE(从机)配置"></a>三、Redis SLAVE(从机)配置</h3><ul>
+<li><p>启动从机前请确保<code>MASTER</code>已正常启动并能在从机中使用<code>redis-cli</code>访问</p>
+<p>  <strong>input:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 访问 redis-session 的 master 主机</div><div class="line">redis-cli -h 172.17.121.33 -p 6379</div></pre></td></tr></table></figure>
+<p>  <strong>output:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis 172.17.121.33:6379&gt;</div></pre></td></tr></table></figure>
+<p>  <strong>input:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 访问 redis-site 的 master 主机</div><div class="line">redis-cli -h 172.17.121.33 -p 1221</div></pre></td></tr></table></figure>
+<p>  <strong>output:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis 172.17.121.33:1221&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>创建从机的服务启动脚本 <code>/etc/init.d/redis-session</code>、<code>/etc/init.d/redis-site</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo touch /etc/init.d/redis-session</div><div class="line">sudo touch /etc/init.d/redis-site</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>redis-session</code> 脚本如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div></pre></td><td class="code"><pre><div class="line">#!/bin/sh</div><div class="line">#</div><div class="line"># redis - this script starts and stops the redis-server daemon</div><div class="line">#</div><div class="line"># chkconfig:   - 85 15</div><div class="line"># description:  Redis is a persistent key-value database</div><div class="line"># processname: redis-server</div><div class="line"># config:      /etc/redis/redis.conf</div><div class="line"># config:      /etc/sysconfig/redis</div><div class="line"># pidfile:     /var/run/redis.pid</div><div class="line"></div><div class="line"># Source function library.</div><div class="line">. /etc/rc.d/init.d/functions</div><div class="line"></div><div class="line"># Source networking configuration.</div><div class="line">. /etc/sysconfig/network</div><div class="line"></div><div class="line"></div><div class="line"># Check that networking is up.</div><div class="line">[ &quot;$NETWORKING&quot; = &quot;no&quot; ] &amp;&amp; exit 0</div><div class="line"></div><div class="line">redis=&quot;/usr/local/bin/redis-session&quot;</div><div class="line">redis_port=6379</div><div class="line">monitor_host=172.17.121.34</div><div class="line">monitor_port=26379</div><div class="line">cluster_name=&quot;portal-session&quot;</div><div class="line"></div><div class="line">prog=$(basename $redis)</div><div class="line">REDIS_CONF_FILE=&quot;/etc/redis/session.conf&quot;</div><div class="line"></div><div class="line">[ -f /etc/sysconfig/redis ] &amp;&amp; . /etc/sysconfig/redis</div><div class="line"></div><div class="line">lockfile=/var/lock/redis/session</div><div class="line"></div><div class="line">start() &#123;</div><div class="line">    [ -x $redis ] || exit 5</div><div class="line">    [ -f $REDIS_CONF_FILE ] || exit 6</div><div class="line">    echo -n $&quot;Starting $prog: &quot;</div><div class="line">    daemon $redis $REDIS_CONF_FILE</div><div class="line">    retval=$?</div><div class="line">    echo</div><div class="line">    [ $retval -eq 0 ] &amp;&amp; touch $lockfile</div><div class="line">    status=`redis-cli -h $monitor_host -p $monitor_port  info sentinel|grep $cluster_name| awk -F &apos;,&apos; &apos;/status/ &#123;print $2&#125;&apos;| awk -F</div><div class="line">&apos;=&apos; &apos;&#123;print $2&#125;&apos;`</div><div class="line">    if [ &quot;$status&quot;x = &quot;ok&quot;x ]; then</div><div class="line">        echo &quot;Cluster is ok&quot;</div><div class="line">        master_host=`redis-cli  -h $monitor_host -p $monitor_port  info sentinel|grep $cluster_name| awk -F &apos;,&apos; &apos;/status/ &#123;print $3&#125;</div><div class="line">&apos;| awk -F &apos;=&apos; &apos;&#123;print $2&#125;&apos;| awk -F &apos;:&apos; &apos;&#123;print $1&#125;&apos;`</div><div class="line">        master_port=`redis-cli  -h $monitor_host -p $monitor_port  info sentinel|grep $cluster_name| awk -F &apos;,&apos; &apos;/status/ &#123;print $3&#125;</div><div class="line">&apos;| awk -F &apos;=&apos; &apos;&#123;print $2&#125;&apos;| awk -F &apos;:&apos; &apos;&#123;print $2&#125;&apos;`</div><div class="line">        echo $&quot;Get the cluster master $master_host:$master_port&quot;</div><div class="line">        echo -n $&quot;Mount to the master $master_host:$master_port: &quot;</div><div class="line">        result=`redis-cli -p $redis_port slaveof $master_host $master_port`</div><div class="line">        echo $result</div><div class="line">    else</div><div class="line">        echo &quot;Cluster has dead, this slave will run in standalone mode&quot;</div><div class="line">    fi</div><div class="line">    return $retval</div><div class="line">&#125;</div><div class="line"></div><div class="line">stop() &#123;</div><div class="line">    echo -n $&quot;Stopping $prog: &quot;</div><div class="line">    killproc $prog -QUIT</div><div class="line">    retval=$?</div><div class="line">    echo</div><div class="line">    [ $retval -eq 0 ] &amp;&amp; rm -f $lockfile</div><div class="line">    return $retval</div><div class="line">&#125;</div><div class="line"></div><div class="line">restart() &#123;</div><div class="line">    stop</div><div class="line">    start</div><div class="line">&#125;</div><div class="line"></div><div class="line">reload() &#123;</div><div class="line">    echo -n $&quot;Reloading $prog: &quot;</div><div class="line">    killproc $redis -HUP</div><div class="line">    RETVAL=$?</div><div class="line">    echo</div><div class="line">&#125;</div><div class="line"></div><div class="line">force_reload() &#123;</div><div class="line">    restart</div><div class="line">&#125;</div><div class="line"></div><div class="line">rh_status() &#123;</div><div class="line">    status $prog</div><div class="line">&#125;</div><div class="line"></div><div class="line">rh_status_q() &#123;</div><div class="line">    rh_status &gt;/dev/null 2&gt;&amp;1</div><div class="line">&#125;</div><div class="line"></div><div class="line">case &quot;$1&quot; in</div><div class="line">    start)</div><div class="line">        rh_status_q &amp;&amp; exit 0</div><div class="line">        $1</div><div class="line">        ;;</div><div class="line">    stop)</div><div class="line">        rh_status_q || exit 0</div><div class="line">        $1</div><div class="line">        ;;</div><div class="line">    restart|configtest)</div><div class="line">        $1</div><div class="line">        ;;</div><div class="line">    reload)</div><div class="line">        rh_status_q || exit 7</div><div class="line">        $1</div><div class="line">        ;;</div><div class="line">    force-reload)</div><div class="line">        force_reload</div><div class="line">        ;;</div><div class="line">    status)</div><div class="line">        rh_status</div><div class="line">        ;;</div><div class="line">    condrestart|try-restart)</div><div class="line">        rh_status_q || exit 0</div><div class="line">        ;;</div><div class="line">    *)</div><div class="line">        echo $&quot;Usage: $0 &#123;start|stop|status|restart|condrestart|try-restart|reload|force-reload&#125;&quot;</div><div class="line">        exit 2</div><div class="line">esac</div></pre></td></tr></table></figure>
+</li>
+<li><p>当服务启动时，代码片段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"> status=`redis-cli -h $monitor_host -p $monitor_port  info sentinel|grep $cluster_name| awk -F &apos;,&apos; &apos;/status/ &#123;print $2&#125;&apos;| awk -F</div><div class="line">&apos;=&apos; &apos;&#123;print $2&#125;&apos;`</div><div class="line">    if [ &quot;$status&quot;x = &quot;ok&quot;x ]; then</div><div class="line">        echo &quot;Cluster is ok&quot;</div><div class="line">        master_host=`redis-cli  -h $monitor_host -p $monitor_port  info sentinel|grep $cluster_name| awk -F &apos;,&apos; &apos;/status/ &#123;print $3&#125;</div><div class="line">&apos;| awk -F &apos;=&apos; &apos;&#123;print $2&#125;&apos;| awk -F &apos;:&apos; &apos;&#123;print $1&#125;&apos;`</div><div class="line">        master_port=`redis-cli  -h $monitor_host -p $monitor_port  info sentinel|grep $cluster_name| awk -F &apos;,&apos; &apos;/status/ &#123;print $3&#125;</div><div class="line">&apos;| awk -F &apos;=&apos; &apos;&#123;print $2&#125;&apos;| awk -F &apos;:&apos; &apos;&#123;print $2&#125;&apos;`</div><div class="line">        echo $&quot;Get the cluster master $master_host:$master_port&quot;</div><div class="line">        echo -n $&quot;Mount to the master $master_host:$master_port: &quot;</div><div class="line">        result=`redis-cli -p $redis_port slaveof $master_host $master_port`</div><div class="line">        echo $result</div><div class="line">    else</div><div class="line">        echo &quot;Cluster has dead, this slave will run in standalone mode&quot;</div><div class="line">    fi</div></pre></td></tr></table></figure>
+<p>  会查询当前的集群状态，将从机的 <code>redis</code> 挂载到集群中去</p>
+</li>
+</ul>
+<ul>
+<li><code>redis-site</code> 脚本雷同 session , 这里不再赘述</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div></pre></td><td class="code"><pre><div class="line">#!/bin/sh</div><div class="line">#</div><div class="line"># redis - this script starts and stops the redis-server daemon</div><div class="line">#</div><div class="line"># chkconfig:   - 85 15</div><div class="line"># description:  Redis is a persistent key-value database</div><div class="line"># processname: redis-server</div><div class="line"># config:      /etc/redis/redis.conf</div><div class="line"># config:      /etc/sysconfig/redis</div><div class="line"># pidfile:     /var/run/redis.pid</div><div class="line"></div><div class="line"># Source function library.</div><div class="line">. /etc/rc.d/init.d/functions</div><div class="line"></div><div class="line"># Source networking configuration.</div><div class="line">. /etc/sysconfig/network</div><div class="line"></div><div class="line"></div><div class="line"># Check that networking is up.</div><div class="line">[ &quot;$NETWORKING&quot; = &quot;no&quot; ] &amp;&amp; exit 0</div><div class="line"></div><div class="line">redis=&quot;/usr/local/bin/redis-site&quot;</div><div class="line">redis_port=1221</div><div class="line">monitor_host=172.17.121.34</div><div class="line">monitor_port=26379</div><div class="line">cluster_name=&quot;portal-site&quot;</div><div class="line"></div><div class="line">prog=$(basename $redis)</div><div class="line">REDIS_CONF_FILE=&quot;/etc/redis/site.conf&quot;</div><div class="line"></div><div class="line">[ -f /etc/sysconfig/redis ] &amp;&amp; . /etc/sysconfig/redis</div><div class="line"></div><div class="line">lockfile=/var/lock/redis/site</div><div class="line"></div><div class="line">start() &#123;</div><div class="line">    [ -x $redis ] || exit 5</div><div class="line">    [ -f $REDIS_CONF_FILE ] || exit 6</div><div class="line">    echo -n $&quot;Starting $prog: &quot;</div><div class="line">    daemon $redis $REDIS_CONF_FILE</div><div class="line">    retval=$?</div><div class="line">    echo</div><div class="line">    [ $retval -eq 0 ] &amp;&amp; touch $lockfile</div><div class="line">    status=`redis-cli -h $monitor_host -p $monitor_port  info sentinel|grep $cluster_name| awk -F &apos;,&apos; &apos;/status/ &#123;print $2&#125;&apos;| awk -F</div><div class="line">&apos;=&apos; &apos;&#123;print $2&#125;&apos;`</div><div class="line">    if [ &quot;$status&quot;x = &quot;ok&quot;x ]; then</div><div class="line">        echo &quot;Cluster is ok&quot;</div><div class="line">        master_host=`redis-cli  -h $monitor_host -p $monitor_port  info sentinel|grep $cluster_name| awk -F &apos;,&apos; &apos;/status/ &#123;print $3&#125;</div><div class="line">&apos;| awk -F &apos;=&apos; &apos;&#123;print $2&#125;&apos;| awk -F &apos;:&apos; &apos;&#123;print $1&#125;&apos;`</div><div class="line">        master_port=`redis-cli  -h $monitor_host -p $monitor_port  info sentinel|grep $cluster_name| awk -F &apos;,&apos; &apos;/status/ &#123;print $3&#125;</div><div class="line">&apos;| awk -F &apos;=&apos; &apos;&#123;print $2&#125;&apos;| awk -F &apos;:&apos; &apos;&#123;print $2&#125;&apos;`</div><div class="line">        echo $&quot;Get the cluster master $master_host:$master_port&quot;</div><div class="line">        echo -n $&quot;Mount to the master $master_host:$master_port: &quot;</div><div class="line">        result=`redis-cli -p $redis_port slaveof $master_host $master_port`</div><div class="line">        echo $result</div><div class="line">    else</div><div class="line">        echo &quot;Cluster has dead, this slave will run in standalone mode&quot;</div><div class="line">    fi</div><div class="line">    return $retval</div><div class="line">&#125;</div><div class="line"></div><div class="line">stop() &#123;</div><div class="line">    echo -n $&quot;Stopping $prog: &quot;</div><div class="line">    killproc $prog -QUIT</div><div class="line">    retval=$?</div><div class="line">    echo</div><div class="line">    [ $retval -eq 0 ] &amp;&amp; rm -f $lockfile</div><div class="line">    return $retval</div><div class="line">&#125;</div><div class="line"></div><div class="line">restart() &#123;</div><div class="line">    stop</div><div class="line">    start</div><div class="line">&#125;</div><div class="line"></div><div class="line">reload() &#123;</div><div class="line">    echo -n $&quot;Reloading $prog: &quot;</div><div class="line">    killproc $redis -HUP</div><div class="line">    RETVAL=$?</div><div class="line">    echo</div><div class="line">&#125;</div><div class="line"></div><div class="line">force_reload() &#123;</div><div class="line">    restart</div><div class="line">&#125;</div><div class="line"></div><div class="line">rh_status() &#123;</div><div class="line">    status $prog</div><div class="line">&#125;</div><div class="line"></div><div class="line">rh_status_q() &#123;</div><div class="line">    rh_status &gt;/dev/null 2&gt;&amp;1</div><div class="line">&#125;</div><div class="line"></div><div class="line">case &quot;$1&quot; in</div><div class="line">    start)</div><div class="line">        rh_status_q &amp;&amp; exit 0</div><div class="line">        $1</div><div class="line">        ;;</div><div class="line">    stop)</div><div class="line">        rh_status_q || exit 0</div><div class="line">        $1</div><div class="line">        ;;</div><div class="line">    restart|configtest)</div><div class="line">        $1</div><div class="line">        ;;</div><div class="line">    reload)</div><div class="line">        rh_status_q || exit 7</div><div class="line">        $1</div><div class="line">        ;;</div><div class="line">    force-reload)</div><div class="line">        force_reload</div><div class="line">        ;;</div><div class="line">    status)</div><div class="line">        rh_status</div><div class="line">        ;;</div><div class="line">    condrestart|try-restart)</div><div class="line">        rh_status_q || exit 0</div><div class="line">        ;;</div><div class="line">    *)</div><div class="line">        echo $&quot;Usage: $0 &#123;start|stop|status|restart|condrestart|try-restart|reload|force-reload&#125;&quot;</div><div class="line">        exit 2</div><div class="line">esac</div></pre></td></tr></table></figure>
+<ul>
+<li><p>添加启动服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo chkconfig --add redis-session</div><div class="line">sudo chkconfig --add redis-site</div><div class="line">sudo chkconfig --level redis-site on</div><div class="line">sudo chkconfig --level redis-session on</div></pre></td></tr></table></figure>
+</li>
+<li><p>启动服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo service redis-session start</div><div class="line">sudo service redis-site start</div></pre></td></tr></table></figure>
+</li>
+<li><p>验证服务是否启动</p>
+</li>
+</ul>
+<h3 id="四、启动-REDIS-监控"><a href="#四、启动-REDIS-监控" class="headerlink" title="四、启动 REDIS 监控"></a>四、启动 <code>REDIS</code> 监控</h3><ul>
+<li>确保监控正确安装配置，详细步骤请参考[这里](/<br><em>
+</em><br><em>
+</em><br><em>
+</em></li>
+<li><p>/blob/master/deploy/redis/monitor.md)</p>
+</li>
+<li><p>创建主机的服务启动脚本 <code>/etc/redis/redis-monitor</code></p>
+</li>
+<li><p><code>redis-monitor</code> 脚本内容如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div></pre></td><td class="code"><pre><div class="line">#!/bin/sh</div><div class="line">#</div><div class="line"># redis - this script starts and stops the redis-server daemon</div><div class="line">#</div><div class="line"># chkconfig:   - 85 15</div><div class="line"># description:  Redis is a persistent key-value database</div><div class="line"># processname: redis-server</div><div class="line"># config:      /etc/redis/sentinel.conf</div><div class="line"># pidfile:     /var/run/sentinel.pid</div><div class="line"># lockfile:    /var/lcok/sentinel</div><div class="line"></div><div class="line"># Source function library.</div><div class="line">. /etc/rc.d/init.d/functions</div><div class="line"></div><div class="line"># Source networking configuration.</div><div class="line">. /etc/sysconfig/network</div><div class="line"></div><div class="line"># Check that networking is up.</div><div class="line">[ &quot;$NETWORKING&quot; = &quot;no&quot; ] &amp;&amp; exit 0</div><div class="line"></div><div class="line"># define the exec progrom</div><div class="line">REDIS_EXEC=&quot;/usr/local/bin/redis-monitor&quot;</div><div class="line">REDIS_CONF_FILE=&quot;/etc/redis/sentinel.conf&quot;</div><div class="line">PROG=$(basename $REDIS_EXEC)</div><div class="line"></div><div class="line"># if /etc/sysconfig/redis exists,use this config env</div><div class="line">[ -f /etc/sysconfig/redis ] &amp;&amp; . /etc/sysconfig/redis</div><div class="line"></div><div class="line">LOCKFILE=/var/lock/redis/sentinel</div><div class="line"></div><div class="line"></div><div class="line">start() &#123;</div><div class="line">    [ -x $REDIS_EXEC ] || exit 5</div><div class="line">    [ -f $REDIS_CONF_FILE ] || exit 6</div><div class="line">    echo -n $&quot;Starting $PROG: &quot;</div><div class="line">    nohup $REDIS_EXEC /etc/redis/sentinel.conf --sentinel &gt; /var/log/redis/monitor.log 2&gt;&amp;1 &amp;</div><div class="line">    echo [ OK ] &amp;&amp; touch $LOCKFILE</div><div class="line">    return</div><div class="line">&#125;</div><div class="line"></div><div class="line">stop() &#123;</div><div class="line">    pid=`ps -ef|grep $REDIS_EXEC|grep -v grep|awk &apos;&#123;print $2&#125;&apos;`</div><div class="line">    if [ ! $pid ]; then</div><div class="line">        echo $&quot;$PROG is stoped&quot;</div><div class="line">    else</div><div class="line">        echo -n $&quot;Stopping $PROG: &quot;</div><div class="line">        kill -9 $pid</div><div class="line">        echo [ OK ] &amp;&amp; rm -f $LOCKFILE</div><div class="line">    fi</div><div class="line">    return</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">rh_status() &#123;</div><div class="line">    status $PROG</div><div class="line">&#125;</div><div class="line"></div><div class="line">rh_status_q() &#123;</div><div class="line">    rh_status &gt;/dev/null 2&gt;&amp;1</div><div class="line">&#125;</div><div class="line"></div><div class="line">restart() &#123;</div><div class="line">    stop</div><div class="line">    start</div><div class="line">&#125;</div><div class="line"></div><div class="line">exit_a()&#123;</div><div class="line">    echo $&quot;$PROG is running&quot;</div><div class="line">    exit 0</div><div class="line">&#125;</div><div class="line"></div><div class="line">exit_b()&#123;</div><div class="line">    echo $&quot;$PROG is stopped&quot;</div><div class="line">    exit 0</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">case &quot;$1&quot; in</div><div class="line">    start)</div><div class="line">        rh_status_q &amp;&amp; exit_a</div><div class="line">        $1</div><div class="line">        ;;</div><div class="line">    stop)</div><div class="line">        rh_status_q || exit_b</div><div class="line">        $1</div><div class="line">        ;;</div><div class="line">    restart|configtest)</div><div class="line">        $1</div><div class="line">        ;;</div><div class="line">    status)</div><div class="line">        rh_status</div><div class="line">        ;;</div><div class="line">    *)</div><div class="line">        echo $&quot;Usage: $0 &#123;start|stop|status|restart|condrestart|try-restart|reload|force-reload&#125;&quot;</div><div class="line">        exit 2</div><div class="line">esac</div></pre></td></tr></table></figure>
+</li>
+<li><p>配置及启动 <code>monitor</code>　服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo chkconfig --add redis-monitor</div><div class="line">sudo chkconfig --level 345 redis-monitor on</div><div class="line">sudo service redis-monitor start</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="五、验证集群状态"><a href="#五、验证集群状态" class="headerlink" title="五、验证集群状态"></a>五、验证集群状态</h3><ul>
+<li><p>使用管理员用户登陆到<code>MASTER</code>,查看当前集群状态</p>
+<ul>
+<li><p>查看<code>session</code>集群状态</p>
+<pre><code>**input:**
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis-cli -h 127.0.0.1 -p 6379 info Replication</div></pre></td></tr></table></figure>
+<pre><code>**output:**
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># Replication</div><div class="line">role:master</div><div class="line">connected_slaves:2</div><div class="line">slave0:172.17.121.32,6379,online</div><div class="line">slave1:172.17.121.31,6379,online</div></pre></td></tr></table></figure>
+</li>
+<li><p>查看<code>site</code>集群状态</p>
+<pre><code>**input:**
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis-cli -h 127.0.0.1 -p 1221 info Replication</div></pre></td></tr></table></figure>
+<pre><code>**output:**
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># Replication</div><div class="line">role:master</div><div class="line">connected_slaves:2</div><div class="line">slave0:172.17.121.32,1221,online</div><div class="line">slave1:172.17.121.31,1221,online</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>使用管理员用户登陆到<code>SLAVE</code>,查看当前集群状态(示例中使用172.17.121.33)</p>
+<ul>
+<li><p>查询<code>session</code>集群状态</p>
+<p>  <strong>input:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis-cli -h 127.0.0.1 -p 6379 info Replication</div></pre></td></tr></table></figure>
+<p>  <strong>output:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># Replication</div><div class="line">role:slave</div><div class="line">master_host:172.17.121.33</div><div class="line">master_port:6379</div><div class="line">master_link_status:up</div><div class="line">master_last_io_seconds_ago:3</div><div class="line">master_sync_in_progress:0</div><div class="line">slave_priority:100</div><div class="line">slave_read_only:1</div><div class="line">connected_slaves:0</div></pre></td></tr></table></figure>
+</li>
+<li><p>查看<code>site</code>集群状态</p>
+<p>  <strong>input:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis-cli -h 127.0.0.1 -p 1221 info Replication</div></pre></td></tr></table></figure>
+<p>  <strong>output:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># Replication</div><div class="line">role:slave</div><div class="line">master_host:172.17.121.33</div><div class="line">master_port:1221</div><div class="line">master_link_status:up</div><div class="line">master_last_io_seconds_ago:3</div><div class="line">master_sync_in_progress:0</div><div class="line">slave_priority:100</div><div class="line">slave_read_only:1</div><div class="line">connected_slaves:0</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>使用管理员登陆到<code>MONITOR</code>机上</p>
+<ul>
+<li><p>查看集群状态</p>
+<p>  <strong>input:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis-cli  -h 127.0.0.1 -p 26379  info sentinel</div></pre></td></tr></table></figure>
+<p>  <strong>output:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"># Sentinel</div><div class="line">sentinel_masters:2</div><div class="line">sentinel_tilt:0</div><div class="line">sentinel_running_scripts:0</div><div class="line">sentinel_scripts_queue_length:0</div><div class="line">master0:name=portal-session,status=ok,address=172.17.121.33:6379,slaves=2,sentinels=1</div><div class="line">master1:name=portal-site,status=ok,address=172.17.121.33:1221,slaves=2,sentinels=1</div></pre></td></tr></table></figure>
+<p>  <strong>可查看到当前的集群状态</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/redis/" rel="tag">#redis</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/03/redis-install/" rel="next" title="redis-install">
+                <i class="fa fa-chevron-left"></i> redis-install
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/06/03/redis-monitor/" rel="prev" title="redis-monitor">
+                redis-monitor <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2015/06/03/redis-cluster/"
+     data-title="redis-cluster"
+     data-content=""
+     data-url="/2015/06/03/redis-cluster/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/06/03/redis-cluster/"
+           data-title="redis-cluster" data-url="/2015/06/03/redis-cluster/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/fluidicon.png"
+               alt="clock bone" />
+          <p class="site-author-name" itemprop="name">clock bone</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis-Server-集群指南"><span class="nav-text"> Redis-Server 集群指南</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、前置条件"><span class="nav-text">一、前置条件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、服务器清单-主从"><span class="nav-text">1、服务器清单(主从):</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、服务器拓扑图"><span class="nav-text">2、服务器拓扑图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、Redis-MASTER-主机-配置"><span class="nav-text">二、Redis MASTER(主机)配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、Redis-SLAVE-从机-配置"><span class="nav-text">三、Redis SLAVE(从机)配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、启动-REDIS-监控"><span class="nav-text">四、启动 REDIS 监控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、验证集群状态"><span class="nav-text">五、验证集群状态</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">clock bone</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"clockbone"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

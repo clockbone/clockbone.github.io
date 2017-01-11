@@ -1,0 +1,681 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="mybatis," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="一、为什么引进动态数据库配置？随着网站的业务不断扩展，数据不断增加，用户越来越多，数据库的压力也就越来越大，采用传统的方式，
+比如：数据库或者SQL的优化基本已达不到要求，这个时候可以采用读写分离的策 略来改变现状。
+二、通常做法一个Master数据库，多个Slave数据库。Master库负责数据更新和实时数据查询，Slave库当然负责非实时数据查询。
+把查询从主库中抽取出来，采用多个从库，使用负">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DynamicDataSource添加动态数据库连接">
+<meta property="og:url" content="/2016/05/06/dynamicdatasource/index.html">
+<meta property="og:site_name" content="clock |">
+<meta property="og:description" content="一、为什么引进动态数据库配置？随着网站的业务不断扩展，数据不断增加，用户越来越多，数据库的压力也就越来越大，采用传统的方式，
+比如：数据库或者SQL的优化基本已达不到要求，这个时候可以采用读写分离的策 略来改变现状。
+二、通常做法一个Master数据库，多个Slave数据库。Master库负责数据更新和实时数据查询，Slave库当然负责非实时数据查询。
+把查询从主库中抽取出来，采用多个从库，使用负">
+<meta property="og:updated_time" content="2017-01-10T10:55:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DynamicDataSource添加动态数据库连接">
+<meta name="twitter:description" content="一、为什么引进动态数据库配置？随着网站的业务不断扩展，数据不断增加，用户越来越多，数据库的压力也就越来越大，采用传统的方式，
+比如：数据库或者SQL的优化基本已达不到要求，这个时候可以采用读写分离的策 略来改变现状。
+二、通常做法一个Master数据库，多个Slave数据库。Master库负责数据更新和实时数据查询，Slave库当然负责非实时数据查询。
+把查询从主库中抽取出来，采用多个从库，使用负">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6290795255344137000,
+      author: 'clockbone'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="/2016/05/06/dynamicdatasource/"/>
+
+  <title> DynamicDataSource添加动态数据库连接 | clock | </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">clock |</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                DynamicDataSource添加动态数据库连接
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-06T10:59:04+08:00" content="2016-05-06">
+              2016-05-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/05/06/dynamicdatasource/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/06/dynamicdatasource/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一、为什么引进动态数据库配置？"><a href="#一、为什么引进动态数据库配置？" class="headerlink" title="一、为什么引进动态数据库配置？"></a>一、为什么引进动态数据库配置？</h3><pre><code>随着网站的业务不断扩展，数据不断增加，用户越来越多，数据库的压力也就越来越大，采用传统的方式，
+比如：数据库或者SQL的优化基本已达不到要求，这个时候可以采用读写分离的策 略来改变现状。
+</code></pre><h3 id="二、通常做法"><a href="#二、通常做法" class="headerlink" title="二、通常做法"></a>二、通常做法</h3><pre><code>一个Master数据库，多个Slave数据库。Master库负责数据更新和实时数据查询，Slave库当然负责非实时数据查询。
+把查询从主库中抽取出来，采用多个从库，使用负载均衡，减轻每个从库的查询压力。
+</code></pre><a id="more"></a>
+<h3 id="三、开发中具体实现"><a href="#三、开发中具体实现" class="headerlink" title="三、开发中具体实现"></a>三、开发中具体实现</h3><h4 id="第一种：定义2个数据源主库和从库，主库更新和时实查询，从库用于非实时查询"><a href="#第一种：定义2个数据源主库和从库，主库更新和时实查询，从库用于非实时查询" class="headerlink" title="第一种：定义2个数据源主库和从库，主库更新和时实查询，从库用于非实时查询"></a>第一种：定义2个数据源主库和从库，主库更新和时实查询，从库用于非实时查询</h4><p>这种方式直接在mybatis配置文件中定义2个dataSource分别扫描不同的包即可，或者写2个mybatis配置文件分别在其中配置不同的数据源即可</p>
+<p>给一个简单的写法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">&lt;!-- MyBatis数据库第一个连接配置 --&gt;</div><div class="line">&lt;bean id=&quot;dataSourceOne&quot; class=&quot;com.alibaba.druid.pool.DruidDataSource&quot; init-method=&quot;init&quot; destroy-method=&quot;close&quot;&gt;</div><div class="line">……  ……  ……</div><div class="line">&lt;/bean&gt;</div><div class="line"></div><div class="line">&lt;bean id=&quot;sqlSessionFactoryOne&quot; class=&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;&gt;</div><div class="line">    &lt;property name=&quot;dataSource&quot; ref=&quot;dataSourceOne&quot; /&gt;</div><div class="line">   &lt;!-- &lt;property name=&quot;mapperLocations&quot; value=&quot;classpath:com/clockbone/mapper/*.xml&quot; /&gt;--&gt;</div><div class="line">    &lt;!-- xxxMapper.xml中返回值就可以直接写成实体名 --&gt;</div><div class="line">    &lt;property name=&quot;typeAliasesPackage&quot; value=&quot;com.clockbone.domain&quot;/&gt;</div><div class="line">&lt;/bean&gt;</div><div class="line">&lt;bean class=&quot;org.mybatis.spring.mapper.MapperScannerConfigurer&quot;&gt;</div><div class="line">    &lt;property name=&quot;basePackage&quot; value=&quot;com.clockbone.mapper&quot; /&gt;</div><div class="line">    &lt;property name=&quot;sqlSessionFactoryBeanName&quot; value=&quot;sqlSessionFactoryOne&quot;/&gt;</div><div class="line">&lt;/bean&gt;</div><div class="line">&lt;!-- MyBatis数据库连接配置  第二个数据源--&gt;</div><div class="line">    &lt;bean id=&quot;dataSourceMyBatis&quot; class=&quot;com.alibaba.druid.pool.DruidDataSource&quot; init-method=&quot;init&quot; destroy-method=&quot;close&quot;&gt;</div><div class="line">      ……  ……  ……</div><div class="line">    &lt;/bean&gt;</div><div class="line">    &lt;!-- define the SqlSessionFactory --&gt;</div><div class="line">    &lt;bean id=&quot;sqlSessionFactory&quot; class=&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;&gt;</div><div class="line">        &lt;property name=&quot;dataSource&quot; ref=&quot;dataSourceMyBatis&quot; /&gt;</div><div class="line">        &lt;property name=&quot;typeAliasesPackage&quot; value=&quot;com.clockpone.domain&quot; /&gt;</div><div class="line">    &lt;/bean&gt;</div><div class="line">    &lt;!-- scan for mappers and let them be autowired --&gt;</div><div class="line">    &lt;bean class=&quot;org.mybatis.spring.mapper.MapperScannerConfigurer&quot;&gt;</div><div class="line">        &lt;property name=&quot;basePackage&quot; value=&quot;com.clockpone.mapper&quot; /&gt;</div><div class="line">        &lt;property name=&quot;sqlSessionFactoryBeanName&quot; value=&quot;sqlSessionFactory&quot;/&gt;</div><div class="line">    &lt;/bean&gt;</div></pre></td></tr></table></figure></p>
+<h4 id="第二种：动态切换数据源，在程序运行时，把数据源动态织入到程序中从而选择读从库或主库，如：annotation，Spring-AOP-，反射"><a href="#第二种：动态切换数据源，在程序运行时，把数据源动态织入到程序中从而选择读从库或主库，如：annotation，Spring-AOP-，反射" class="headerlink" title="第二种：动态切换数据源，在程序运行时，把数据源动态织入到程序中从而选择读从库或主库，如：annotation，Spring AOP ，反射"></a>第二种：动态切换数据源，在程序运行时，把数据源动态织入到程序中从而选择读从库或主库，如：annotation，Spring AOP ，反射</h4><p>下面给出配置文件：<br>1、mybatis数据源配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;!-- MyBatis数据库连接配置  main--&gt;</div><div class="line">&lt;bean id=&quot;dataSourceMain&quot; class=&quot;com.alibaba.druid.pool.DruidDataSource&quot; init-method=&quot;init&quot; destroy-method=&quot;close&quot;&gt;</div><div class="line"> …… …… ……</div><div class="line">&lt;/bean&gt;</div><div class="line"></div><div class="line">&lt;!-- MyBatis数据库连接配置 Back--&gt;</div><div class="line">&lt;bean id=&quot;dataSourceBack&quot; class=&quot;com.alibaba.druid.pool.DruidDataSource&quot; init-method=&quot;init&quot; destroy-method=&quot;close&quot;&gt;</div><div class="line"> …… …… ……</div><div class="line">&lt;/bean&gt;</div><div class="line"></div><div class="line">&lt;!--动态数据源配置--&gt;</div><div class="line">&lt;bean id=&quot;dynamicDataSource&quot; class=&quot;com.clockbone.filter.DynamicDataSource&quot; &gt;</div><div class="line">    &lt;!-- 通过key-value的形式来关联数据源 --&gt;</div><div class="line">    &lt;property name=&quot;targetDataSources&quot;&gt;</div><div class="line">        &lt;map&gt;</div><div class="line">            &lt;entry value-ref=&quot;dataSourceMain&quot; key=&quot;dataSourceMain&quot;&gt;&lt;/entry&gt;</div><div class="line">            &lt;entry value-ref=&quot;dataSourceBack&quot; key=&quot;dataSourceBack&quot;&gt;&lt;/entry&gt;</div><div class="line">        &lt;/map&gt;</div><div class="line">    &lt;/property&gt;</div><div class="line">    &lt;property name=&quot;defaultTargetDataSource&quot; ref=&quot;dataSourceMain&quot; /&gt;</div><div class="line">&lt;/bean&gt;</div><div class="line"></div><div class="line">&lt;bean id=&quot;sqlSessionFactoryDynamic&quot; class=&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;&gt;</div><div class="line">    &lt;property name=&quot;dataSource&quot; ref=&quot;dynamicDataSource&quot; /&gt;</div><div class="line">    &lt;property name=&quot;typeAliasesPackage&quot; value=&quot;com.clockpone.domain&quot; /&gt;</div><div class="line">&lt;/bean&gt;</div><div class="line"></div><div class="line">&lt;!-- scan for mappers and let them be autowired --&gt;</div><div class="line">&lt;bean class=&quot;org.mybatis.spring.mapper.MapperScannerConfigurer&quot;&gt;</div><div class="line">    &lt;property name=&quot;basePackage&quot; value=&quot;com.clockpone.dynamicdao&quot; /&gt;</div><div class="line">    &lt;property name=&quot;sqlSessionFactoryBeanName&quot; value=&quot;sqlSessionFactoryDynamic&quot;/&gt;</div><div class="line">&lt;/bean&gt;</div></pre></td></tr></table></figure></p>
+<p>DynamicDtaSource类的实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">//动态数据源配置类</div><div class="line">public class DynamicDataSource extends AbstractRoutingDataSource &#123;</div><div class="line">    @Override</div><div class="line">    protected Object determineCurrentLookupKey() &#123;</div><div class="line">        //返回数据库源key值</div><div class="line">        return DBContextHolder.getDBType();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//置和获取数据库源</div><div class="line">public class DBContextHolder &#123;</div><div class="line">    private static final ThreadLocal&lt;String&gt; contextHolder = new ThreadLocal&lt;String&gt;();</div><div class="line">    /**</div><div class="line">     * 设置数据库源方法，在程序运行时调用</div><div class="line">     * @param dbType</div><div class="line">     */</div><div class="line">    public static void setDBType(String dbType) &#123;</div><div class="line">        contextHolder.set(dbType);</div><div class="line">    &#125;</div><div class="line">    /**</div><div class="line">     * 动态获取数据库源</div><div class="line">     */</div><div class="line">    public static String getDBType() &#123;</div><div class="line">        return contextHolder.get();</div><div class="line">    &#125;</div><div class="line">    public static void clearDBType() &#123;</div><div class="line">        contextHolder.remove();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>2、通过aop方式动态织入需要添加aop配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;!-- 配置数据库注解aop --&gt;</div><div class="line">&lt;aop:aspectj-autoproxy&gt;&lt;/aop:aspectj-autoproxy&gt;</div><div class="line">&lt;bean id=&quot;manyDataSourceAspect&quot; class=&quot;com.clockbone.filter.DataSourceAspect&quot; /&gt;</div><div class="line">&lt;aop:config&gt;</div><div class="line">    &lt;aop:aspect id=&quot;c&quot; ref=&quot;manyDataSourceAspect&quot;&gt;</div><div class="line">        &lt;!--dynamicdao包下的所有类，所有方法，任意参数类型、个数，任意返回值--&gt;</div><div class="line">        &lt;aop:pointcut id=&quot;tx&quot; expression=&quot;execution(* com.clockpone.dynamicdao.*.*(..))&quot;/&gt;</div><div class="line">        &lt;aop:before pointcut-ref=&quot;tx&quot; method=&quot;before&quot;/&gt;</div><div class="line">    &lt;/aop:aspect&gt;</div><div class="line">&lt;/aop:config&gt;</div></pre></td></tr></table></figure></p>
+<p>DataSourceAspect类的实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">public class DataSourceAspect &#123;</div><div class="line">    public void before(JoinPoint point)&#123;</div><div class="line">        Object target = point.getTarget();</div><div class="line">        String method = point.getSignature().getName();</div><div class="line">        Class&lt;?&gt;[] classz = target.getClass().getInterfaces();</div><div class="line">        Class&lt;?&gt;[] parameterTypes = ((MethodSignature) point.getSignature())</div><div class="line">                .getMethod().getParameterTypes();</div><div class="line">        try &#123;</div><div class="line">            Method m = classz[0].getMethod(method, parameterTypes);</div><div class="line">            if (m != null &amp;&amp; m.isAnnotationPresent(DataSource.class)) &#123;</div><div class="line">                DataSource data = m</div><div class="line">                        .getAnnotation(DataSource.class);</div><div class="line">                //设置数据源</div><div class="line">                DBContextHolder.setDBType(data.value());</div><div class="line">                System.out.println(data.value());</div><div class="line">            &#125;</div><div class="line">        &#125; catch (Exception e) &#123;</div><div class="line">            // TODO: handle exception</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>3、一个dynamicdao层的具体例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public interface UserNewMapper &#123;</div><div class="line">    @DataSource(Constant.DATA_SOURCE_MAIN)</div><div class="line">    int deleteByPrimaryKey(Integer UserId);</div><div class="line">    @DataSource(Constant.DATA_SOURCE_MAIN)</div><div class="line">    int insert(UserNew record);</div><div class="line">    @DataSource(Constant.DATA_SOURCE_BACK)</div><div class="line">    UserNew selectByPrimaryKey(Integer UserId);</div><div class="line">    @DataSource(Constant.DATA_SOURCE_MAIN)</div><div class="line">    int updateByPrimaryKeySelective(UserNew record);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>@DataSource的实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@Retention(RetentionPolicy.RUNTIME)</div><div class="line">@Target(ElementType.METHOD)</div><div class="line">public  @interface DataSource &#123;</div><div class="line">    String value();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>到此就完了动态aop织入的配置，当执行dao层中注解为<code>Constant.DATA_SOURCE_MAIN</code>时就会读主库；</p>
+<p>除了以上的那种配置外，xml中动态织入数据源的另一种拦截器配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;!--另一种方式的数据源选择 拦截器配置--&gt;</div><div class="line">    &lt;!--配置拦截器  dataSourceMain  dataSourceBack--&gt;</div><div class="line">    &lt;bean id=&quot;dynamicDsInterceptor_galaxy&quot; class=&quot;com.clockbone.interceptor.DynamicDataSourceInterceptor&quot;&gt;</div><div class="line">        &lt;property name=&quot;attributeSource&quot;&gt;</div><div class="line">            &lt;list&gt;</div><div class="line">                &lt;value&gt;query*,dataSourceBack&lt;/value&gt;</div><div class="line">                &lt;value&gt;count*,dataSourceBack&lt;/value&gt;</div><div class="line">                &lt;value&gt;find*,dataSourceBack&lt;/value&gt;</div><div class="line">                &lt;value&gt;get*,dataSourceBack&lt;/value&gt;</div><div class="line">                &lt;value&gt;list*,dataSourceBack&lt;/value&gt;</div><div class="line">                &lt;value&gt;*,dataSourceMain&lt;/value&gt;</div><div class="line">            &lt;/list&gt;</div><div class="line">        &lt;/property&gt;</div><div class="line">    &lt;/bean&gt;</div><div class="line">    &lt;aop:config&gt;</div><div class="line">        &lt;!--切入点:设置service下的所有类，所有方法，public 所有类型返回值 --&gt;</div><div class="line">        &lt;aop:pointcut id=&quot;loginPoint&quot;</div><div class="line">                      expression=&quot;execution(public * com.clockbone.service.impl.*.*(..)) &quot;/&gt;</div><div class="line">        &lt;!--在该切入点使用自定义拦截器--&gt;</div><div class="line">        &lt;aop:advisor pointcut-ref=&quot;loginPoint&quot; advice-ref=&quot;dynamicDsInterceptor_galaxy&quot;/&gt;</div><div class="line">    &lt;/aop:config&gt;</div></pre></td></tr></table></figure></p>
+<p>DynamicDataSourceInterceptor拦截器类的实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">//设置数据源key的拦截器</div><div class="line">public class DynamicDataSourceInterceptor implements MethodInterceptor &#123;</div><div class="line">    //方法和使用数据源key的对应关系</div><div class="line">    private List&lt;String&gt; attributeSource = new ArrayList&lt;String&gt;();</div><div class="line"></div><div class="line">    public void setAttributeSource(List&lt;String&gt; attributeSource) &#123;</div><div class="line">        this.attributeSource = attributeSource;</div><div class="line">    &#125;</div><div class="line">    @Override</div><div class="line">    public Object invoke(MethodInvocation methodInvocation) throws Throwable &#123;</div><div class="line">        final String methodName = methodInvocation.getMethod().getName();</div><div class="line">        String key = null;</div><div class="line">        for (String value : attributeSource) &#123;</div><div class="line">            String mappedName = value.split(&quot;,&quot;)[0];</div><div class="line">            if(isMatch(methodName, mappedName)) &#123;</div><div class="line">                key = value.split(&quot;,&quot;)[1];</div><div class="line">                break;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        if (null != key) &#123;</div><div class="line">            DBContextHolder.setDBType(key);</div><div class="line">        &#125;</div><div class="line">        return methodInvocation.proceed();</div><div class="line">    &#125;</div><div class="line">    private boolean isMatch(String methodName, String mappedName) &#123;</div><div class="line">        return PatternMatchUtils.simpleMatch(mappedName, methodName);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mybatis/" rel="tag">#mybatis</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/14/maven-profile/" rel="next" title="maven profile打包时实现可指定不同环境配置文件">
+                <i class="fa fa-chevron-left"></i> maven profile打包时实现可指定不同环境配置文件
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/26/spring-ws-core/" rel="prev" title="调用webservice客户端几种常用方式">
+                调用webservice客户端几种常用方式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/05/06/dynamicdatasource/"
+     data-title="DynamicDataSource添加动态数据库连接"
+     data-content=""
+     data-url="/2016/05/06/dynamicdatasource/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/06/dynamicdatasource/"
+           data-title="DynamicDataSource添加动态数据库连接" data-url="/2016/05/06/dynamicdatasource/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/fluidicon.png"
+               alt="clock bone" />
+          <p class="site-author-name" itemprop="name">clock bone</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、为什么引进动态数据库配置？"><span class="nav-text">一、为什么引进动态数据库配置？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、通常做法"><span class="nav-text">二、通常做法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、开发中具体实现"><span class="nav-text">三、开发中具体实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一种：定义2个数据源主库和从库，主库更新和时实查询，从库用于非实时查询"><span class="nav-text">第一种：定义2个数据源主库和从库，主库更新和时实查询，从库用于非实时查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二种：动态切换数据源，在程序运行时，把数据源动态织入到程序中从而选择读从库或主库，如：annotation，Spring-AOP-，反射"><span class="nav-text">第二种：动态切换数据源，在程序运行时，把数据源动态织入到程序中从而选择读从库或主库，如：annotation，Spring AOP ，反射</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">clock bone</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"clockbone"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

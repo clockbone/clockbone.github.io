@@ -1,0 +1,663 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="spring,jpa," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="一、spring4中提供了大量的注解来支持零配置，简要说明如下：@Configuration： 类似于spring配置文件，负责注册bean，对应的提供了@Bean注解。需要org.springframework.web.context.support.AnnotationConfigWebApplicationContext注册到容器中。@ComponentScan： 注解类查找规则定义 @En">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring4实现xml零配置，jpa作为持久层">
+<meta property="og:url" content="/2015/07/04/spring-jpa/index.html">
+<meta property="og:site_name" content="clock |">
+<meta property="og:description" content="一、spring4中提供了大量的注解来支持零配置，简要说明如下：@Configuration： 类似于spring配置文件，负责注册bean，对应的提供了@Bean注解。需要org.springframework.web.context.support.AnnotationConfigWebApplicationContext注册到容器中。@ComponentScan： 注解类查找规则定义 @En">
+<meta property="og:updated_time" content="2017-01-10T10:55:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="spring4实现xml零配置，jpa作为持久层">
+<meta name="twitter:description" content="一、spring4中提供了大量的注解来支持零配置，简要说明如下：@Configuration： 类似于spring配置文件，负责注册bean，对应的提供了@Bean注解。需要org.springframework.web.context.support.AnnotationConfigWebApplicationContext注册到容器中。@ComponentScan： 注解类查找规则定义 @En">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6290795255344137000,
+      author: 'clockbone'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="/2015/07/04/spring-jpa/"/>
+
+  <title> spring4实现xml零配置，jpa作为持久层 | clock | </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">clock |</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                spring4实现xml零配置，jpa作为持久层
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-04T16:12:31+08:00" content="2015-07-04">
+              2015-07-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/04/spring-jpa/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/04/spring-jpa/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一、spring4中提供了大量的注解来支持零配置，简要说明如下："><a href="#一、spring4中提供了大量的注解来支持零配置，简要说明如下：" class="headerlink" title="一、spring4中提供了大量的注解来支持零配置，简要说明如下："></a>一、spring4中提供了大量的注解来支持零配置，简要说明如下：</h3><p><code>@Configuration</code>： 类似于spring配置文件，负责注册bean，对应的提供了@Bean注解。需要org.springframework.web.context.support.AnnotationConfigWebApplicationContext注册到容器中。<br><code>@ComponentScan</code>： 注解类查找规则定义 <context:component-scan><br><code>@EnableAspectJAutoProxy</code>： 激活Aspect自动代理 <aop:aspectj-autoproxy><br><code>@Import @ImportResource</code>: 关联其它spring配置  <import resource=""><br><code>@EnableCaching</code>：启用缓存注解  <cache:annotation-driven><br><code>@EnableTransactionManagement</code> ： 启用注解式事务管理 <tx:annotation-driven><br><code>@EnableWebMvcSecurity</code>： 启用springSecurity安全验证<br><a id="more"></a></tx:annotation-driven></cache:annotation-driven></import></aop:aspectj-autoproxy></context:component-scan></p>
+<h3 id="二、结合jpa作为数据库持久层，一个具体的JpaSourceConfig类如下："><a href="#二、结合jpa作为数据库持久层，一个具体的JpaSourceConfig类如下：" class="headerlink" title="二、结合jpa作为数据库持久层，一个具体的JpaSourceConfig类如下："></a>二、结合jpa作为数据库持久层，一个具体的<code>JpaSourceConfig</code>类如下：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line">@Configuration()</div><div class="line">@ComponentScan(&quot;&quot;)</div><div class="line">@ImportResource(</div><div class="line">        &#123;     &quot;classpath:datasource-config.xml&quot;,</div><div class="line">                &quot;classpath:applicationContext.xml&quot; //运行jetty时，需要把这里加载的applicationContext.xml文注释，因为只能加载一个app.xml配置文件</div><div class="line">                                                     //运行这里的测试方法再打开注释</div><div class="line">        &#125;)</div><div class="line">@EnableJpaRepositories(&quot;com.clockbone.jpadao&quot;)</div><div class="line">@EnableTransactionManagement</div><div class="line">public class JpaSourceConfig &#123;</div><div class="line">    @Autowired</div><div class="line">    DataSource dataSource;</div><div class="line">    //@Bean负责注册bean对象</div><div class="line">    @Bean</div><div class="line">    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) &#123;</div><div class="line">        LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();</div><div class="line">        lef.setDataSource(dataSource);</div><div class="line">        lef.setJpaVendorAdapter(jpaVendorAdapter);</div><div class="line">        //设置扫描的jpa的model类为jpadomain包下的</div><div class="line">        lef.setPackagesToScan(&quot;com.clockbone.jpadomain&quot;);</div><div class="line">        //配置orm，orm配置持久层是jpa</div><div class="line">        lef.setMappingResources(&quot;orm.xml&quot;);</div><div class="line">        Map&lt;String, Object&gt; jpaProperties = new HashMap&lt;String, Object&gt;();</div><div class="line">        jpaProperties.put(Environment.HBM2DDL_AUTO, &quot;none&quot;);</div><div class="line">        lef.setJpaPropertyMap(jpaProperties);</div><div class="line">        return lef;</div><div class="line">    &#125;</div><div class="line">    @Bean</div><div class="line">    public JpaVendorAdapter jpaVendorAdapter() &#123;</div><div class="line">        HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();</div><div class="line">        hibernateJpaVendorAdapter.setShowSql(false);</div><div class="line">        hibernateJpaVendorAdapter.setGenerateDdl(false);</div><div class="line">        hibernateJpaVendorAdapter.setDatabase(Database.MYSQL);</div><div class="line">        return hibernateJpaVendorAdapter;</div><div class="line">    &#125;</div><div class="line">    @Primary</div><div class="line">    @Bean</div><div class="line">    public PlatformTransactionManager transactionManager() &#123;</div><div class="line">        return new JpaTransactionManager();</div><div class="line">    &#125;</div><div class="line">    @Bean</div><div class="line">    public EntityManager entityManager(EntityManagerFactory entityManagerFactory) &#123;</div><div class="line">        return entityManagerFactory.createEntityManager();</div><div class="line">    &#125;</div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        AbstractApplicationContext context = new AnnotationConfigApplicationContext(JpaSourceConfig.class);</div><div class="line">        persionRepTest(context);</div><div class="line">        context.close();</div><div class="line">    &#125;</div><div class="line">        public static void itemRepositoryTest(AbstractApplicationContext context)&#123;</div><div class="line">            ItemRepository repository = context.getBean(ItemRepository.class);</div><div class="line">            //测试自有方法</div><div class="line">            List&lt;Test&gt; test1 = repository.findByKey(&quot;Jack&quot;);</div><div class="line">            List&lt;Test&gt; test2 = repository.findByName(&quot;Jack&quot;);</div><div class="line">            //测试自定义sql语句方法</div><div class="line">            Boolean b = repository.exists(1);</div><div class="line"></div><div class="line">            List&lt;Test&gt; test = repository.findByFirstnameEndsWith(&quot;Bauer&quot;);</div><div class="line"></div><div class="line">            System.out.println(test);</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="三、一个具体的实现体的定义"><a href="#三、一个具体的实现体的定义" class="headerlink" title="三、一个具体的实现体的定义"></a>三、一个具体的实现体的定义</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> 注意：</div><div class="line">  * 1、这里的一定要注明表名@Table,</div><div class="line">  * 2、注明主键 其中：@Id 如果是自增一定要注明是自增 @GeneratedValue</div><div class="line"> */</div><div class="line">@Entity</div><div class="line">@Table(name = &quot;t_test&quot;)</div><div class="line">//这里定义别名</div><div class="line">@AttributeOverrides(&#123;</div><div class="line">        @AttributeOverride(name=&quot;key&quot;, column=@Column(name=&quot;mkey&quot;,unique=true))</div><div class="line">&#125;)</div><div class="line">public class Test &#123;</div><div class="line">    protected Test()&#123;</div><div class="line">    &#125;</div><div class="line">    public Test(String key,String name)&#123;</div><div class="line">        this.key=key;</div><div class="line">        this.name=name;</div><div class="line">    &#125;</div><div class="line">    @Id</div><div class="line">    @GeneratedValue(strategy=GenerationType.AUTO)</div><div class="line">    private Integer id;</div><div class="line">    @Column(length = 11,name=&quot;mkey&quot;)</div><div class="line">    private String key;</div><div class="line">    private String name;</div><div class="line">    public Integer getId() &#123;</div><div class="line">        return id;</div><div class="line">    &#125;</div><div class="line">    public void setId(Integer id) &#123;</div><div class="line">        this.id = id;</div><div class="line">    &#125;</div><div class="line">    public String getKey() &#123;</div><div class="line">        return key;</div><div class="line">    &#125;</div><div class="line">    public void setKey(String key) &#123;</div><div class="line">        this.key = key;</div><div class="line">    &#125;</div><div class="line">    public String getName() &#123;</div><div class="line">        return name;</div><div class="line">    &#125;</div><div class="line">    public void setName(String name) &#123;</div><div class="line">        this.name = name;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="四、一个具体的repository类-即dao层类"><a href="#四、一个具体的repository类-即dao层类" class="headerlink" title="四、一个具体的repository类,即dao层类"></a>四、一个具体的repository类,即dao层类</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"> public interface ItemRepository extends JpaRepository&lt;Test, Integer&gt; &#123;</div><div class="line">public List&lt;Test&gt; findByKey(String key);</div><div class="line">      public List&lt;Test&gt; findByName(String name);</div><div class="line">      @Query(value = &quot;select * from t_test u where u.name like %?1&quot;, nativeQuery = true)</div><div class="line">      List&lt;Test&gt; findByFirstnameEndsWith(String name);</div><div class="line">   &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<h3 id="五、orm-xml配置"><a href="#五、orm-xml配置" class="headerlink" title="五、orm.xml配置"></a>五、orm.xml配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;entity-mappings xmlns=&quot;http://java.sun.com/xml/ns/persistence/orm&quot;</div><div class="line">                 xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</div><div class="line">                 xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd&quot;</div><div class="line">                 version=&quot;2.0&quot;&gt;</div><div class="line">    &lt;persistence-unit-metadata&gt;</div><div class="line">        &lt;persistence-unit-defaults&gt;</div><div class="line">            &lt;entity-listeners&gt;</div><div class="line">                &lt;entity-listener class=&quot;org.springframework.data.jpa.domain.support.AuditingEntityListener&quot;/&gt;</div><div class="line">            &lt;/entity-listeners&gt;</div><div class="line">        &lt;/persistence-unit-defaults&gt;</div><div class="line">    &lt;/persistence-unit-metadata&gt;</div><div class="line">&lt;/entity-mappings&gt;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/spring/" rel="tag">#spring</a>
+          
+            <a href="/tags/jpa/" rel="tag">#jpa</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/04/myBatisGenerator/" rel="next" title="MyBatisGenerator 实现Model、sqlMap、dao自动生成">
+                <i class="fa fa-chevron-left"></i> MyBatisGenerator 实现Model、sqlMap、dao自动生成
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/08/12/guavacache/" rel="prev" title="guavacache">
+                guavacache <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2015/07/04/spring-jpa/"
+     data-title="spring4实现xml零配置，jpa作为持久层"
+     data-content=""
+     data-url="/2015/07/04/spring-jpa/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/07/04/spring-jpa/"
+           data-title="spring4实现xml零配置，jpa作为持久层" data-url="/2015/07/04/spring-jpa/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/fluidicon.png"
+               alt="clock bone" />
+          <p class="site-author-name" itemprop="name">clock bone</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、spring4中提供了大量的注解来支持零配置，简要说明如下："><span class="nav-text">一、spring4中提供了大量的注解来支持零配置，简要说明如下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、结合jpa作为数据库持久层，一个具体的JpaSourceConfig类如下："><span class="nav-text">二、结合jpa作为数据库持久层，一个具体的JpaSourceConfig类如下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、一个具体的实现体的定义"><span class="nav-text">三、一个具体的实现体的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、一个具体的repository类-即dao层类"><span class="nav-text">四、一个具体的repository类,即dao层类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、orm-xml配置"><span class="nav-text">五、orm.xml配置</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">clock bone</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"clockbone"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

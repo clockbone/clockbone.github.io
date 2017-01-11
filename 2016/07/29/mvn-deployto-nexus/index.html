@@ -1,0 +1,675 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="maven," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="目前maven项目是用的比较多的，那么上传本地jar到maven仓库也是常会有事，下面介绍一下如何上传jar到本地仓库和远程仓库。
+一、用命令上传jar包到本地仓库123456&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;com.spreada&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;ZHConverter&amp;lt;/artifactId">
+<meta property="og:type" content="article">
+<meta property="og:title" content="上传本地jar包到nexus私服">
+<meta property="og:url" content="/2016/07/29/mvn-deployto-nexus/index.html">
+<meta property="og:site_name" content="clock |">
+<meta property="og:description" content="目前maven项目是用的比较多的，那么上传本地jar到maven仓库也是常会有事，下面介绍一下如何上传jar到本地仓库和远程仓库。
+一、用命令上传jar包到本地仓库123456&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;com.spreada&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;ZHConverter&amp;lt;/artifactId">
+<meta property="og:image" content="/images/mvn1.png">
+<meta property="og:image" content="/images/mvn3.png">
+<meta property="og:image" content="/images/mvn2.png">
+<meta property="og:image" content="/images/mvn4.png">
+<meta property="og:updated_time" content="2017-01-10T10:55:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="上传本地jar包到nexus私服">
+<meta name="twitter:description" content="目前maven项目是用的比较多的，那么上传本地jar到maven仓库也是常会有事，下面介绍一下如何上传jar到本地仓库和远程仓库。
+一、用命令上传jar包到本地仓库123456&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;com.spreada&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;ZHConverter&amp;lt;/artifactId">
+<meta name="twitter:image" content="/images/mvn1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6290795255344137000,
+      author: 'clockbone'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="/2016/07/29/mvn-deployto-nexus/"/>
+
+  <title> 上传本地jar包到nexus私服 | clock | </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">clock |</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                上传本地jar包到nexus私服
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-29T11:07:47+08:00" content="2016-07-29">
+              2016-07-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/maven/" itemprop="url" rel="index">
+                    <span itemprop="name">maven</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/29/mvn-deployto-nexus/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/29/mvn-deployto-nexus/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>目前maven项目是用的比较多的，那么上传本地jar到maven仓库也是常会有事，下面介绍一下如何上传jar到本地仓库和远程仓库。</p>
+<h3 id="一、用命令上传jar包到本地仓库"><a href="#一、用命令上传jar包到本地仓库" class="headerlink" title="一、用命令上传jar包到本地仓库"></a>一、用命令上传jar包到本地仓库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;com.spreada&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;ZHConverter&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;1.0&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div><div class="line">mvn install:install-file -Dfile=jar包的位置 -DgroupId=上面的groupId -DartifactId=上面的artifactId -Dversion=上面的version -Dpackaging=jar</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="二、用nexus页面上传jar包到远程仓库"><a href="#二、用nexus页面上传jar包到远程仓库" class="headerlink" title="二、用nexus页面上传jar包到远程仓库"></a>二、用nexus页面上传jar包到远程仓库</h3><h4 id="1、登录nexus"><a href="#1、登录nexus" class="headerlink" title="1、登录nexus"></a>1、登录nexus</h4><h4 id="2、选择左边的repository菜单"><a href="#2、选择左边的repository菜单" class="headerlink" title="2、选择左边的repository菜单"></a>2、选择左边的repository菜单</h4><p><img src="/images/mvn1.png" alt=""></p>
+<h4 id="3、选择右边3rd-party"><a href="#3、选择右边3rd-party" class="headerlink" title="3、选择右边3rd party"></a>3、选择右边3rd party</h4><p><img src="/images/mvn3.png" alt=""></p>
+<h4 id="4、在artifact-Upload界面，填写参数"><a href="#4、在artifact-Upload界面，填写参数" class="headerlink" title="4、在artifact Upload界面，填写参数"></a>4、在artifact Upload界面，填写参数</h4><p><img src="/images/mvn2.png" alt=""><br><img src="/images/mvn4.png" alt=""></p>
+<h3 id="三、mvn-clean-package出错"><a href="#三、mvn-clean-package出错" class="headerlink" title="三、mvn clean package出错"></a>三、mvn clean package出错</h3><p>当我们只是将所需要的jar包上传本地仓库开发时，当开发完成部署到服务器时，比如用jenkins来部署或其它自己实现的部署系统。编写shell脚本<code>mvn clean package -Ptest</code>打包会报错，因为此时还没有将所需要的jar上传到远程仓库。此时我们用上面的方法将jar上传到远程仓库，并且在本地项目打包尝试也是成功的。但在服务器上部署还是会报错，错误如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xxx.jar in http://repository/url  was cached in the local repository, resolution will not be reattempted until the update interval of nexus has elapsed or updates are forced -&gt; [Help 1]</div></pre></td></tr></table></figure></p>
+<p>意思是说我们之前缺失的jar包在远程仓库已经缓存过了，maven就不会再去拉取这个jar包了。<br>这里需要说明一下：<code>Maven不管下没下成功，都会有一个.lastupdate文件，一旦出现了这个文件，而你指定远程仓库的方式是mirror，而不是profile里的repository，那么Maven默认不会去更新这个文件</code>.<br>所以我们在jenkins的shell脚本里面或者自己编写打包命令的脚本需要这样写<code>mvn clean package -Ptest -U</code>，需要添加一个<code>-U</code>参数，意思是强制拉取远程的jar包。这样就可打包成功了。</p>
+<h3 id="四、Nexus仓库"><a href="#四、Nexus仓库" class="headerlink" title="四、Nexus仓库"></a>四、Nexus仓库</h3><p>我们上传jar时为什么选择<code>3rd party</code>，下面我们来了解下Nexus仓库</p>
+<h4 id="1、Nexus仓库与仓库组"><a href="#1、Nexus仓库与仓库组" class="headerlink" title="1、Nexus仓库与仓库组"></a>1、Nexus仓库与仓库组</h4><p>Nexus包含多种仓库概念。不同仓库提供不同配置、服务。<br>代理仓库：主要是提供下载缓存构件和插件、如果只是从远程仓库下载构件和插件、那么代理仓库完全足够。宿主仓库：主要用于存放项目部署的构件、或者第三方构件用于提供下载。<br>四种仓库类型：hosted（宿主仓库）、proxy（代理仓库）、group（仓库组）、irtual（虚拟仓库）。</p>
+<h4 id="2、详细类型"><a href="#2、详细类型" class="headerlink" title="2、详细类型"></a>2、详细类型</h4><p>Central：代理中央仓库、策略为Release、只会下载和缓存中央仓库中的发布版本构件。<br>Release： 策略为Release的宿主仓库、用来部署组织内部的发布版本内容。<br>Snapshot： 策略为Snapshot的宿主仓库、用来部署组织内部的快照版本内容。<br>3rd party： 策略为Release的宿主仓库类型、用来部署无法从公共仓库获取的第三方发布版本构件、如oracle连接驱动jar包。<br>ApacheSnapshot： 策略为Snapshot的代理仓库、用来代理ApacheMaven仓库的快照版本构件。<br>PublicRepositories：该仓库将上述所有策略为Release的仓库聚合并通过一致的地址提供服务。<br>Public Snapshot Repositories：该仓库将上述所有策略为Snapshot的仓库聚合并通过一致的地址提供服务。<br>到这里我们就很清楚为什么要选择<code>3rd party</code>了。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/maven/" rel="tag">#maven</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/26/spring-ws-core/" rel="next" title="调用webservice客户端几种常用方式">
+                <i class="fa fa-chevron-left"></i> 调用webservice客户端几种常用方式
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/11/mybatis-pagehelper/" rel="prev" title="mybatis使用PageHelper分页插件原理">
+                mybatis使用PageHelper分页插件原理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/07/29/mvn-deployto-nexus/"
+     data-title="上传本地jar包到nexus私服"
+     data-content=""
+     data-url="/2016/07/29/mvn-deployto-nexus/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/07/29/mvn-deployto-nexus/"
+           data-title="上传本地jar包到nexus私服" data-url="/2016/07/29/mvn-deployto-nexus/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/fluidicon.png"
+               alt="clock bone" />
+          <p class="site-author-name" itemprop="name">clock bone</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、用命令上传jar包到本地仓库"><span class="nav-text">一、用命令上传jar包到本地仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、用nexus页面上传jar包到远程仓库"><span class="nav-text">二、用nexus页面上传jar包到远程仓库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、登录nexus"><span class="nav-text">1、登录nexus</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、选择左边的repository菜单"><span class="nav-text">2、选择左边的repository菜单</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、选择右边3rd-party"><span class="nav-text">3、选择右边3rd party</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、在artifact-Upload界面，填写参数"><span class="nav-text">4、在artifact Upload界面，填写参数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、mvn-clean-package出错"><span class="nav-text">三、mvn clean package出错</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、Nexus仓库"><span class="nav-text">四、Nexus仓库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、Nexus仓库与仓库组"><span class="nav-text">1、Nexus仓库与仓库组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、详细类型"><span class="nav-text">2、详细类型</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">clock bone</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"clockbone"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

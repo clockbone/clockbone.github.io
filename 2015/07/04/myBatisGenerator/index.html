@@ -1,0 +1,664 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="mybatis," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="MyBatis Generator是一个用来根据表结构自动生成对应model、sqlmapper、dao层代码的工具。当表结构比较复杂、sql语句比较多的时候，用这个工具可以节省开发时间同时也降低了手动编写sql时出现的一些错误。下面看看MyBatis Generator如何使用。
+一、传统的实现方法1、引入mybatis-generator-core jar包2、新建generatorConfi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyBatisGenerator 实现Model、sqlMap、dao自动生成">
+<meta property="og:url" content="/2015/07/04/myBatisGenerator/index.html">
+<meta property="og:site_name" content="clock |">
+<meta property="og:description" content="MyBatis Generator是一个用来根据表结构自动生成对应model、sqlmapper、dao层代码的工具。当表结构比较复杂、sql语句比较多的时候，用这个工具可以节省开发时间同时也降低了手动编写sql时出现的一些错误。下面看看MyBatis Generator如何使用。
+一、传统的实现方法1、引入mybatis-generator-core jar包2、新建generatorConfi">
+<meta property="og:updated_time" content="2017-01-10T10:55:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MyBatisGenerator 实现Model、sqlMap、dao自动生成">
+<meta name="twitter:description" content="MyBatis Generator是一个用来根据表结构自动生成对应model、sqlmapper、dao层代码的工具。当表结构比较复杂、sql语句比较多的时候，用这个工具可以节省开发时间同时也降低了手动编写sql时出现的一些错误。下面看看MyBatis Generator如何使用。
+一、传统的实现方法1、引入mybatis-generator-core jar包2、新建generatorConfi">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6290795255344137000,
+      author: 'clockbone'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="/2015/07/04/myBatisGenerator/"/>
+
+  <title> MyBatisGenerator 实现Model、sqlMap、dao自动生成 | clock | </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">clock |</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                MyBatisGenerator 实现Model、sqlMap、dao自动生成
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-04T15:32:25+08:00" content="2015-07-04">
+              2015-07-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/04/myBatisGenerator/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/04/myBatisGenerator/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>MyBatis Generator是一个用来根据表结构自动生成对应model、sqlmapper、dao层代码的工具。当表结构比较复杂、sql语句比较多的时候，用这个工具可以节省开发时间<br>同时也降低了手动编写sql时出现的一些错误。下面看看MyBatis Generator如何使用。</p>
+<h3 id="一、传统的实现方法"><a href="#一、传统的实现方法" class="headerlink" title="一、传统的实现方法"></a>一、传统的实现方法</h3><h4 id="1、引入mybatis-generator-core-jar包"><a href="#1、引入mybatis-generator-core-jar包" class="headerlink" title="1、引入mybatis-generator-core jar包"></a>1、引入<code>mybatis-generator-core jar</code>包</h4><h4 id="2、新建generatorConfig-xml文件，内容参考官方文档：-http-www-mybatis-org-generator-configreference-xmlconfig-html"><a href="#2、新建generatorConfig-xml文件，内容参考官方文档：-http-www-mybatis-org-generator-configreference-xmlconfig-html" class="headerlink" title="2、新建generatorConfig.xml文件，内容参考官方文档： http://www.mybatis.org/generator/configreference/xmlconfig.html"></a>2、新建<code>generatorConfig.xml</code>文件，内容参考官方文档： <a href="http://www.mybatis.org/generator/configreference/xmlconfig.html" target="_blank" rel="external">http://www.mybatis.org/generator/configreference/xmlconfig.html</a></h4><h4 id="3、执行命令-可根据实际情况自定义文件路径-内容参考官方文档：http-www-mybatis-org-generator-quickstart-html"><a href="#3、执行命令-可根据实际情况自定义文件路径-内容参考官方文档：http-www-mybatis-org-generator-quickstart-html" class="headerlink" title="3、执行命令(可根据实际情况自定义文件路径),内容参考官方文档：http://www.mybatis.org/generator/quickstart.html"></a>3、执行命令(可根据实际情况自定义文件路径),内容参考官方文档：<a href="http://www.mybatis.org/generator/quickstart.html" target="_blank" rel="external">http://www.mybatis.org/generator/quickstart.html</a></h4>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java -jar E:\repository\org\mybatis\generator\mybatis-generator-core\1.3.2\mybatis-generator-core-1.3.2.jar -configfile src\main\resources\generatorConfig.xml -overwrite</div></pre></td></tr></table></figure>
+   <a id="more"></a>
+<h4 id="4、给出一个具体的generatorConfig-xml文件如下："><a href="#4、给出一个具体的generatorConfig-xml文件如下：" class="headerlink" title="4、给出一个具体的generatorConfig.xml文件如下："></a>4、给出一个具体的<code>generatorConfig.xml</code>文件如下：</h4>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;!DOCTYPE generatorConfiguration</div><div class="line">        PUBLIC &quot;-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN&quot;</div><div class="line">        &quot;http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd&quot;&gt;</div><div class="line">&lt;generatorConfiguration&gt;</div><div class="line">    &lt;!-- mysql-connector-java-5.1.34.jar 包的路径--&gt;</div><div class="line">    &lt;classPathEntry location=&quot;E:\repository\mysql\mysql-connector-java\5.1.34\mysql-connector-java-5.1.34.jar&quot; /&gt;</div><div class="line"></div><div class="line">    &lt;context id=&quot;DB2Tables&quot; targetRuntime=&quot;MyBatis3&quot;&gt;</div><div class="line">        &lt;jdbcConnection driverClass=&quot;com.mysql.jdbc.Driver&quot;</div><div class="line">                        connectionURL=&quot;jdbc:mysql://localhost:3306/ssi_spring_security&quot;</div><div class="line">                        userId=&quot;root&quot;</div><div class="line">                        password=&quot;root&quot;&gt;</div><div class="line">        &lt;/jdbcConnection&gt;</div><div class="line"></div><div class="line">        &lt;!--  &lt;javaTypeResolver &gt;</div><div class="line">              &lt;property name=&quot;forceBigDecimals&quot; value=&quot;false&quot; /&gt;</div><div class="line">          &lt;/javaTypeResolver&gt;--&gt;</div><div class="line"></div><div class="line">         &lt;!-- 生成model--&gt;</div><div class="line">        &lt;javaModelGenerator targetPackage=&quot;com.clockpone.dynamicdao&quot; targetProject=&quot;src/main/java&quot;&gt;</div><div class="line">            &lt;!--&lt;property name=&quot;enableSubPackages&quot; value=&quot;true&quot; /&gt;</div><div class="line">            &lt;property name=&quot;trimStrings&quot; value=&quot;true&quot; /&gt;--&gt;</div><div class="line">        &lt;/javaModelGenerator&gt;</div><div class="line"></div><div class="line">        &lt;!-- 生成mapper文件--&gt;</div><div class="line">        &lt;sqlMapGenerator targetPackage=&quot;com.clockpone.dynamicdao&quot;  targetProject=&quot;src/main/resources&quot;&gt;</div><div class="line">            &lt;!-- &lt;property name=&quot;enableSubPackages&quot; value=&quot;true&quot; /&gt;--&gt;</div><div class="line">        &lt;/sqlMapGenerator&gt;</div><div class="line"></div><div class="line">        &lt;!-- 生成dao层代码文件--&gt;</div><div class="line">        &lt;javaClientGenerator type=&quot;XMLMAPPER&quot; targetPackage=&quot;com.clockpone.dynamicdao&quot;  targetProject=&quot;src/main/java&quot;&gt;</div><div class="line">            &lt;!-- &lt;property name=&quot;enableSubPackages&quot; value=&quot;true&quot; /&gt;--&gt;</div><div class="line">        &lt;/javaClientGenerator&gt;</div><div class="line"></div><div class="line">        &lt;table schema=&quot;user&quot; tableName=&quot;user&quot; domainObjectName=&quot;User&quot;&gt; &lt;!--domainObjectName=&quot;Customer&quot; --&gt;</div><div class="line">            &lt;!--  &lt;property name=&quot;useActualColumnNames&quot; value=&quot;true&quot;/&gt;</div><div class="line">              &lt;generatedKey column=&quot;ID&quot; sqlStatement=&quot;DB2&quot; identity=&quot;true&quot; /&gt;--&gt;</div><div class="line">            &lt;columnOverride column=&quot;UserId&quot; property=&quot;UserId&quot; /&gt;</div><div class="line">            &lt;columnOverride column=&quot;userName&quot; property=&quot;userName&quot; /&gt;</div><div class="line">            &lt;columnOverride column=&quot;userPassword&quot; property=&quot;userPassword&quot; /&gt;</div><div class="line">            &lt;columnOverride column=&quot;userNickName&quot; property=&quot;userNickName&quot; /&gt;</div><div class="line">            &lt;columnOverride column=&quot;userAge&quot; property=&quot;userAge&quot; /&gt;</div><div class="line">            &lt;columnOverride column=&quot;userSex&quot; property=&quot;userSex&quot; /&gt;</div><div class="line">            &lt;columnOverride column=&quot;userAddress&quot; property=&quot;userAddress&quot; /&gt;</div><div class="line">            &lt;columnOverride column=&quot;userPhone&quot; property=&quot;userPhone&quot; /&gt;</div><div class="line">            &lt;columnOverride column=&quot;userMail&quot; property=&quot;userMail&quot; /&gt;</div><div class="line">            &lt;columnOverride column=&quot;userQQ&quot; property=&quot;userQQ&quot; /&gt;</div><div class="line">            &lt;columnOverride column=&quot;regTime&quot; property=&quot;regTime&quot; /&gt;</div><div class="line">            &lt;columnOverride column=&quot;lastLogintime&quot; property=&quot;lastLogintime&quot; /&gt;</div><div class="line">            &lt;columnOverride column=&quot;level&quot; property=&quot;level&quot; /&gt;</div><div class="line">            &lt;columnOverride column=&quot;province&quot; property=&quot;province&quot; /&gt;</div><div class="line"></div><div class="line">            &lt;!-- &lt;ignoreColumn column=&quot;FRED&quot; /&gt;</div><div class="line">             &lt;columnOverride column=&quot;LONG_VARCHAR_FIELD&quot; jdbcType=&quot;VARCHAR&quot; /&gt;--&gt;</div><div class="line">        &lt;/table&gt;</div><div class="line">    &lt;/context&gt;</div><div class="line">&lt;/generatorConfiguration&gt;</div></pre></td></tr></table></figure>
+<h3 id="二、结合maven插件生成"><a href="#二、结合maven插件生成" class="headerlink" title="二、结合maven插件生成"></a>二、结合maven插件生成</h3><h4 id="1、引入mybatis-generator-core-jar包-1"><a href="#1、引入mybatis-generator-core-jar包-1" class="headerlink" title="1、引入mybatis-generator-core jar包"></a>1、引入<code>mybatis-generator-core jar</code>包</h4><h4 id="2、新建generatorConfig-xml文件，内容参考官方文档：-http-www-mybatis-org-generator-configreference-xmlconfig-html-1"><a href="#2、新建generatorConfig-xml文件，内容参考官方文档：-http-www-mybatis-org-generator-configreference-xmlconfig-html-1" class="headerlink" title="2、新建generatorConfig.xml文件，内容参考官方文档： http://www.mybatis.org/generator/configreference/xmlconfig.html"></a>2、新建<code>generatorConfig.xml</code>文件，内容参考官方文档： <a href="http://www.mybatis.org/generator/configreference/xmlconfig.html" target="_blank" rel="external">http://www.mybatis.org/generator/configreference/xmlconfig.html</a></h4><h4 id="3、引入maven插件，参考：http-www-mybatis-org-generator-running-runningWithMaven-html"><a href="#3、引入maven插件，参考：http-www-mybatis-org-generator-running-runningWithMaven-html" class="headerlink" title="3、引入maven插件，参考：http://www.mybatis.org/generator/running/runningWithMaven.html"></a>3、引入<code>maven</code>插件，参考：<a href="http://www.mybatis.org/generator/running/runningWithMaven.html" target="_blank" rel="external">http://www.mybatis.org/generator/running/runningWithMaven.html</a></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;!--自动生成mybatis xml文件插件--&gt;</div><div class="line">          &lt;plugin&gt;</div><div class="line">              &lt;groupId&gt;org.mybatis.generator&lt;/groupId&gt;</div><div class="line">              &lt;artifactId&gt;mybatis-generator-maven-plugin&lt;/artifactId&gt;</div><div class="line">              &lt;version&gt;1.3.1&lt;/version&gt;</div><div class="line">              &lt;configuration&gt;</div><div class="line">                  &lt;verbose&gt;true&lt;/verbose&gt;</div><div class="line">                  &lt;overwrite&gt;false&lt;/overwrite&gt;</div><div class="line">              &lt;/configuration&gt;</div><div class="line"></div><div class="line"></div><div class="line">              &lt;executions&gt;</div><div class="line">                  &lt;execution&gt;</div><div class="line">                      &lt;id&gt;Generate MyBatis Artifacts&lt;/id&gt;</div><div class="line">                      &lt;goals&gt;</div><div class="line">                          &lt;goal&gt;generate&lt;/goal&gt;</div><div class="line">                      &lt;/goals&gt;</div><div class="line">                  &lt;/execution&gt;</div><div class="line">              &lt;/executions&gt;</div><div class="line">          &lt;/plugin&gt;</div></pre></td></tr></table></figure>
+<h4 id="4、运行mvn-mybatis-generator-generate命令来生成代码。"><a href="#4、运行mvn-mybatis-generator-generate命令来生成代码。" class="headerlink" title="4、运行mvn mybatis-generator:generate命令来生成代码。"></a>4、运行<code>mvn mybatis-generator:generate</code>命令来生成代码。</h4>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mybatis/" rel="tag">#mybatis</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/03/redis-shell/" rel="next" title="redis-shell">
+                <i class="fa fa-chevron-left"></i> redis-shell
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/04/spring-jpa/" rel="prev" title="spring4实现xml零配置，jpa作为持久层">
+                spring4实现xml零配置，jpa作为持久层 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2015/07/04/myBatisGenerator/"
+     data-title="MyBatisGenerator 实现Model、sqlMap、dao自动生成"
+     data-content=""
+     data-url="/2015/07/04/myBatisGenerator/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/07/04/myBatisGenerator/"
+           data-title="MyBatisGenerator 实现Model、sqlMap、dao自动生成" data-url="/2015/07/04/myBatisGenerator/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/fluidicon.png"
+               alt="clock bone" />
+          <p class="site-author-name" itemprop="name">clock bone</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、传统的实现方法"><span class="nav-text">一、传统的实现方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、引入mybatis-generator-core-jar包"><span class="nav-text">1、引入mybatis-generator-core jar包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、新建generatorConfig-xml文件，内容参考官方文档：-http-www-mybatis-org-generator-configreference-xmlconfig-html"><span class="nav-text">2、新建generatorConfig.xml文件，内容参考官方文档： http://www.mybatis.org/generator/configreference/xmlconfig.html</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、执行命令-可根据实际情况自定义文件路径-内容参考官方文档：http-www-mybatis-org-generator-quickstart-html"><span class="nav-text">3、执行命令(可根据实际情况自定义文件路径),内容参考官方文档：http://www.mybatis.org/generator/quickstart.html</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、给出一个具体的generatorConfig-xml文件如下："><span class="nav-text">4、给出一个具体的generatorConfig.xml文件如下：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、结合maven插件生成"><span class="nav-text">二、结合maven插件生成</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、引入mybatis-generator-core-jar包-1"><span class="nav-text">1、引入mybatis-generator-core jar包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、新建generatorConfig-xml文件，内容参考官方文档：-http-www-mybatis-org-generator-configreference-xmlconfig-html-1"><span class="nav-text">2、新建generatorConfig.xml文件，内容参考官方文档： http://www.mybatis.org/generator/configreference/xmlconfig.html</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、引入maven插件，参考：http-www-mybatis-org-generator-running-runningWithMaven-html"><span class="nav-text">3、引入maven插件，参考：http://www.mybatis.org/generator/running/runningWithMaven.html</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、运行mvn-mybatis-generator-generate命令来生成代码。"><span class="nav-text">4、运行mvn mybatis-generator:generate命令来生成代码。</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">clock bone</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"clockbone"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

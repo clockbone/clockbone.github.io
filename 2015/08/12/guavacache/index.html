@@ -1,0 +1,677 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="guava,cache," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="缓存的主要作用是暂时在内存中保存业务系统的数据处理结果，并且等待下次访问时再次使用。在很多场景下对于经常会请求并且实时性要求不高的数缓存是很有必要的。当redis可以实现缓存，并且是基于第三方服务的缓存，也是比较常用的。这里来说明一下基于全内存的本地缓存实现，常用到基于内存的缓存有1、mybatis框架缓存2、guava cache缓存
+一、mytabis框架缓存mytabis框架缓存可用于数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="guavacache">
+<meta property="og:url" content="/2015/08/12/guavacache/index.html">
+<meta property="og:site_name" content="clock |">
+<meta property="og:description" content="缓存的主要作用是暂时在内存中保存业务系统的数据处理结果，并且等待下次访问时再次使用。在很多场景下对于经常会请求并且实时性要求不高的数缓存是很有必要的。当redis可以实现缓存，并且是基于第三方服务的缓存，也是比较常用的。这里来说明一下基于全内存的本地缓存实现，常用到基于内存的缓存有1、mybatis框架缓存2、guava cache缓存
+一、mytabis框架缓存mytabis框架缓存可用于数据库">
+<meta property="og:updated_time" content="2017-01-10T10:55:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="guavacache">
+<meta name="twitter:description" content="缓存的主要作用是暂时在内存中保存业务系统的数据处理结果，并且等待下次访问时再次使用。在很多场景下对于经常会请求并且实时性要求不高的数缓存是很有必要的。当redis可以实现缓存，并且是基于第三方服务的缓存，也是比较常用的。这里来说明一下基于全内存的本地缓存实现，常用到基于内存的缓存有1、mybatis框架缓存2、guava cache缓存
+一、mytabis框架缓存mytabis框架缓存可用于数据库">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 6290795255344137000,
+      author: 'clockbone'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="/2015/08/12/guavacache/"/>
+
+  <title> guavacache | clock | </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">clock |</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                guavacache
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-08-12T16:20:59+08:00" content="2015-08-12">
+              2015-08-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/08/12/guavacache/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/12/guavacache/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>缓存的主要作用是暂时在内存中保存业务系统的数据处理结果，并且等待下次访问时再次使用。在很多场景下对于经常会请求并且实时性要求不高的数缓存是很有必要的。<br>当redis可以实现缓存，并且是基于第三方服务的缓存，也是比较常用的。这里来说明一下基于全内存的本地缓存实现，常用到基于内存的缓存有1、mybatis框架缓存2、guava cache缓存</p>
+<h3 id="一、mytabis框架缓存"><a href="#一、mytabis框架缓存" class="headerlink" title="一、mytabis框架缓存"></a>一、mytabis框架缓存</h3><p>mytabis框架缓存可用于数据库查找等数据的缓存</p>
+<h4 id="1、添加缓存依赖"><a href="#1、添加缓存依赖" class="headerlink" title="1、添加缓存依赖"></a>1、添加缓存依赖</h4><a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">            &lt;groupId&gt;com.googlecode.ehcache-spring-annotations&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;ehcache-spring-annotations&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;1.2.0&lt;/version&gt;</div><div class="line">            &lt;exclusions&gt;</div><div class="line">                &lt;exclusion&gt;</div><div class="line">                    &lt;groupId&gt;org.springframework&lt;/groupId&gt;</div><div class="line">                    &lt;artifactId&gt;spring-aop&lt;/artifactId&gt;</div><div class="line">                &lt;/exclusion&gt;</div><div class="line">                &lt;exclusion&gt;</div><div class="line">                    &lt;groupId&gt;org.springframework&lt;/groupId&gt;</div><div class="line">                    &lt;artifactId&gt;spring-core&lt;/artifactId&gt;</div><div class="line">                &lt;/exclusion&gt;</div><div class="line">            &lt;/exclusions&gt;</div><div class="line">        &lt;/dependency&gt;</div><div class="line"></div><div class="line">        &lt;dependency&gt;</div><div class="line">            &lt;groupId&gt;org.springframework&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;spring-context-support&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;4.1.6.RELEASE&lt;/version&gt;</div><div class="line">        &lt;/dependency&gt;</div></pre></td></tr></table></figure>
+<p>这里需要注意jar的冲突，如果有jar包冲突就如上解决冲突jar，如果没有就不用</p>
+<h4 id="2、整合合spring配置如下"><a href="#2、整合合spring配置如下" class="headerlink" title="2、整合合spring配置如下"></a>2、整合合spring配置如下</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;ehcache:annotation-driven cache-manager=&quot;cacheManager&quot; proxy-target-class=&quot;true&quot;/&gt;</div><div class="line"></div><div class="line">	&lt;ehcache:config cache-manager=&quot;cacheManager&quot;&gt;</div><div class="line">		&lt;ehcache:evict-expired-elements</div><div class="line">			interval=&quot;60&quot; /&gt;</div><div class="line">	&lt;/ehcache:config&gt;</div><div class="line"></div><div class="line">	&lt;bean id=&quot;cacheManager&quot; class=&quot;org.springframework.cache.ehcache.EhCacheManagerFactoryBean&quot;&gt;</div><div class="line">        &lt;property name=&quot;configLocation&quot;  value=&quot;classpath:ehcache.xml&quot;/&gt;</div><div class="line">    &lt;/bean&gt;</div></pre></td></tr></table></figure>
+<p>其中ehcache.xml如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</div><div class="line">&lt;ehcache xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</div><div class="line">	xsi:noNamespaceSchemaLocation=&quot;http://ehcache.org/ehcache.xsd&quot;</div><div class="line">	updateCheck=&quot;false&quot;&gt;</div><div class="line">	&lt;diskStore path=&quot;java.io.tmpdir&quot; /&gt;</div><div class="line"></div><div class="line">    &lt;defaultCache maxElementsInMemory=&quot;10000&quot; eternal=&quot;false&quot; timeToIdleSeconds=&quot;30&quot; timeToLiveSeconds=&quot;30&quot; overflowToDisk=&quot;false&quot;/&gt;</div><div class="line">    &lt;!--</div><div class="line">        配置自定义缓存</div><div class="line">        maxElementsInMemory：缓存中允许创建的最大对象数</div><div class="line">        eternal：缓存中对象是否为永久的，如果是，超时设置将被忽略，对象从不过期。</div><div class="line">        timeToIdleSeconds：缓存数据的钝化时间，也就是在一个元素消亡之前，</div><div class="line">                    两次访问时间的最大时间间隔值，这只能在元素不是永久驻留时有效，</div><div class="line">                    如果该值是 0 就意味着元素可以停顿无穷长的时间。</div><div class="line">        timeToLiveSeconds：缓存数据的生存时间，也就是一个元素从构建到消亡的最大时间间隔值，</div><div class="line">                    这只能在元素不是永久驻留时有效，如果该值是0就意味着元素可以停顿无穷长的时间。</div><div class="line">        overflowToDisk：内存不足时，是否启用磁盘缓存。</div><div class="line">        memoryStoreEvictionPolicy：缓存满了之后的淘汰算法。</div><div class="line">    --&gt;</div><div class="line">	&lt;cache name=&quot;preCache&quot;</div><div class="line">		eternal=&quot;false&quot;</div><div class="line">		maxElementsInMemory=&quot;50&quot;</div><div class="line">		overflowToDisk=&quot;false&quot;</div><div class="line">		diskPersistent=&quot;false&quot;</div><div class="line">		timeToIdleSeconds=&quot;0&quot;</div><div class="line">		timeToLiveSeconds=&quot;30&quot;</div><div class="line">		memoryStoreEvictionPolicy=&quot;LRU&quot; /&gt;</div><div class="line">    &lt;/ehcache&gt;</div></pre></td></tr></table></figure></p>
+<h4 id="3、代码中运用"><a href="#3、代码中运用" class="headerlink" title="3、代码中运用"></a>3、代码中运用</h4><p>可以在需要缓存的方法前加cache注解，如在一个service方法上添加@Cacheable<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">@Cacheable(cacheName = &quot;preCache&quot;)</div><div class="line">    public Test getType(String type)&#123;</div><div class="line">        Test test = mapper.getType(type);</div><div class="line">        //to do something</div><div class="line">        return test;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<h4 id="4、测试"><a href="#4、测试" class="headerlink" title="4、测试"></a>4、测试</h4><p>可以用test类来调用getType 类2次，以debug日志级别观察sql语句打印次数，发现几次调用只有一次sql的执行。</p>
+<h3 id="二、guava-cache缓存"><a href="#二、guava-cache缓存" class="headerlink" title="二、guava cache缓存"></a>二、guava cache缓存</h3><p>可用于数据库数据结果集缓存，或常用接口数据缓存</p>
+<h4 id="1、先引入guava依赖"><a href="#1、先引入guava依赖" class="headerlink" title="1、先引入guava依赖"></a>1、先引入guava依赖</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;com.google.guava&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;guava&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;19.0&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
+<h4 id="2、以登录后缓存登录用户信息为例"><a href="#2、以登录后缓存登录用户信息为例" class="headerlink" title="2、以登录后缓存登录用户信息为例"></a>2、以登录后缓存登录用户信息为例</h4><p>功能描述：当用户登录后，需要根据用户id获取用户信息，并且用户信息使用频繁，可用guava缓存<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">@Component</div><div class="line">public class AccountCache &#123;</div><div class="line">    @Autowired</div><div class="line">    private Mapper mapper;</div><div class="line">    @Autowired private EnvService envService;</div><div class="line"></div><div class="line">    //定义缓存变量</div><div class="line">    private final LoadingCache&lt;String, Account&gt; cache;</div><div class="line"></div><div class="line">    @Autowired</div><div class="line">    public AccountCache(final MyHttpClient myHttpClient) &#123;</div><div class="line">        //定义写入缓存的方法</div><div class="line">        this.cache = CacheBuilder.newBuilder().expireAfterAccess(30L, TimeUnit.MINUTES).maximumSize(100000).</div><div class="line">                build(new CacheLoader&lt;String, Account&gt;() &#123;</div><div class="line">                    @Override</div><div class="line">                    public Account load(String id) throws Exception &#123;</div><div class="line">                        Map&lt;String, Object&gt; map=new HashMap&lt;String, Object&gt;();</div><div class="line">                            map.put(&quot;id&quot;, id);</div><div class="line">                            User user=mapper.getUserInfo(map);</div><div class="line">                            if (user!=null) &#123;</div><div class="line">                                account.setName(user.getName());</div><div class="line">                            &#125;else&#123;</div><div class="line">                               return null;</div><div class="line">                            &#125;</div><div class="line">                           String Url=&quot;/AccountInfo/&quot;+ URLEncoder.encode(user.getName, &quot;UTF-8&quot;);</div><div class="line">                           Account account;</div><div class="line">                           try &#123;</div><div class="line">                               String result=myHttpClient.readContentFromGet(envService.getRoot()+Url);</div><div class="line">                               account = JSON.parseObject(result, Account.class);</div><div class="line">                           &#125; catch (Exception e) &#123;</div><div class="line">                               return null;</div><div class="line">                           &#125;</div><div class="line">                           if (StringUtils.isEmpty(account.getId())) &#123;</div><div class="line">                               return null;</div><div class="line">                           &#125;</div><div class="line">                           return account;</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">    &#125;</div><div class="line">    //获取用户信息时调用这个方法</div><div class="line">    public Account getAccountById(String roleName)&#123;</div><div class="line">       return  this.cache.getUnchecked(roleName);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以用test类，连续几次调用<code>getAccountById</code>方法，发现短是时间为在，只有一次调用，其它都是直接从缓存获取</p>
+<h4 id="3、以不常更新数据为例"><a href="#3、以不常更新数据为例" class="headerlink" title="3、以不常更新数据为例"></a>3、以不常更新数据为例</h4><h5 id="a、新建一个缓存变量类"><a href="#a、新建一个缓存变量类" class="headerlink" title="a、新建一个缓存变量类"></a>a、新建一个缓存变量类</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">public class TeamInfoCache &#123;</div><div class="line">    //可以定义各种不同的缓存变量，用于需要缓存的数据,参数可根据需求再定,Cache泛型第一个参数表示：获取不同缓存关键值类型，第二个参数表示：缓存结果集类型</div><div class="line">    public static final Cache&lt;String,Map&lt;String,Map&lt;String,List&lt;Test&gt;&gt;&gt;&gt; TestCache = CacheBuilder.newBuilder()</div><div class="line">            .expireAfterAccess(10, TimeUnit.MINUTES)</div><div class="line">            .build();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="b、缓存调用及实现"><a href="#b、缓存调用及实现" class="headerlink" title="b、缓存调用及实现"></a>b、缓存调用及实现</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">public  Map&lt;String,Map&lt;String,List&lt;TeamInfo&gt;&gt;&gt;  getTestInfo(String areaId,String level)&#123;</div><div class="line">        final  Map&lt;String,Map&lt;String,List&lt;Test&gt;&gt;&gt; arealMap = new HashMap&lt;String,Map&lt;String,List&lt;Test&gt;&gt;&gt;();</div><div class="line">        try &#123;</div><div class="line">            TeamInfoCache.TeamInfoCache.get(&quot;testInfo&quot;, new Callable&lt;Map&lt;String,Map&lt;String,List&lt;Test&gt;&gt;&gt;&gt;() &#123;</div><div class="line">                @Override</div><div class="line">                public Map&lt;String,Map&lt;String,List&lt;Test&gt;&gt;&gt; call() throws Exception &#123;</div><div class="line">                    for(Type a:Type.values())&#123;</div><div class="line">                        String area = a.getCode();</div><div class="line">                        Map&lt;String,List&lt;Test&gt;&gt; levelMap = new HashMap&lt;String,List&lt;Test&gt;&gt;();</div><div class="line">                        for (level c : level.values()) &#123;</div><div class="line">                            String l = c.getCode();</div><div class="line">                            List&lt;TeamInfo&gt; listt = mainMapper.getTestInfo(area,l);</div><div class="line">                            levelMap.put(area+l,listt);</div><div class="line">                        &#125;</div><div class="line">                        arealMap.put(area,levelMap);</div><div class="line">                    &#125;</div><div class="line">                    return arealMap;</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">        &#125; catch (ExecutionException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">            return null;</div><div class="line">        &#125;</div><div class="line">        return arealMap;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h5 id="c、测试"><a href="#c、测试" class="headerlink" title="c、测试"></a>c、测试</h5><p>可用一个test类，连续调用<code>getTestInfo</code>缓存方法，可观察结果</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/guava/" rel="tag">#guava</a>
+          
+            <a href="/tags/cache/" rel="tag">#cache</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/04/spring-jpa/" rel="next" title="spring4实现xml零配置，jpa作为持久层">
+                <i class="fa fa-chevron-left"></i> spring4实现xml零配置，jpa作为持久层
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/14/wagon-maven-plugin/" rel="prev" title="在打包时就推送项目到远程服务器的maven插件wagon-maven-plugin">
+                在打包时就推送项目到远程服务器的maven插件wagon-maven-plugin <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2015/08/12/guavacache/"
+     data-title="guavacache"
+     data-content=""
+     data-url="/2015/08/12/guavacache/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/08/12/guavacache/"
+           data-title="guavacache" data-url="/2015/08/12/guavacache/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/fluidicon.png"
+               alt="clock bone" />
+          <p class="site-author-name" itemprop="name">clock bone</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、mytabis框架缓存"><span class="nav-text">一、mytabis框架缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、添加缓存依赖"><span class="nav-text">1、添加缓存依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、整合合spring配置如下"><span class="nav-text">2、整合合spring配置如下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、代码中运用"><span class="nav-text">3、代码中运用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、测试"><span class="nav-text">4、测试</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、guava-cache缓存"><span class="nav-text">二、guava cache缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、先引入guava依赖"><span class="nav-text">1、先引入guava依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、以登录后缓存登录用户信息为例"><span class="nav-text">2、以登录后缓存登录用户信息为例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、以不常更新数据为例"><span class="nav-text">3、以不常更新数据为例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#a、新建一个缓存变量类"><span class="nav-text">a、新建一个缓存变量类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#b、缓存调用及实现"><span class="nav-text">b、缓存调用及实现</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#c、测试"><span class="nav-text">c、测试</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2015</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">clock bone</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"clockbone"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
