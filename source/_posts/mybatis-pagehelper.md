@@ -4,11 +4,11 @@ date: 2017-01-11 12:22:06
 tags:
 ---
 
-1、官方介绍：
+### 1、官方介绍：
 https://github.com/pagehelper/Mybatis-PageHelper/blob/master/README_zh.md
 官方介绍文档中已经说明了详细的配置方法和使用方法，这里不再详细介绍。
-2、简单说一下本项目的配置案例。
-a、spring配置文 件
+### 2、简单说一下本项目的配置案例。
+#### a、spring配置文 件
 
 ```
 <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -28,7 +28,7 @@ a、spring配置文 件
 </bean>
 ```
 <!-- more -->
-b、代码中使用
+#### b、代码中使用
 在使用前需要仔细查看官方一些使用提示如：
 https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/zh/Important.md
 ```
@@ -45,10 +45,10 @@ page.getTotal();
 page.size();
 assertEquals(182, ((Page) list).getTotal());
 ```
-3、重要提示：
+### 3、重要提示：
 > 需要注意什么时候会导致不安全的分页?
 
-4、PageHelper分页实现原理说明
+### 4、PageHelper分页实现原理说明
 ```
 //设置分页信息保存到threadlocal中
 PageHelper.startPage(1, 10);
