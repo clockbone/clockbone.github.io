@@ -84,16 +84,19 @@
 
 
 
-<meta name="description" content="redis是现在运用比较广泛的缓存服务器，如果我们能登录redis服务器并熟练运用redis下各种命令，那么在java项目运用redis就更加容易。学习redis下各种命令可以参考：http://doc.redisfans.com/redis官网提供了jar包来支持redis在java开发的运用，下面结合redis命令来介绍redis在java项目中的运用：首先了解下redis支持的数据类型：st">
+<meta name="description" content="问题描述在通过redis缓存进行了一系列的接口性能优化后,大部分接口返回在1ms~200ms间,这都是redis的功劳,但随着接口redis缓存越来越多,新的问题产生了,从redis取数据竟然用了5s = =,通过观察日志,并不是每次取数据都是5s,大部分情况从redis取数据还是很快的不会超过5ms,
+解决1 在查看代码后,发现有些redis的key设计的过长,于是首先重命名了rediskey尽">
 <meta property="og:type" content="article">
-<meta property="og:title" content="redis应用">
-<meta property="og:url" content="/2015/04/15/redis-app/index.html">
+<meta property="og:title" content="redis优化">
+<meta property="og:url" content="/2017/06/22/redis-optimize/index.html">
 <meta property="og:site_name" content="clock |">
-<meta property="og:description" content="redis是现在运用比较广泛的缓存服务器，如果我们能登录redis服务器并熟练运用redis下各种命令，那么在java项目运用redis就更加容易。学习redis下各种命令可以参考：http://doc.redisfans.com/redis官网提供了jar包来支持redis在java开发的运用，下面结合redis命令来介绍redis在java项目中的运用：首先了解下redis支持的数据类型：st">
-<meta property="og:updated_time" content="2017-01-10T10:55:34.000Z">
+<meta property="og:description" content="问题描述在通过redis缓存进行了一系列的接口性能优化后,大部分接口返回在1ms~200ms间,这都是redis的功劳,但随着接口redis缓存越来越多,新的问题产生了,从redis取数据竟然用了5s = =,通过观察日志,并不是每次取数据都是5s,大部分情况从redis取数据还是很快的不会超过5ms,
+解决1 在查看代码后,发现有些redis的key设计的过长,于是首先重命名了rediskey尽">
+<meta property="og:updated_time" content="2017-06-22T08:01:55.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="redis应用">
-<meta name="twitter:description" content="redis是现在运用比较广泛的缓存服务器，如果我们能登录redis服务器并熟练运用redis下各种命令，那么在java项目运用redis就更加容易。学习redis下各种命令可以参考：http://doc.redisfans.com/redis官网提供了jar包来支持redis在java开发的运用，下面结合redis命令来介绍redis在java项目中的运用：首先了解下redis支持的数据类型：st">
+<meta name="twitter:title" content="redis优化">
+<meta name="twitter:description" content="问题描述在通过redis缓存进行了一系列的接口性能优化后,大部分接口返回在1ms~200ms间,这都是redis的功劳,但随着接口redis缓存越来越多,新的问题产生了,从redis取数据竟然用了5s = =,通过观察日志,并不是每次取数据都是5s,大部分情况从redis取数据还是很快的不会超过5ms,
+解决1 在查看代码后,发现有些redis的key设计的过长,于是首先重命名了rediskey尽">
 
 
 
@@ -114,9 +117,9 @@
 
 
 
-  <link rel="canonical" href="/2015/04/15/redis-app/"/>
+  <link rel="canonical" href="/2017/06/22/redis-optimize/"/>
 
-  <title> redis应用 | clock | </title>
+  <title> redis优化 | clock | </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -246,7 +249,7 @@
             
             
               
-                redis应用
+                redis优化
               
             
           </h1>
@@ -258,8 +261,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-04-15T10:26:52+08:00" content="2015-04-15">
-              2015-04-15
+            <time itemprop="dateCreated" datetime="2017-06-22T15:32:31+08:00" content="2017-06-22">
+              2017-06-22
             </time>
           </span>
 
@@ -288,8 +291,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/04/15/redis-app/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/15/redis-app/" itemprop="commentsCount"></span>
+                <a href="/2017/06/22/redis-optimize/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/06/22/redis-optimize/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -312,24 +315,13 @@
       
 
       
-        <p>redis是现在运用比较广泛的缓存服务器，如果我们能登录redis服务器并熟练运用redis下各种命令，那么在java项目运用redis就更加容易。<br>学习redis下各种命令可以参考：<a href="http://doc.redisfans.com/" target="_blank" rel="external">http://doc.redisfans.com/</a><br>redis官网提供了jar包来支持redis在java开发的运用，下面结合redis命令来介绍redis在java项目中的运用：<br>首先了解下redis支持的数据类型：<code>string</code>、<code>set</code>、<code>hash</code>、<code>list</code><br>上面这4种类型也是在应用程序中经常会用到的，下面看看如何运用</p>
-<h3 id="一、存储string类型"><a href="#一、存储string类型" class="headerlink" title="一、存储string类型"></a>一、存储string类型</h3><p> redis下命令为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SET key value</div><div class="line">GET key</div></pre></td></tr></table></figure></p>
-<a id="more"></a>
-<p><code>string类型运用</code>：可存储一个简单的string类型，也可将java复杂对象转成json格式字符串存储，根据key取出后再解析josn串也是一种很方便的做法。</p>
-<h3 id="二、有序的set集合"><a href="#二、有序的set集合" class="headerlink" title="二、有序的set集合"></a>二、有序的set集合</h3><p>命令存储：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ZADD key score member [[score member] [score member] ...]</div></pre></td></tr></table></figure></p>
-<p> 因为是有序的set集合，<code>score</code>为存储的序列号，<code>member</code>为值<br> 应用：<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">for(int i=0;i&lt;listLength;i++)&#123;</div><div class="line">    zadd key i list.get(i)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p> 读取：<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis &gt; ZRANGE salary 0 -1 WITHSCORES  # 显示整个有序集成员</div></pre></td></tr></table></figure></p>
-<p><code>WITHSCORES</code>参数:表示显示序号<br><code>有序的set集合运用</code>：可用来存储有序的菜单，当然这里也可用list来存，因为List本身就是用序的，但list不可控制其重复性。</p>
-<h3 id="三、set集合"><a href="#三、set集合" class="headerlink" title="三、set集合"></a>三、set集合</h3><p>存储：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SADD bbs &quot;discuz.net&quot;</div></pre></td></tr></table></figure></p>
-<p>  读取：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SMEMBERS bbs</div></pre></td></tr></table></figure></p>
-<h3 id="四、hash类型"><a href="#四、hash类型" class="headerlink" title="四、hash类型"></a>四、hash类型</h3><p>存储：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">HSET key field value</div></pre></td></tr></table></figure></p>
-<p>读取：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">读取一个属性：  HGET key field</div><div class="line">读取所有：     HGETALL key</div></pre></td></tr></table></figure></p>
-<p><code>hash</code>类型一般可用来存储一个java对象,这里的<code>field</code>就对应java对象里面定义的属性。一般当hgetall命令可直接将取出来的所有属性转化为相应的java对象存储</p>
-<h3 id="五、list类型"><a href="#五、list类型" class="headerlink" title="五、list类型"></a>五、list类型</h3><p>list集合<br>查看list下所有元素：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lrange mylist 0 -1</div></pre></td></tr></table></figure></p>
-<p>写值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lpush mylist value1 value2 value3</div></pre></td></tr></table></figure></p>
-<p>list可以写重复的值限 <code>lpush mylist &#39;test&#39; &#39;test&#39; &#39;test&#39;</code><br>三个test值 都可以写到list里面去</p>
-<p>与set的区别是<br>set的值只会有一个 如  <code>sadd mykey   &#39;test&#39;  &#39;test&#39;</code><br>只会写进去一个 test 值</p>
-<h3 id="6、其它"><a href="#6、其它" class="headerlink" title="6、其它"></a>6、其它</h3><p>redis连接环境：<br>连接redis:<code>redis-cli -p 1221</code><br>查看所有key:<code>keys *</code></p>
+        <h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>在通过redis缓存进行了一系列的接口性能优化后,大部分接口返回在1ms~200ms间,这都是redis的功劳,但随着接口redis缓存越来越多,新的问题产生了,从redis取数据竟然用了5s = =,通过观察日志,并不是每次取数据都是5s,<br>大部分情况从redis取数据还是很快的不会超过5ms,</p>
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>1 在查看代码后,发现有些redis的key设计的过长,于是首先重命名了rediskey尽量减少其长度,但观察发现这种情况还<br>是存在,并且观察日志,redis取数据长的问题大概隔一段时间才发生<br>2 查看redis配置,发现redis初始化线程大小没有设置= =,需要知道的是redis实始化线程大默认是0,在了解redis模式<br>和服务器端设置的连数大小后,果断加上redis初始化线程大小.问题解决,如果以后发现这种问题,但检察初始连接数已配置,可考虑初始连接数是否配置过小.</p>
+<blockquote>
+<p>注意:<br>redis初始化线程数大小是需要根据redis并发数来设置的.</p>
+</blockquote>
+<p>首先确定本项目reids是从主模式,单机配置,和服务端设置的最大连接数为10000,以及综合考虑redis并发数大小<br>所以redis初始化连接数大小设置 100,具体redis配置如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;bean id=&quot;jedisPoolConfig&quot; class=&quot;redis.clients.jedis.JedisPoolConfig&quot;&gt;</div><div class="line">        &lt;!--最大连接连接--&gt;</div><div class="line">      	&lt;property name=&quot;maxTotal&quot; value=&quot;500&quot; /&gt;</div><div class="line">      	&lt;!--最大空闲连接数,在连接空闲一段时间后,会自动回收,并恢复到最小空闲连接数个数--&gt;</div><div class="line">        &lt;property name=&quot;maxIdle&quot; value=&quot;300&quot;/&gt;</div><div class="line">        &lt;!--初始化连接数或最小空闲连接--&gt;</div><div class="line">        &lt;property name=&quot;minIdle&quot; value=&quot;100&quot;/&gt;</div><div class="line">         &lt;!--最大等待连接数--&gt;</div><div class="line">        &lt;property name=&quot;maxWaitMillis&quot; value=&quot;2000&quot; /&gt;</div><div class="line">        &lt;property name=&quot;testOnBorrow&quot; value=&quot;true&quot;/&gt;</div><div class="line">    &lt;/bean&gt;</div></pre></td></tr></table></figure></p>
+<p>在配置完连接数后,还可观察redis目前最大连数,最小连接数,来适当调整redis连接数大小</p>
 
       
     </div>
@@ -361,17 +353,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/09/02/chinesegarbled/" rel="next" title="tomcat request.getParameter() 乱码解释">
-                <i class="fa fa-chevron-left"></i> tomcat request.getParameter() 乱码解释
+              <a href="/2017/01/11/mybatis-pagehelper/" rel="next" title="mybatis使用PageHelper分页插件原理">
+                <i class="fa fa-chevron-left"></i> mybatis使用PageHelper分页插件原理
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/05/24/Hexo-create/" rel="prev" title="Hexo、github搭建属于自己的blog">
-                Hexo、github搭建属于自己的blog <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -386,10 +374,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2015/04/15/redis-app/"
-     data-title="redis应用"
+        <div class="ds-share flat" data-thread-key="2017/06/22/redis-optimize/"
+     data-title="redis优化"
      data-content=""
-     data-url="/2015/04/15/redis-app/">
+     data-url="/2017/06/22/redis-optimize/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -416,8 +404,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2015/04/15/redis-app/"
-           data-title="redis应用" data-url="/2015/04/15/redis-app/">
+      <div class="ds-thread" data-thread-key="2017/06/22/redis-optimize/"
+           data-title="redis优化" data-url="/2017/06/22/redis-optimize/">
       </div>
     
   </div>
@@ -519,7 +507,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、存储string类型"><span class="nav-text">一、存储string类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、有序的set集合"><span class="nav-text">二、有序的set集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、set集合"><span class="nav-text">三、set集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、hash类型"><span class="nav-text">四、hash类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、list类型"><span class="nav-text">五、list类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、其它"><span class="nav-text">6、其它</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题描述"><span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决"><span class="nav-text">解决</span></a></li></ol></div>
             
           </div>
         </section>
