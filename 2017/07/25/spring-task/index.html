@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="redis," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -84,36 +84,19 @@
 
 
 
-<meta name="description" content="Redis-Server 集群指南
-一、服务命令1、启动顺序12341. Master2. Slave13. Slave24. Monitor
-2、启动命令+ Master
-1234# 启动session主sudo service redis-session start# 启动site主sudo service redis-site start
-
-+ Slave1
-1234# 启动session">
+<meta name="description" content="前言主要记录在项目中使用spring-taks作为定时任务需要注意的地方
+一、spring-task 配置文件123456&amp;lt;!--使用注解方式启动task --&amp;gt;&amp;lt;task:annotation-driven /&amp;gt;&amp;lt;task:scheduled-tasks &amp;gt;    &amp;lt;task:scheduled ref=&amp;quot;serviceTestTask&amp;quo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="redis-shell">
-<meta property="og:url" content="/2015/06/03/redis-shell/index.html">
+<meta property="og:title" content="定时任务之spring-task">
+<meta property="og:url" content="/2017/07/25/spring-task/index.html">
 <meta property="og:site_name" content="clock |">
-<meta property="og:description" content="Redis-Server 集群指南
-一、服务命令1、启动顺序12341. Master2. Slave13. Slave24. Monitor
-2、启动命令+ Master
-1234# 启动session主sudo service redis-session start# 启动site主sudo service redis-site start
-
-+ Slave1
-1234# 启动session">
-<meta property="og:image" content="http://redis.io/images/redis-small.png">
-<meta property="og:updated_time" content="2017-01-10T10:55:34.000Z">
+<meta property="og:description" content="前言主要记录在项目中使用spring-taks作为定时任务需要注意的地方
+一、spring-task 配置文件123456&amp;lt;!--使用注解方式启动task --&amp;gt;&amp;lt;task:annotation-driven /&amp;gt;&amp;lt;task:scheduled-tasks &amp;gt;    &amp;lt;task:scheduled ref=&amp;quot;serviceTestTask&amp;quo">
+<meta property="og:updated_time" content="2017-07-25T12:25:56.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="redis-shell">
-<meta name="twitter:description" content="Redis-Server 集群指南
-一、服务命令1、启动顺序12341. Master2. Slave13. Slave24. Monitor
-2、启动命令+ Master
-1234# 启动session主sudo service redis-session start# 启动site主sudo service redis-site start
-
-+ Slave1
-1234# 启动session">
-<meta name="twitter:image" content="http://redis.io/images/redis-small.png">
+<meta name="twitter:title" content="定时任务之spring-task">
+<meta name="twitter:description" content="前言主要记录在项目中使用spring-taks作为定时任务需要注意的地方
+一、spring-task 配置文件123456&amp;lt;!--使用注解方式启动task --&amp;gt;&amp;lt;task:annotation-driven /&amp;gt;&amp;lt;task:scheduled-tasks &amp;gt;    &amp;lt;task:scheduled ref=&amp;quot;serviceTestTask&amp;quo">
 
 
 
@@ -134,9 +117,9 @@
 
 
 
-  <link rel="canonical" href="/2015/06/03/redis-shell/"/>
+  <link rel="canonical" href="/2017/07/25/spring-task/"/>
 
-  <title> redis-shell | clock | </title>
+  <title> 定时任务之spring-task | clock | </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -266,7 +249,7 @@
             
             
               
-                redis-shell
+                定时任务之spring-task
               
             
           </h1>
@@ -278,38 +261,19 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-03T00:18:25+08:00" content="2015-06-03">
-              2015-06-03
+            <time itemprop="dateCreated" datetime="2017-07-25T19:54:24+08:00" content="2017-07-25">
+              2017-07-25
             </time>
           </span>
 
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/redis/" itemprop="url" rel="index">
-                    <span itemprop="name">redis</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/06/03/redis-shell/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/03/redis-shell/" itemprop="commentsCount"></span>
+                <a href="/2017/07/25/spring-task/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/07/25/spring-task/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -332,18 +296,17 @@
       
 
       
-        <h1 id="Redis-Server-集群指南"><a href="#Redis-Server-集群指南" class="headerlink" title=" Redis-Server 集群指南"></a><img src="http://redis.io/images/redis-small.png" alt=""> Redis-Server 集群指南</h1><hr>
-<h3 id="一、服务命令"><a href="#一、服务命令" class="headerlink" title="一、服务命令"></a>一、服务命令</h3><h4 id="1、启动顺序"><a href="#1、启动顺序" class="headerlink" title="1、启动顺序"></a>1、启动顺序</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">1. Master</div><div class="line">2. Slave1</div><div class="line">3. Slave2</div><div class="line">4. Monitor</div></pre></td></tr></table></figure>
-<h4 id="2、启动命令"><a href="#2、启动命令" class="headerlink" title="2、启动命令"></a>2、启动命令</h4><pre><code>+ Master
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># 启动session主</div><div class="line">sudo service redis-session start</div><div class="line"># 启动site主</div><div class="line">sudo service redis-site start</div></pre></td></tr></table></figure>
-
-+ Slave1
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># 启动session从1</div><div class="line">sudo service redis-session start</div><div class="line"># 启动site从1</div><div class="line">sudo service redis-site start</div></pre></td></tr></table></figure>
-<pre><code>+ Slave2
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># 启动session从2</div><div class="line">sudo service redis-session start</div><div class="line"># 启动site从2</div><div class="line">sudo service redis-site start</div></pre></td></tr></table></figure>
-<pre><code>+ Monitor
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 启动 Monitor</div><div class="line">sudo service redis-monitor start</div></pre></td></tr></table></figure>
-</code></pre><h3 id="二、CLI-命令集"><a href="#二、CLI-命令集" class="headerlink" title="二、CLI 命令集"></a>二、CLI 命令集</h3><p>请参考 <a href="http://redis.readthedocs.org/en/latest/" target="_blank" rel="external">这里</a></p>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>主要记录在项目中使用spring-taks作为定时任务需要注意的地方</p>
+<h3 id="一、spring-task-配置文件"><a href="#一、spring-task-配置文件" class="headerlink" title="一、spring-task 配置文件"></a>一、spring-task 配置文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;!--使用注解方式启动task --&gt;</div><div class="line">&lt;task:annotation-driven /&gt;</div><div class="line">&lt;task:scheduled-tasks &gt;</div><div class="line">    &lt;task:scheduled ref=&quot;serviceTestTask&quot; method=&quot;test1&quot; cron=&quot;0 0/30 0,1,2,3,4,22,23 * * ?&quot; /&gt;</div><div class="line">    &lt;task:scheduled ref=&quot;serviceTestTask&quot; method=&quot;test2&quot; cron=&quot;0 0/30 0,1,2,3,4,22,23 * * ?&quot; /&gt;</div><div class="line">&lt;/task:scheduled-tasks&gt;</div></pre></td></tr></table></figure>
+<p>大概只要这样配置就可以运行了,注意这样的配置,单个定时任务之间是串行的,就是说一个时间点只有一个job在执<br>行,因为spring-task默认的线程数是1,但我们需要的是在不同的定进任务之间是并行,需要修改成:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;!--使用注解方式启动task --&gt;</div><div class="line">&lt;task:annotation-driven /&gt;</div><div class="line">&lt;task:scheduled-tasks  pool-size=&quot;5&quot; &gt;</div><div class="line">    &lt;task:scheduled ref=&quot;serviceTestTask&quot; method=&quot;test1&quot; cron=&quot;0 0/30 0,1,2,3,4,22,23 * * ?&quot; /&gt;</div><div class="line">    &lt;task:scheduled ref=&quot;serviceTestTask&quot; method=&quot;test2&quot; cron=&quot;0 0/30 0,1,2,3,4,22,23 * * ?&quot; /&gt;</div><div class="line">&lt;/task:scheduled-tasks&gt;</div></pre></td></tr></table></figure>
+<p>指定一个线程池的大小大于1就可以让多个任不同Job并行,具体线程池的大小可根据实际任务数据合理设置.<br>但如果有以下情况的定进任务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;task:scheduled-tasks  pool-size=&quot;5&quot; &gt;</div><div class="line">    &lt;!--设置方法test1在 0,1,2,3,4,22,23 每30分钟执行一次,设置其它时间每2小时执行一次--&gt;</div><div class="line">    &lt;task:scheduled ref=&quot;serviceTestTask&quot; method=&quot;test1&quot; cron=&quot;0 0/30 0,1,2,3,4,22,23 * * ?&quot; /&gt;</div><div class="line">    &lt;task:scheduled ref=&quot;serviceTestTask&quot; method=&quot;test1&quot; cron=&quot;0 0 0/2 * * ?&quot; /&gt;</div><div class="line">    &lt;task:scheduled ref=&quot;serviceTestTask&quot; method=&quot;test2&quot; cron=&quot;0 0/30 0,1,2,3,4,22,23 * * ?&quot; /&gt;</div><div class="line">&lt;/task:scheduled-tasks&gt;</div></pre></td></tr></table></figure></p>
+<p>这个时候我们希望同一个方法test1是可以串行执行,而不同的方法test1,test2是可并行执行的.<br>但这个配置test1,test1,test2都会并行实现,如何实现同一任务串行,不同任务并行?此时我们需要配置2个scheduled,如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;task:scheduler id=&quot;myScheduler1&quot;/&gt;</div><div class="line">&lt;task:scheduler id=&quot;myScheduler2&quot; pool-size=&quot;5&quot;/&gt;</div><div class="line">&lt;task:scheduled-tasks  scheduler=&quot;myScheduler1&quot;&gt;</div><div class="line">    &lt;!--设置方法test1在 0,1,2,3,4,22,23 每30分钟执行一次,设置其它时间每2小时执行一次--&gt;</div><div class="line">    &lt;task:scheduled ref=&quot;serviceTestTask&quot; method=&quot;test1&quot; cron=&quot;0 0/30 0,1,2,3,4,22,23 * * ?&quot; /&gt;</div><div class="line">    &lt;task:scheduled ref=&quot;serviceTestTask&quot; method=&quot;test1&quot; cron=&quot;0 0 0/2 * * ?&quot; /&gt;</div><div class="line">&lt;/task:scheduled-tasks&gt;</div><div class="line"></div><div class="line">&lt;task:scheduled-tasks  scheduler=&quot;myScheduler2&quot;&gt;</div><div class="line">     &lt;task:scheduled ref=&quot;serviceTestTask&quot; method=&quot;test2&quot; cron=&quot;0 0/30 0,1,2,3,4,22,23 * * ?&quot; /&gt;</div><div class="line">&lt;/task:scheduled-tasks&gt;</div></pre></td></tr></table></figure>
+<p>同一任务,不同时间段执行,我们定义在一个scheduler,直接用默认的线程数1,让其串行.可并行的线程定义在另一个多线程的scheduler,<br>并且不同scheduler之间也并行的.</p>
+<blockquote>
+<p>还有一点,在并行的scheduler中,同一个时间任务Job 执行时长是30分钟,设置每10分钟,此时执行耗时超过了<br>任务执行间隔,此时Job还是会等任务执行完后,才会再执行这个任务,而不是到时候后另一个线程重复执行.</p>
+</blockquote>
 
       
     </div>
@@ -364,28 +327,18 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/redis/" rel="tag">#redis</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/06/03/redis-monitor/" rel="next" title="redis-monitor">
-                <i class="fa fa-chevron-left"></i> redis-monitor
+              <a href="/2017/06/22/redis-optimize/" rel="next" title="redis优化">
+                <i class="fa fa-chevron-left"></i> redis优化
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/07/04/myBatisGenerator/" rel="prev" title="MyBatisGenerator 实现Model、sqlMap、dao自动生成">
-                MyBatisGenerator 实现Model、sqlMap、dao自动生成 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -400,10 +353,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2015/06/03/redis-shell/"
-     data-title="redis-shell"
+        <div class="ds-share flat" data-thread-key="2017/07/25/spring-task/"
+     data-title="定时任务之spring-task"
      data-content=""
-     data-url="/2015/06/03/redis-shell/">
+     data-url="/2017/07/25/spring-task/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -430,8 +383,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2015/06/03/redis-shell/"
-           data-title="redis-shell" data-url="/2015/06/03/redis-shell/">
+      <div class="ds-thread" data-thread-key="2017/07/25/spring-task/"
+           data-title="定时任务之spring-task" data-url="/2017/07/25/spring-task/">
       </div>
     
   </div>
@@ -533,7 +486,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis-Server-集群指南"><span class="nav-text"> Redis-Server 集群指南</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、服务命令"><span class="nav-text">一、服务命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、启动顺序"><span class="nav-text">1、启动顺序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、启动命令"><span class="nav-text">2、启动命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、CLI-命令集"><span class="nav-text">二、CLI 命令集</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一、spring-task-配置文件"><span class="nav-text">一、spring-task 配置文件</span></a></li></ol></div>
             
           </div>
         </section>
