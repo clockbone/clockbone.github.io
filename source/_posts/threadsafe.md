@@ -150,3 +150,5 @@ public class TheadTest2 {
     }
 }
 ```
+### 五、总结
+synchronized关键字、ReecntrantLock都是通过互斥来实现线程安全,如果线程间需要通信可以使用Lock的Condition来实现

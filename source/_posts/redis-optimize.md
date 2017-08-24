@@ -1,5 +1,5 @@
 layout: post
-title: redis优化
+title: redis配置优化(记一次线上redis问题排查)
 date: 2017-06-22 15:32:31
 categories: redis
 tags: redis

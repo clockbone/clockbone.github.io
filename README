@@ -4,7 +4,10 @@
 发布：hexo d
 
 新建一个菜单：hexo new page pageName
-新建一个文章：hexo new articalName
+新建一个文章：
+cd /Users/qinjun/work/code/clockbone/source/_posts   先进入到源码文件夹
+hexo new articalName                                 再执行新建页面
+
 
 相册中新添了图片，要提交到github
 再到项目根目录下 执行
