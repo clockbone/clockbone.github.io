@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="maven," />
+  <meta name="keywords" content="thread,java," />
 
 
 
@@ -84,16 +84,19 @@
 
 
 
-<meta name="description" content="wagon-maven-plugin 让你运行mvn package时就可以将项目部署远程服务器的插件，只需在你的pom.xml文件中添加：">
+<meta name="description" content="一、cas简介java.util.concurrent包完全建立在CAS之上的，没有CAS就不会有此包ava.util.concurrent包中借助CAS实现了区别于synchronouse同步锁的一种乐观锁。
+二、cas原理CAS:Compare and Swap  比较并交换CAS有三个参数,内存位置V、旧的预期值A、新的预期值B。当且仅当V符合预期值A的时候，CAS用新值B原子化的更新V的值">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在打包时就推送项目到远程服务器的maven插件wagon-maven-plugin">
-<meta property="og:url" content="/2015/11/14/wagon-maven-plugin/index.html">
+<meta property="og:title" content="cas">
+<meta property="og:url" content="/2017/08/28/cas/index.html">
 <meta property="og:site_name" content="clock |">
-<meta property="og:description" content="wagon-maven-plugin 让你运行mvn package时就可以将项目部署远程服务器的插件，只需在你的pom.xml文件中添加：">
-<meta property="og:updated_time" content="2017-01-10T10:55:34.000Z">
+<meta property="og:description" content="一、cas简介java.util.concurrent包完全建立在CAS之上的，没有CAS就不会有此包ava.util.concurrent包中借助CAS实现了区别于synchronouse同步锁的一种乐观锁。
+二、cas原理CAS:Compare and Swap  比较并交换CAS有三个参数,内存位置V、旧的预期值A、新的预期值B。当且仅当V符合预期值A的时候，CAS用新值B原子化的更新V的值">
+<meta property="og:updated_time" content="2017-08-28T09:20:49.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在打包时就推送项目到远程服务器的maven插件wagon-maven-plugin">
-<meta name="twitter:description" content="wagon-maven-plugin 让你运行mvn package时就可以将项目部署远程服务器的插件，只需在你的pom.xml文件中添加：">
+<meta name="twitter:title" content="cas">
+<meta name="twitter:description" content="一、cas简介java.util.concurrent包完全建立在CAS之上的，没有CAS就不会有此包ava.util.concurrent包中借助CAS实现了区别于synchronouse同步锁的一种乐观锁。
+二、cas原理CAS:Compare and Swap  比较并交换CAS有三个参数,内存位置V、旧的预期值A、新的预期值B。当且仅当V符合预期值A的时候，CAS用新值B原子化的更新V的值">
 
 
 
@@ -114,9 +117,9 @@
 
 
 
-  <link rel="canonical" href="/2015/11/14/wagon-maven-plugin/"/>
+  <link rel="canonical" href="/2017/08/28/cas/"/>
 
-  <title> 在打包时就推送项目到远程服务器的maven插件wagon-maven-plugin | clock | </title>
+  <title> cas | clock | </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -246,7 +249,7 @@
             
             
               
-                在打包时就推送项目到远程服务器的maven插件wagon-maven-plugin
+                cas
               
             
           </h1>
@@ -258,8 +261,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-14T13:44:47+08:00" content="2015-11-14">
-              2015-11-14
+            <time itemprop="dateCreated" datetime="2017-08-28T16:19:38+08:00" content="2017-08-28">
+              2017-08-28
             </time>
           </span>
 
@@ -272,8 +275,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/maven/" itemprop="url" rel="index">
-                    <span itemprop="name">maven</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -288,8 +291,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/11/14/wagon-maven-plugin/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/11/14/wagon-maven-plugin/" itemprop="commentsCount"></span>
+                <a href="/2017/08/28/cas/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/08/28/cas/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -312,8 +315,12 @@
       
 
       
-        <p>wagon-maven-plugin 让你运行<code>mvn package</code>时就可以将项目部署远程服务器的插件，只需在你的pom.xml文件中添加：<br><a id="more"></a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">&lt;build&gt;</div><div class="line">    &lt;finalName&gt;<span class="variable">$&#123;finalName.name&#125;</span>&lt;/finalName&gt;</div><div class="line">     &lt;extensions&gt;</div><div class="line">        &lt;extension&gt;</div><div class="line">            &lt;groupId&gt;org.apache.maven.wagon&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;wagon-ssh&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;2.8&lt;/version&gt;</div><div class="line">        &lt;/extension&gt;</div><div class="line">    &lt;/extensions&gt;</div><div class="line">    &lt;plugins&gt;</div><div class="line">         &lt;plugin&gt;</div><div class="line">            &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;wagon-maven-plugin&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;1.0&lt;/version&gt;</div><div class="line">            &lt;executions&gt;</div><div class="line">                &lt;execution&gt;</div><div class="line">                    &lt;id&gt;upload-deploy&lt;/id&gt;</div><div class="line">                    &lt;!--运行package打包的同时运行upload-single和sshexec--&gt;</div><div class="line">                    &lt;phase&gt;package&lt;/phase&gt;</div><div class="line">                    &lt;goals&gt;</div><div class="line">                        &lt;goal&gt;upload-single&lt;/goal&gt;</div><div class="line">                        &lt;goal&gt;sshexec&lt;/goal&gt;</div><div class="line">                    &lt;/goals&gt;</div><div class="line">                    &lt;configuration&gt;</div><div class="line">                        &lt;fromFile&gt;target/<span class="variable">$&#123;finalName.name&#125;</span>.war&lt;/fromFile&gt;</div><div class="line">                        &lt;url&gt;scp://username:password@127.0.0.1/usr/<span class="built_in">local</span>/tomcat/webapps&lt;/url&gt;</div><div class="line">                        &lt;commands&gt;</div><div class="line">                            &lt;<span class="built_in">command</span>&gt;sh /usr/<span class="built_in">local</span>/tomcat/webapps/bash.sh <span class="variable">$&#123;finalName.name&#125;</span>&lt;/<span class="built_in">command</span>&gt;</div><div class="line">                        &lt;/commands&gt;</div><div class="line">                        &lt;!-- 显示运行命令的输出结果 --&gt;</div><div class="line">                        &lt;displayCommandOutputs&gt;<span class="literal">true</span>&lt;/displayCommandOutputs&gt;</div><div class="line">                    &lt;/configuration&gt;</div><div class="line">                &lt;/execution&gt;</div><div class="line">            &lt;/executions&gt;</div><div class="line">        &lt;/plugin&gt;</div><div class="line">    &lt;/plugins&gt;</div><div class="line">&lt;/build&gt;</div></pre></td></tr></table></figure></p>
-<p>以后只需要在执行<code>mvn clean package -P proFileId</code> 打包命令就可以将打包好的war或jar包上传到指定的远程服务器。<br><code>&lt;commands&gt;</code>标签中可根据需要执行脚本。</p>
+        <h3 id="一、cas简介"><a href="#一、cas简介" class="headerlink" title="一、cas简介"></a>一、cas简介</h3><p><code>java.util.concurrent</code>包完全建立在<code>CAS</code>之上的，没有<code>CAS</code>就不会有此包<br>ava.util.concurrent包中借助CAS实现了区别于synchronouse同步锁的一种乐观锁。</p>
+<h3 id="二、cas原理"><a href="#二、cas原理" class="headerlink" title="二、cas原理"></a>二、cas原理</h3><p>CAS:Compare and Swap  比较并交换<br>CAS有三个参数,内存位置V、旧的预期值A、新的预期值B。<strong>当且仅当V符合预期值A的时候，CAS用新值B原子化<br>的更新V的值；否则他什么都不做。在任何情况下都会返回V的真实值。</strong>（这个变量称为compare-and-set，无论操作是否成功都会返回。）CAS的意思是，“ 我任务V的值应该是A，如果是A则将其赋值给B，若不是，则不修改，<br>并告诉我应该为多少。”CAS是以项乐观技术–它抱着成功的希望进行更新，并且如果，另一个线程在上次检查后更新了变量，它能够发现错误。<br> <a id="more"></a></p>
+<h4 id="AtomicInteger-CAS举例"><a href="#AtomicInteger-CAS举例" class="headerlink" title="AtomicInteger CAS举例"></a>AtomicInteger CAS举例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">int</span> value;<span class="comment">//保证线程可见性</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">get</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> value;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">incrementAndGet</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">for</span> (;;) &#123;</div><div class="line">        <span class="keyword">int</span> current = get();</div><div class="line">        <span class="keyword">int</span> next = current + <span class="number">1</span>;</div><div class="line">        <span class="keyword">if</span> (compareAndSet(current, next))</div><div class="line">            <span class="keyword">return</span> next;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在这里采用了CAS操作，每次从内存中读取数据然后将此数据和+1后的结果进行CAS操作，如果成功就返回结果，否则重试直到成功为止。<br>而<code>compareAndSet</code>利用<code>JNI(java native interface)</code>来完成<code>CPU</code>指令的操作。</p>
+<h3 id="三、cas缺点"><a href="#三、cas缺点" class="headerlink" title="三、cas缺点"></a>三、cas缺点</h3><h4 id="1、ABA问题"><a href="#1、ABA问题" class="headerlink" title="1、ABA问题"></a>1、ABA问题</h4><p> 因为CAS需要在操作值的时候检查下值有没有发生变化，如果没有发生变化则更新，但是如果一个值原来是A，变成了B，又变成了A，那么使用CAS进行检查时会发现它的值没有发生变化，但是实际上却变化了。<br> ABA问题的解决思路就是使用版本号。在变量前面追加上版本号，每次变量更新的时候把版本号加一，那么A－B－A 就会变成1A-2B－3A。<br> 从Java1.5开始JDK的atomic包里提供了一个类AtomicStampedReference来解决ABA问题。</p>
+<h4 id="2、循环时间长开销大"><a href="#2、循环时间长开销大" class="headerlink" title="2、循环时间长开销大"></a>2、循环时间长开销大</h4><h3 id="四、cas总结"><a href="#四、cas总结" class="headerlink" title="四、cas总结"></a>四、cas总结</h3><p>concurrent通用实现模式<br>1、声明共享变量为volatile；<br>2、使用CAS的原子条件更新来实现线程之间的同步；<br>3、配合以volatile的读/写和CAS所具有的volatile读和写的内存语义来实现线程之间的通信<br>AQS，非阻塞数据结构和原子变量类（java.util.concurrent.atomic包中的类），这些concurrent包中的基础类都是使用这种模式来实现的，而concurrent包中的高层类又是依赖于这些基础类来实现的。从整体来看，concurrent包的实现示意图如下：<br>valatile变量读写,cas-&gt;AQS,非阻塞数据结构,原子变量类</p>
 
       
     </div>
@@ -336,7 +343,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/maven/" rel="tag">#maven</a>
+            <a href="/tags/thread/" rel="tag">#thread</a>
+          
+            <a href="/tags/java/" rel="tag">#java</a>
           
         </div>
       
@@ -345,17 +354,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/08/12/guavacache/" rel="next" title="guavacache">
-                <i class="fa fa-chevron-left"></i> guavacache
+              <a href="/2017/08/28/cyclicBarrier/" rel="next" title="cyclicBarrier">
+                <i class="fa fa-chevron-left"></i> cyclicBarrier
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/11/14/maven-profile/" rel="prev" title="maven profile打包时实现可指定不同环境配置文件">
-                maven profile打包时实现可指定不同环境配置文件 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -370,10 +375,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2015/11/14/wagon-maven-plugin/"
-     data-title="在打包时就推送项目到远程服务器的maven插件wagon-maven-plugin"
+        <div class="ds-share flat" data-thread-key="2017/08/28/cas/"
+     data-title="cas"
      data-content=""
-     data-url="/2015/11/14/wagon-maven-plugin/">
+     data-url="/2017/08/28/cas/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -400,8 +405,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2015/11/14/wagon-maven-plugin/"
-           data-title="在打包时就推送项目到远程服务器的maven插件wagon-maven-plugin" data-url="/2015/11/14/wagon-maven-plugin/">
+      <div class="ds-thread" data-thread-key="2017/08/28/cas/"
+           data-title="cas" data-url="/2017/08/28/cas/">
       </div>
     
   </div>
@@ -503,7 +508,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、cas简介"><span class="nav-text">一、cas简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、cas原理"><span class="nav-text">二、cas原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AtomicInteger-CAS举例"><span class="nav-text">AtomicInteger CAS举例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、cas缺点"><span class="nav-text">三、cas缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、ABA问题"><span class="nav-text">1、ABA问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、循环时间长开销大"><span class="nav-text">2、循环时间长开销大</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、cas总结"><span class="nav-text">四、cas总结</span></a></li></ol></div>
             
           </div>
         </section>

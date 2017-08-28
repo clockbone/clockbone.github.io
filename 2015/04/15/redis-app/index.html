@@ -90,7 +90,7 @@
 <meta property="og:url" content="/2015/04/15/redis-app/index.html">
 <meta property="og:site_name" content="clock |">
 <meta property="og:description" content="redis是现在运用比较广泛的缓存服务器，如果我们能登录redis服务器并熟练运用redis下各种命令，那么在java项目运用redis就更加容易。学习redis下各种命令可以参考：http://doc.redisfans.com/redis官网提供了jar包来支持redis在java开发的运用，下面结合redis命令来介绍redis在java项目中的运用：首先了解下redis支持的数据类型：st">
-<meta property="og:updated_time" content="2017-01-10T10:55:34.000Z">
+<meta property="og:updated_time" content="2017-08-28T09:29:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis应用">
 <meta name="twitter:description" content="redis是现在运用比较广泛的缓存服务器，如果我们能登录redis服务器并熟练运用redis下各种命令，那么在java项目运用redis就更加容易。学习redis下各种命令可以参考：http://doc.redisfans.com/redis官网提供了jar包来支持redis在java开发的运用，下面结合redis命令来介绍redis在java项目中的运用：首先了解下redis支持的数据类型：st">
@@ -313,20 +313,19 @@
 
       
         <p>redis是现在运用比较广泛的缓存服务器，如果我们能登录redis服务器并熟练运用redis下各种命令，那么在java项目运用redis就更加容易。<br>学习redis下各种命令可以参考：<a href="http://doc.redisfans.com/" target="_blank" rel="external">http://doc.redisfans.com/</a><br>redis官网提供了jar包来支持redis在java开发的运用，下面结合redis命令来介绍redis在java项目中的运用：<br>首先了解下redis支持的数据类型：<code>string</code>、<code>set</code>、<code>hash</code>、<code>list</code><br>上面这4种类型也是在应用程序中经常会用到的，下面看看如何运用</p>
-<h3 id="一、存储string类型"><a href="#一、存储string类型" class="headerlink" title="一、存储string类型"></a>一、存储string类型</h3><p> redis下命令为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SET key value</div><div class="line">GET key</div></pre></td></tr></table></figure></p>
+<h3 id="一、存储string类型"><a href="#一、存储string类型" class="headerlink" title="一、存储string类型"></a>一、存储string类型</h3><p> redis下命令为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SET key value</div><div class="line">GET key</div></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <p><code>string类型运用</code>：可存储一个简单的string类型，也可将java复杂对象转成json格式字符串存储，根据key取出后再解析josn串也是一种很方便的做法。</p>
-<h3 id="二、有序的set集合"><a href="#二、有序的set集合" class="headerlink" title="二、有序的set集合"></a>二、有序的set集合</h3><p>命令存储：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ZADD key score member [[score member] [score member] ...]</div></pre></td></tr></table></figure></p>
-<p> 因为是有序的set集合，<code>score</code>为存储的序列号，<code>member</code>为值<br> 应用：<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">for(int i=0;i&lt;listLength;i++)&#123;</div><div class="line">    zadd key i list.get(i)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p> 读取：<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis &gt; ZRANGE salary 0 -1 WITHSCORES  # 显示整个有序集成员</div></pre></td></tr></table></figure></p>
+<h3 id="二、有序的set集合"><a href="#二、有序的set集合" class="headerlink" title="二、有序的set集合"></a>二、有序的set集合</h3><p>命令存储：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ZADD key score member [[score member] [score member] ...]</div></pre></td></tr></table></figure></p>
+<p> 因为是有序的set集合，<code>score</code>为存储的序列号，<code>member</code>为值<br> 应用：<br> <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;listLength;i++)&#123;</div><div class="line">    zadd key i list.get(i)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p> 读取：<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">redis &gt; ZRANGE salary 0 -1 WITHSCORES  <span class="comment"># 显示整个有序集成员</span></div></pre></td></tr></table></figure></p>
 <p><code>WITHSCORES</code>参数:表示显示序号<br><code>有序的set集合运用</code>：可用来存储有序的菜单，当然这里也可用list来存，因为List本身就是用序的，但list不可控制其重复性。</p>
-<h3 id="三、set集合"><a href="#三、set集合" class="headerlink" title="三、set集合"></a>三、set集合</h3><p>存储：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SADD bbs &quot;discuz.net&quot;</div></pre></td></tr></table></figure></p>
-<p>  读取：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SMEMBERS bbs</div></pre></td></tr></table></figure></p>
-<h3 id="四、hash类型"><a href="#四、hash类型" class="headerlink" title="四、hash类型"></a>四、hash类型</h3><p>存储：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">HSET key field value</div></pre></td></tr></table></figure></p>
-<p>读取：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">读取一个属性：  HGET key field</div><div class="line">读取所有：     HGETALL key</div></pre></td></tr></table></figure></p>
+<h3 id="三、set集合"><a href="#三、set集合" class="headerlink" title="三、set集合"></a>三、set集合</h3><p>存储：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SADD bbs <span class="string">"discuz.net"</span></div></pre></td></tr></table></figure></p>
+<p>  读取：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">SMEMBERS bbs</div><div class="line">```bash</div><div class="line"><span class="comment">### 四、hash类型</span></div><div class="line">存储：</div><div class="line">```bash</div><div class="line">HSET key field value</div></pre></td></tr></table></figure></p>
+<p>读取：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">读取一个属性：  HGET key field</div><div class="line">读取所有：     HGETALL key</div></pre></td></tr></table></figure></p>
 <p><code>hash</code>类型一般可用来存储一个java对象,这里的<code>field</code>就对应java对象里面定义的属性。一般当hgetall命令可直接将取出来的所有属性转化为相应的java对象存储</p>
-<h3 id="五、list类型"><a href="#五、list类型" class="headerlink" title="五、list类型"></a>五、list类型</h3><p>list集合<br>查看list下所有元素：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lrange mylist 0 -1</div></pre></td></tr></table></figure></p>
-<p>写值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lpush mylist value1 value2 value3</div></pre></td></tr></table></figure></p>
+<h3 id="五、list类型"><a href="#五、list类型" class="headerlink" title="五、list类型"></a>五、list类型</h3><p>list集合<br>查看list下所有元素：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lrange mylist 0 -1</div></pre></td></tr></table></figure></p>
+<p>写值：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lpush mylist value1 value2 value3</div></pre></td></tr></table></figure></p>
 <p>list可以写重复的值限 <code>lpush mylist &#39;test&#39; &#39;test&#39; &#39;test&#39;</code><br>三个test值 都可以写到list里面去</p>
 <p>与set的区别是<br>set的值只会有一个 如  <code>sadd mykey   &#39;test&#39;  &#39;test&#39;</code><br>只会写进去一个 test 值</p>
 <h3 id="6、其它"><a href="#6、其它" class="headerlink" title="6、其它"></a>6、其它</h3><p>redis连接环境：<br>连接redis:<code>redis-cli -p 1221</code><br>查看所有key:<code>keys *</code></p>
@@ -462,7 +461,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -519,7 +518,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、存储string类型"><span class="nav-text">一、存储string类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、有序的set集合"><span class="nav-text">二、有序的set集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、set集合"><span class="nav-text">三、set集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、hash类型"><span class="nav-text">四、hash类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、list类型"><span class="nav-text">五、list类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、其它"><span class="nav-text">6、其它</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、存储string类型"><span class="nav-text">一、存储string类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、有序的set集合"><span class="nav-text">二、有序的set集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、set集合"><span class="nav-text">三、set集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、list类型"><span class="nav-text">五、list类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、其它"><span class="nav-text">6、其它</span></a></li></ol></div>
             
           </div>
         </section>

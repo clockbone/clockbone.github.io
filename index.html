@@ -245,6 +245,129 @@
             
               
                 
+                <a class="post-title-link" href="/2017/08/28/cas/" itemprop="url">
+                  cas
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-08-28T16:19:38+08:00" content="2017-08-28">
+              2017-08-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/08/28/cas/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/08/28/cas/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="一、cas简介"><a href="#一、cas简介" class="headerlink" title="一、cas简介"></a>一、cas简介</h3><p><code>java.util.concurrent</code>包完全建立在<code>CAS</code>之上的，没有<code>CAS</code>就不会有此包<br>ava.util.concurrent包中借助CAS实现了区别于synchronouse同步锁的一种乐观锁。</p>
+<h3 id="二、cas原理"><a href="#二、cas原理" class="headerlink" title="二、cas原理"></a>二、cas原理</h3><p>CAS:Compare and Swap  比较并交换<br>CAS有三个参数,内存位置V、旧的预期值A、新的预期值B。<strong>当且仅当V符合预期值A的时候，CAS用新值B原子化<br>的更新V的值；否则他什么都不做。在任何情况下都会返回V的真实值。</strong>（这个变量称为compare-and-set，无论操作是否成功都会返回。）CAS的意思是，“ 我任务V的值应该是A，如果是A则将其赋值给B，若不是，则不修改，<br>并告诉我应该为多少。”CAS是以项乐观技术–它抱着成功的希望进行更新，并且如果，另一个线程在上次检查后更新了变量，它能够发现错误。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/08/28/cas/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/08/28/cyclicBarrier/" itemprop="url">
                   cyclicBarrier
                 </a>
@@ -314,10 +437,7 @@
 
       
         
-          
-          一、cyclicBarrier简介CyclicBarrier允许N个线程相互等待。基本使用1234567891011121314151617181920212223242526//启动主方法public static void main(String[] args)&#123;        final int ROWS=10000;        final int NUMBERS=1000;        final int SEARCH=5;        final int PARTICIPANTS=5;        final int LINES_PARTICIPANT=2000;        MatrixMock mock=new MatrixMock(ROWS, NUMBERS,SEARCH);        Results results=new Results(ROW
-          ...
-
+          <h3 id="一、cyclicBarrier简介"><a href="#一、cyclicBarrier简介" class="headerlink" title="一、cyclicBarrier简介"></a>一、cyclicBarrier简介</h3><p>CyclicBarrier允许N个线程相互等待。<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2017/08/28/cyclicBarrier/#more" rel="contents">
               阅读全文 &raquo;
@@ -565,14 +685,10 @@
 
       
         
-          
-          一、CountDownLatch简介CountDownLatch是同步工具类之一，可以指定一个计数值，在并发环境下由线程进行减1操作，当计数值变为0之后，被await方法阻塞的线程将会唤醒，实现线程间的同步。
-
-CountDownLatch和CyclicBarrier的区别(01) CountDownLatch的作用是允许1或N个线程等待其他线程完成执行；而CyclicBarrier则是允许N个线程相互等待。(02) CountDownLatch的计数器无法被重置；CyclicBarrier的计数器可以被重置后使用，因此它被称为是循环的barrier。
-
-基本使用方法:12345678910111213141516171819202122232425262728public void CountDownLatch() &#123;   int threadNum = 10;   final
-          ...
-
+          <h3 id="一、CountDownLatch简介"><a href="#一、CountDownLatch简介" class="headerlink" title="一、CountDownLatch简介"></a>一、CountDownLatch简介</h3><p>CountDownLatch是同步工具类之一，可以指定一个计数值，在并发环境下由线程进行减1操作，当计数值变为0之后，被await方法阻塞的线程将会唤醒，实现线程间的同步。</p>
+<blockquote>
+<p>CountDownLatch和CyclicBarrier的区别<br>(01) CountDownLatch的作用是允许1或N个线程等待其他线程完成执行；而CyclicBarrier则是允许N个线程相互等待。<br>(02) CountDownLatch的计数器无法被重置；CyclicBarrier的计数器可以被重置后使用，因此它被称为是循环的barrier。</p>
+</blockquote>
           <div class="post-more-link text-center">
             <a class="btn" href="/2017/08/23/CountDownLatch/#more" rel="contents">
               阅读全文 &raquo;
@@ -694,12 +810,8 @@ CountDownLatch和CyclicBarrier的区别(01) CountDownLatch的作用是允许1或
 
       
         
-          
-          前言  不太擅长记录原理类东西,但另一方面这些理论确实比较重要,只有掌握了这些东西,在出现问题的时候才能更好的解决.
-一、ReentrantLock涉及到几个概念1、什么是AQS:AQS即是AbstractQueuedSynchronize抽象类 AQS是java中管理“锁”的抽象类，锁的许多公共方法都是在这个类中实现。AQS是独占锁(例如，ReentrantLock)和共享锁(例如，Semaphore)的公共父类。
-2、AQS锁的类别(分为“独占锁”和“共享锁”两种)(01) 独占锁:锁在一个时间点只能被一个线程锁占有。根据锁的获取机制，它又划分为“公平锁”和“非公平锁”。公平锁，是按照通过CLH等待线程按照先来先得的规则，公平的获取锁；而非公平锁，则当线程要获取锁时，它会无视CLH等待队列而直接获取锁。独占锁的典型实例子是ReentrantLock，此外，ReentrantReadWr
-          ...
-
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>  不太擅长记录原理类东西,但另一方面这些理论确实比较重要,只有掌握了这些东西,在出现问题的时候才能更好的解决.</p>
+<h3 id="一、ReentrantLock涉及到几个概念"><a href="#一、ReentrantLock涉及到几个概念" class="headerlink" title="一、ReentrantLock涉及到几个概念"></a>一、ReentrantLock涉及到几个概念</h3><h4 id="1、什么是AQS-AQS即是AbstractQueuedSynchronize抽象类"><a href="#1、什么是AQS-AQS即是AbstractQueuedSynchronize抽象类" class="headerlink" title="1、什么是AQS:AQS即是AbstractQueuedSynchronize抽象类"></a>1、什么是AQS:AQS即是AbstractQueuedSynchronize抽象类</h4><p> AQS是java中管理“锁”的抽象类，锁的许多公共方法都是在这个类中实现。AQS是独占锁(例如，ReentrantLock)和共享锁(例如，Semaphore)的公共父类。<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2017/08/23/ReentrantLock/#more" rel="contents">
               阅读全文 &raquo;
@@ -804,7 +916,8 @@ CountDownLatch和CyclicBarrier的区别(01) CountDownLatch的作用是允许1或
         
           
           前言主要记录在项目中使用spring-taks作为定时任务需要注意的地方
-一、spring-task 配置文件123456&lt;!--使用注解方式启动task --&gt;&lt;task:annotation-driven /&gt;&lt;task:scheduled-tasks &gt;    &lt;task:scheduled ref=&quot;serviceTestTask&quot; method=&quot;test1&quot; cron=&quot;0 0/30 0,1,2,3,4,22,23 * * ?&quot; /&gt;    &lt;task:scheduled ref=&quot;serviceTestTask&quot; method=&quot;test2&quot; cron=&quot;0 0/30 0,1,2,3,4,22,23 * * ?&q
+一、spring-task 配置文件123456&lt;!--使用注解方式启动task --&gt;&lt;task:annotation-driven /&gt;&lt;task:scheduled-tasks &gt;    &lt;task:scheduled ref="serviceTestTask" method="test1" cron="0 0/30 0,1,2,3,4,22,23 * * ?" /&gt;    &lt;task:scheduled ref="serviceTestTask" method="test2" cron="0 0/30 0,1,2,3,4,22,23 * * ?" /&gt;&lt;/task:scheduled-tasks&gt;
+大概只要这样配置就可以运行了,注意这样的
           ...
 
           <div class="post-more-link text-center">
@@ -1032,7 +1145,7 @@ CountDownLatch和CyclicBarrier的区别(01) CountDownLatch的作用是允许1或
       
         
           <h3 id="1、官方介绍："><a href="#1、官方介绍：" class="headerlink" title="1、官方介绍："></a>1、官方介绍：</h3><p><a href="https://github.com/pagehelper/Mybatis-PageHelper/blob/master/README_zh.md">https://github.com/pagehelper/Mybatis-PageHelper/blob/master/README_zh.md</a><br>官方介绍文档中已经说明了详细的配置方法和使用方法，这里不再详细介绍。</p>
-<h3 id="2、简单说一下本项目的配置案例。"><a href="#2、简单说一下本项目的配置案例。" class="headerlink" title="2、简单说一下本项目的配置案例。"></a>2、简单说一下本项目的配置案例。</h3><h4 id="a、spring配置文-件"><a href="#a、spring配置文-件" class="headerlink" title="a、spring配置文 件"></a>a、spring配置文 件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&lt;bean id=&quot;sqlSessionFactory&quot; class=&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;&gt;</div><div class="line">  &lt;!-- 注意其他配置 --&gt;</div><div class="line">  &lt;property name=&quot;plugins&quot;&gt;</div><div class="line">    &lt;array&gt;</div><div class="line">      &lt;bean class=&quot;com.github.pagehelper.PageInterceptor&quot;&gt;</div><div class="line">        &lt;property name=&quot;properties&quot;&gt;</div><div class="line">          &lt;!--使用下面的方式配置参数，一行配置一个 --&gt;</div><div class="line">          &lt;value&gt;</div><div class="line">            params=value1</div><div class="line">          &lt;/value&gt;</div><div class="line">        &lt;/property&gt;</div><div class="line">      &lt;/bean&gt;</div><div class="line">    &lt;/array&gt;</div><div class="line">  &lt;/property&gt;</div><div class="line">&lt;/bean&gt;</div></pre></td></tr></table></figure>
+<h3 id="2、简单说一下本项目的配置案例。"><a href="#2、简单说一下本项目的配置案例。" class="headerlink" title="2、简单说一下本项目的配置案例。"></a>2、简单说一下本项目的配置案例。</h3><h4 id="a、spring配置文-件"><a href="#a、spring配置文-件" class="headerlink" title="a、spring配置文 件"></a>a、spring配置文 件</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"sqlSessionFactory"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.SqlSessionFactoryBean"</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 注意其他配置 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"plugins"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">array</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"com.github.pagehelper.PageInterceptor"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"properties"</span>&gt;</span></div><div class="line">          <span class="comment">&lt;!--使用下面的方式配置参数，一行配置一个 --&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">value</span>&gt;</span></div><div class="line">            params=value1</div><div class="line">          <span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">array</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
             <a class="btn" href="/2017/01/11/mybatis-pagehelper/#more" rel="contents">
               阅读全文 &raquo;
@@ -1155,7 +1268,7 @@ CountDownLatch和CyclicBarrier的区别(01) CountDownLatch的作用是允许1或
       
         
           <p>目前maven项目是用的比较多的，那么上传本地jar到maven仓库也是常会有事，下面介绍一下如何上传jar到本地仓库和远程仓库。</p>
-<h3 id="一、用命令上传jar包到本地仓库"><a href="#一、用命令上传jar包到本地仓库" class="headerlink" title="一、用命令上传jar包到本地仓库"></a>一、用命令上传jar包到本地仓库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;com.spreada&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;ZHConverter&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;1.0&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div><div class="line">mvn install:install-file -Dfile=jar包的位置 -DgroupId=上面的groupId -DartifactId=上面的artifactId -Dversion=上面的version -Dpackaging=jar</div></pre></td></tr></table></figure>
+<h3 id="一、用命令上传jar包到本地仓库"><a href="#一、用命令上传jar包到本地仓库" class="headerlink" title="一、用命令上传jar包到本地仓库"></a>一、用命令上传jar包到本地仓库</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.spreada<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ZHConverter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">mvn install:install-file -Dfile=jar包的位置 -DgroupId=上面的groupId -DartifactId=上面的artifactId -Dversion=上面的version -Dpackaging=jar</div></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/07/29/mvn-deployto-nexus/#more" rel="contents">
               阅读全文 &raquo;
@@ -1277,136 +1390,10 @@ CountDownLatch和CyclicBarrier的区别(01) CountDownLatch的作用是允许1或
 
       
         
-          <h3 id="一、spring-ws-core的WebServiceTemplate不需要生成webservice客户端调用webservice"><a href="#一、spring-ws-core的WebServiceTemplate不需要生成webservice客户端调用webservice" class="headerlink" title="一、spring-ws-core的WebServiceTemplate不需要生成webservice客户端调用webservice"></a>一、spring-ws-core的WebServiceTemplate不需要生成webservice客户端调用webservice</h3><h4 id="1、先加spring-ws-core依赖"><a href="#1、先加spring-ws-core依赖" class="headerlink" title="1、先加spring-ws-core依赖"></a>1、先加spring-ws-core依赖</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;org.springframework.ws&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;spring-ws-core&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;2.1.4.RELEASE&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
+          <h3 id="一、spring-ws-core的WebServiceTemplate不需要生成webservice客户端调用webservice"><a href="#一、spring-ws-core的WebServiceTemplate不需要生成webservice客户端调用webservice" class="headerlink" title="一、spring-ws-core的WebServiceTemplate不需要生成webservice客户端调用webservice"></a>一、spring-ws-core的WebServiceTemplate不需要生成webservice客户端调用webservice</h3><h4 id="1、先加spring-ws-core依赖"><a href="#1、先加spring-ws-core依赖" class="headerlink" title="1、先加spring-ws-core依赖"></a>1、先加spring-ws-core依赖</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.ws<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-ws-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.4.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>当spring-ws-core整合spring-webmvc 4.1.2时会出现一个异常如下：<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/07/26/spring-ws-core/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/05/06/dynamicdatasource/" itemprop="url">
-                  DynamicDataSource添加动态数据库连接
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-05-06T10:59:04+08:00" content="2016-05-06">
-              2016-05-06
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/05/06/dynamicdatasource/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/06/dynamicdatasource/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="一、为什么引进动态数据库配置？"><a href="#一、为什么引进动态数据库配置？" class="headerlink" title="一、为什么引进动态数据库配置？"></a>一、为什么引进动态数据库配置？</h3><pre><code>随着网站的业务不断扩展，数据不断增加，用户越来越多，数据库的压力也就越来越大，采用传统的方式，
-比如：数据库或者SQL的优化基本已达不到要求，这个时候可以采用读写分离的策 略来改变现状。
-</code></pre><h3 id="二、通常做法"><a href="#二、通常做法" class="headerlink" title="二、通常做法"></a>二、通常做法</h3><pre><code>一个Master数据库，多个Slave数据库。Master库负责数据更新和实时数据查询，Slave库当然负责非实时数据查询。
-把查询从主库中抽取出来，采用多个从库，使用负载均衡，减轻每个从库的查询压力。
-</code></pre>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/05/06/dynamicdatasource/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1481,7 +1468,7 @@ CountDownLatch和CyclicBarrier的区别(01) CountDownLatch的作用是允许1或
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">24</span>
+              <span class="site-state-item-count">25</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
