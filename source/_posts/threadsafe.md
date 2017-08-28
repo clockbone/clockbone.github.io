@@ -58,7 +58,7 @@ volatile型变量的特殊规则
 volatile是java JVM提供的轻量级同步机制，
 #### 1、可保证变量可见性，但对于非原子操作 并不能保证线程安全。
 一般用于：
-```
+```java
 volatile  boolean shutdownRequested;
 
     public void shutDown(){
@@ -73,7 +73,7 @@ volatile  boolean shutdownRequested;
 ```
 #### 2、使用他的第二个语义是禁止指令重排序优化。
 一般用于处理配置文件是用到，比如下面一段代码：
-```
+```java
 Map configOptions;
     char[] confitText;
     volatile  boolean initialized = false;
@@ -101,7 +101,7 @@ Map configOptions;
 > 该变量没有包含在具有其他变量的不变式中。
 
 ### 四、ReecntrantLock用法举例
-```bash
+```java
 public class TheadTest2 {
     private static Lock lock  = new ReentrantLock();
     private static Condition subThreadCondition = lock.newCondition();

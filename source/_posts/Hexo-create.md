@@ -36,7 +36,7 @@ Hexo 快速环境搭建
 ### 二、安装依赖包
 
 
-``` bash
+```bash
 npm install
 ```
 相关命令缩写
@@ -52,7 +52,7 @@ hexo new=hexo
 
 
 执行以下命令：
-``` bash
+```bash
     hexo g
     hexo s
 ```

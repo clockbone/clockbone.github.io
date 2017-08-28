@@ -6,6 +6,7 @@ tags: [thread , java]
 ---
 ### 一、cyclicBarrier简介
 CyclicBarrier允许N个线程相互等待。
+<!-- more -->
 基本使用
 ```java
 //启动主方法

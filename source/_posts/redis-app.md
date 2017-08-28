@@ -11,7 +11,7 @@ redis官网提供了jar包来支持redis在java开发的运用，下面结合red
 上面这4种类型也是在应用程序中经常会用到的，下面看看如何运用
 ### 一、存储string类型
  redis下命令为：
-```
+```bash
  SET key value
  GET key
 ```
@@ -19,39 +19,39 @@ redis官网提供了jar包来支持redis在java开发的运用，下面结合red
 `string类型运用`：可存储一个简单的string类型，也可将java复杂对象转成json格式字符串存储，根据key取出后再解析josn串也是一种很方便的做法。
 ### 二、有序的set集合
 命令存储：
-```
+```bash
 ZADD key score member [[score member] [score member] ...]
 ```
 
  因为是有序的set集合，`score`为存储的序列号，`member`为值
  应用：
- ```
+ ```java
  for(int i=0;i<listLength;i++){
      zadd key i list.get(i)
  }
  ```
  读取：
- ```
+ ```bash
  redis > ZRANGE salary 0 -1 WITHSCORES  # 显示整个有序集成员
  ```
 `WITHSCORES`参数:表示显示序号
 `有序的set集合运用`：可用来存储有序的菜单，当然这里也可用list来存，因为List本身就是用序的，但list不可控制其重复性。
 ### 三、set集合
 存储：
-```
+```bash
 SADD bbs "discuz.net"
 ```
   读取：
-```
+```bash
 SMEMBERS bbs
-```
+```bash
 ### 四、hash类型
 存储：
-```
+```bash
 HSET key field value
 ```
 读取：
-```
+```bash
 读取一个属性：  HGET key field
 读取所有：     HGETALL key
 ```
@@ -59,11 +59,11 @@ HSET key field value
 ###  五、list类型
 list集合
 查看list下所有元素：
-```
+```bash
 lrange mylist 0 -1
 ```
 写值：
-```
+```bash
 lpush mylist value1 value2 value3
 ```
 list可以写重复的值限 `lpush mylist 'test' 'test' 'test'`

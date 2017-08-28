@@ -6,7 +6,7 @@ tags:
 ### 前言
 主要记录在项目中使用spring-taks作为定时任务需要注意的地方
 ### 一、spring-task 配置文件
-```
+```xml
 <!--使用注解方式启动task -->
 <task:annotation-driven />
 <task:scheduled-tasks >
@@ -17,7 +17,7 @@ tags:
 大概只要这样配置就可以运行了,注意这样的配置,单个定时任务之间是串行的,就是说一个时间点只有一个job在执
 行,因为spring-task默认的线程数是1,但我们需要的是在不同的定进任务之间是并行,需要修改成:
 
-```
+```xml
 <!--使用注解方式启动task -->
 <task:annotation-driven />
 <task:scheduled-tasks  pool-size="5" >
@@ -27,7 +27,7 @@ tags:
 ```
 指定一个线程池的大小大于1就可以让多个任不同Job并行,具体线程池的大小可根据实际任务数据合理设置.
 但如果有以下情况的定进任务
-```
+```xml
 <task:scheduled-tasks  pool-size="5" >
     <!--设置方法test1在 0,1,2,3,4,22,23 每30分钟执行一次,设置其它时间每2小时执行一次-->
     <task:scheduled ref="serviceTestTask" method="test1" cron="0 0/30 0,1,2,3,4,22,23 * * ?" />
@@ -38,7 +38,7 @@ tags:
 这个时候我们希望同一个方法test1是可以串行执行,而不同的方法test1,test2是可并行执行的.
 但这个配置test1,test1,test2都会并行实现,如何实现同一任务串行,不同任务并行?此时我们需要配置2个scheduled,如下
 
-```
+```xml
 <task:scheduler id="myScheduler1"/>
 <task:scheduler id="myScheduler2" pool-size="5"/>
 <task:scheduled-tasks  scheduler="myScheduler1">

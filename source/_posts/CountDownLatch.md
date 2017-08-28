@@ -10,6 +10,7 @@ CountDownLatch是同步工具类之一，可以指定一个计数值，在并发
 >(01) CountDownLatch的作用是允许1或N个线程等待其他线程完成执行；而CyclicBarrier则是允许N个线程相互等待。
 >(02) CountDownLatch的计数器无法被重置；CyclicBarrier的计数器可以被重置后使用，因此它被称为是循环的barrier。
 
+<!-- more -->
 基本使用方法:
 ```java
 public void CountDownLatch() {

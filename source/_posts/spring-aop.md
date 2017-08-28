@@ -25,7 +25,7 @@ tag: spring
 `环绕通知（Around Advice）`：包围一个连接点的通知，如方法调用。这是最强大的一种通知类型。环绕通知可以在方法调用前后完成自定义的行为。它也会选择是否继续执行连接点或直接返回它自己的返回值或抛出异常来结束执行。
 环绕通知是最常用的通知类型。和AspectJ一样，Spring提供所有类型的通知，我们推荐你使用尽可能简单的通知类型来实现需要的功能。例如，如果你只是需要一个方法的返回值来更新缓存，最好使用后置通知而不是环绕通知，尽管环绕通知也能完成同样的事情。用最合适的通知类型可以使得编程模型变得简单，并且能够避免很多潜在的错误。比如，你不需要在JoinPoint上调用用于环绕通知的proceed()方法，就不会有调用的问题。
 
-```
+```java
 public class RegisterServiceImpl implements RegisterService {
     private  RegisterDao registerDao;
     public RegisterServiceImpl() {}
@@ -45,7 +45,7 @@ public class RegisterServiceImpl implements RegisterService {
 ```
 对于业务系统来说，`RegisterServiceImpl`类就是目标实现类，它的业务方法，如`save()`方法的前后或代码会出现异常的地方都是AOP的连接点。
 下面新建一个切面类，我们需要将切面类放到目标类方法连接点上执行
-```
+```java
 public class LogAspect {
     //任何通知方法都可以将第一个参数定义为 org.aspectj.lang.JoinPoint类型
     public void before(JoinPoint call) {
@@ -87,7 +87,7 @@ public class LogAspect {
  这个类属于业务服务类，如果用AOP的术语来说，它就是一个切面类，它定义了许多通知。`Before()`、`afterReturn()`、`after()`和`afterThrowing()`这些方法都是通知。
 
 ###   三、下面是aop配置：
- ```
+ ```xml
  <?xml version="1.0" encoding="UTF-8"?>
  <beans xmlns="http://www.springframework.org/schema/beans"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -137,23 +137,23 @@ public class LogAspect {
 
 
  #### 1、配置事物管理器
- ```
+ ```xml
  <bean id=”txManager” class=”org.springframework.jdbc.datasource.DataSourceTransactionManager”>
         <property name=”dataSource” ref=”spring中配置的数据源bean的id”/>
  </bean>
  ```
  #### 2、 支持注解方式的事务配置项
- ```
+ ```xml
  <tx:annotation-driventransaction-managertx:annotation-driventransaction-manager=”txManager(spri
  ```
  ####  3、配置注解的事务管理
- ```
+ ```xml
  <bean id=”txManager” class=”org.springframework.jdbc.datasource.DataSourceTransactionManager”>
         <property name=”dataSource” ref=”spring中配置的数据源bean的id”/>
  </bean>
  ```
  ####  4、配置事物管理的切面
- ```
+ ```xml
  <aop:config>
         <!--配置事务切入点-->
         <aop:pointcut id=”transactionPointcut”
@@ -163,7 +163,7 @@ public class LogAspect {
  </aop:config>
  ```
  ####  5、为事务通知添加事物处理特性
- ```
+ ```xml
  <tx:advice id=”txAdvice” transactionManager=”txManager”>
         <tx:attributes>
                <!--这里举例将以get开头的查询方法设置为只读，不支持事务-->
@@ -179,7 +179,7 @@ public class LogAspect {
  2、spring aop拦截器，只拦截spring管理bean的访问（业务层service）
  3、srping mvc里的Interceptor拦截器，需要定义到springmvc-servlet.xml文件中，去拦截url请求资源
  一个具体配置如下：
- ```
+ ```xml
  //用来用户访问权限的控制，当请求admin匹配的url时会执行AdminInterceptor，此方法中获取用户信息，对用户进行校验，只有admin权限用户才可以执行相应操作
  <mvc:interceptors>
          <!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->
@@ -192,7 +192,7 @@ public class LogAspect {
      </mvc:interceptors>
  ```
  AdminInterceptor：
- ```
+ ```java
  public class AdminInterceptor  implements HandlerInterceptor {
 
      @Autowired

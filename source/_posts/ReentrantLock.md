@@ -9,6 +9,7 @@ tags: [thread , java]
 ### 一、ReentrantLock涉及到几个概念
 #### 1、什么是AQS:AQS即是AbstractQueuedSynchronize抽象类
  AQS是java中管理“锁”的抽象类，锁的许多公共方法都是在这个类中实现。AQS是独占锁(例如，ReentrantLock)和共享锁(例如，Semaphore)的公共父类。
+ <!-- more -->
 #### 2、AQS锁的类别(分为“独占锁”和“共享锁”两种)
 (01) 独占锁:锁在一个时间点只能被一个线程锁占有。根据锁的获取机制，它又划分为“公平锁”和“非公平锁”。公平锁，是按照通过CLH等待线程按照先来先得的规则，公平的获取锁；而非公平锁，则当线程要获取锁时，它会无视CLH等待队列而直接获取锁。独占锁的典型实例子是ReentrantLock，此外，ReentrantReadWriteLock.WriteLock也是独占锁。
 (02) 共享锁:能被多个线程同时拥有，能被共享的锁。JUC包中的ReentrantReadWriteLock.ReadLock，CyclicBarrier， CountDownLatch和Semaphore都是共享锁。

@@ -15,7 +15,7 @@ tag: [spring , jpa]
 `@EnableWebMvcSecurity `： 启用springSecurity安全验证
 <!-- more -->
 ### 二、结合jpa作为数据库持久层，一个具体的`JpaSourceConfig`类如下：
-```
+```java
 @Configuration()
 @ComponentScan("")
 @ImportResource(
@@ -81,7 +81,7 @@ public class JpaSourceConfig {
 
 ```
 ### 三、一个具体的实现体的定义
-```
+```java
 /**
  注意：
   * 1、这里的一定要注明表名@Table,
@@ -128,7 +128,7 @@ public class Test {
 
 ```
 ### 四、一个具体的repository类,即dao层类
-```
+```java
    public interface ItemRepository extends JpaRepository<Test, Integer> {
 	 public List<Test> findByKey(String key);
         public List<Test> findByName(String name);
@@ -138,7 +138,7 @@ public class Test {
    }
 ```
 ### 五、orm.xml配置
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

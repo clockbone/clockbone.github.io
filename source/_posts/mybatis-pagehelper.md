@@ -10,7 +10,7 @@ https://github.com/pagehelper/Mybatis-PageHelper/blob/master/README_zh.md
 ### 2、简单说一下本项目的配置案例。
 #### a、spring配置文 件
 
-```
+```xml
 <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
   <!-- 注意其他配置 -->
   <property name="plugins">
@@ -31,7 +31,7 @@ https://github.com/pagehelper/Mybatis-PageHelper/blob/master/README_zh.md
 #### b、代码中使用
 在使用前需要仔细查看官方一些使用提示如：
 https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/zh/Important.md
-```
+```java
 //获取第1页，10条内容，默认查询总数count
 PageHelper.startPage(1, 10);
 //紧跟着的第一个select方法会被分页
@@ -49,7 +49,7 @@ assertEquals(182, ((Page) list).getTotal());
 > 需要注意什么时候会导致不安全的分页?
 
 ### 4、PageHelper分页实现原理说明
-```
+```java
 //设置分页信息保存到threadlocal中
 PageHelper.startPage(1, 10);
 //紧跟着的第一个select方法会被分页，contryMapper会被PageInterceptor截拦,截拦器会从threadlocal中取出分页信息，把分页信息加到sql语句中，实现了分页查旬

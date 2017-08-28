@@ -6,18 +6,18 @@ tag: mybatis
 ---
 
 ### 一、为什么引进动态数据库配置？
-      随着网站的业务不断扩展，数据不断增加，用户越来越多，数据库的压力也就越来越大，采用传统的方式，
-      比如：数据库或者SQL的优化基本已达不到要求，这个时候可以采用读写分离的策 略来改变现状。
+随着网站的业务不断扩展，数据不断增加，用户越来越多，数据库的压力也就越来越大，采用传统的方式，
+比如：数据库或者SQL的优化基本已达不到要求，这个时候可以采用读写分离的策 略来改变现状。
 ### 二、通常做法
-      一个Master数据库，多个Slave数据库。Master库负责数据更新和实时数据查询，Slave库当然负责非实时数据查询。
-      把查询从主库中抽取出来，采用多个从库，使用负载均衡，减轻每个从库的查询压力。
+一个Master数据库，多个Slave数据库。Master库负责数据更新和实时数据查询，Slave库当然负责非实时数据查询。
+把查询从主库中抽取出来，采用多个从库，使用负载均衡，减轻每个从库的查询压力。
 <!-- more -->
 ### 三、开发中具体实现
 #### 第一种：定义2个数据源主库和从库，主库更新和时实查询，从库用于非实时查询
 这种方式直接在mybatis配置文件中定义2个dataSource分别扫描不同的包即可，或者写2个mybatis配置文件分别在其中配置不同的数据源即可
 
 给一个简单的写法如下：
-```
+```xml
     <!-- MyBatis数据库第一个连接配置 -->
     <bean id="dataSourceOne" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
     ……  ……  ……
@@ -51,7 +51,7 @@ tag: mybatis
 #### 第二种：动态切换数据源，在程序运行时，把数据源动态织入到程序中从而选择读从库或主库，如：annotation，Spring AOP ，反射
 下面给出配置文件：
 1、mybatis数据源配置
-```
+```xml
 
     <!-- MyBatis数据库连接配置  main-->
     <bean id="dataSourceMain" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
@@ -87,7 +87,7 @@ tag: mybatis
     </bean>
 ```
 DynamicDtaSource类的实现：
-```
+```java
 //动态数据源配置类
 public class DynamicDataSource extends AbstractRoutingDataSource {
     @Override
@@ -119,7 +119,7 @@ public class DBContextHolder {
 }
 ```
 2、通过aop方式动态织入需要添加aop配置：
-```
+```xml
 <!-- 配置数据库注解aop -->
 <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 <bean id="manyDataSourceAspect" class="com.clockbone.filter.DataSourceAspect" />
@@ -132,7 +132,7 @@ public class DBContextHolder {
 </aop:config>
 ```
 DataSourceAspect类的实现：
-```
+```java
 public class DataSourceAspect {
     public void before(JoinPoint point){
         Object target = point.getTarget();
@@ -156,7 +156,7 @@ public class DataSourceAspect {
 }
 ```
 3、一个dynamicdao层的具体例子：
-```
+```java
 public interface UserNewMapper {
     @DataSource(Constant.DATA_SOURCE_MAIN)
     int deleteByPrimaryKey(Integer UserId);
@@ -169,7 +169,7 @@ public interface UserNewMapper {
 }
 ```
 @DataSource的实现：
-```
+```java
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public  @interface DataSource {
@@ -179,7 +179,7 @@ public  @interface DataSource {
 到此就完了动态aop织入的配置，当执行dao层中注解为`Constant.DATA_SOURCE_MAIN`时就会读主库；
 
 除了以上的那种配置外，xml中动态织入数据源的另一种拦截器配置：
-```
+```xml
 <!--另一种方式的数据源选择 拦截器配置-->
     <!--配置拦截器  dataSourceMain  dataSourceBack-->
     <bean id="dynamicDsInterceptor_galaxy" class="com.clockbone.interceptor.DynamicDataSourceInterceptor">
@@ -203,7 +203,7 @@ public  @interface DataSource {
     </aop:config>
 ```
 DynamicDataSourceInterceptor拦截器类的实现：
-```
+```java
 //设置数据源key的拦截器
 public class DynamicDataSourceInterceptor implements MethodInterceptor {
     //方法和使用数据源key的对应关系

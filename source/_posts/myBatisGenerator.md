@@ -15,7 +15,7 @@ MyBatis Generator是一个用来根据表结构自动生成对应model、sqlmapp
    ```
    <!-- more -->
    #### 4、给出一个具体的`generatorConfig.xml`文件如下：
-   ```
+   ```xml
    <?xml version="1.0" encoding="UTF-8"?>
    <!DOCTYPE generatorConfiguration
            PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
@@ -82,7 +82,7 @@ MyBatis Generator是一个用来根据表结构自动生成对应model、sqlmapp
 #### 1、引入`mybatis-generator-core jar`包
 #### 2、新建`generatorConfig.xml`文件，内容参考官方文档： http://www.mybatis.org/generator/configreference/xmlconfig.html
 #### 3、引入`maven`插件，参考：http://www.mybatis.org/generator/running/runningWithMaven.html
-```
+```xml
   <!--自动生成mybatis xml文件插件-->
             <plugin>
                 <groupId>org.mybatis.generator</groupId>

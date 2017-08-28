@@ -6,7 +6,7 @@ tags: spring
 ---
 ### 一、spring-ws-core的WebServiceTemplate不需要生成webservice客户端调用webservice
 #### 1、先加spring-ws-core依赖
-```
+```xml
 <dependency>
     <groupId>org.springframework.ws</groupId>
     <artifactId>spring-ws-core</artifactId>
@@ -15,11 +15,11 @@ tags: spring
 ```
 当spring-ws-core整合spring-webmvc 4.1.2时会出现一个异常如下：
 <!-- more -->
-```
+```java
 java.lang.ClassNotFoundException: org.springframework.aop.interceptor
 ```
 是因为aop的jar包冲突，需要将spring-ws-core的依赖去掉aop的引用，将以上的依赖修改如下:
-```
+```xml
 <dependency>
     <groupId>org.springframework.ws</groupId>
     <artifactId>spring-ws-core</artifactId>
@@ -33,7 +33,7 @@ java.lang.ClassNotFoundException: org.springframework.aop.interceptor
 </dependency>
 ```
 #### 2、application.xml中添加webservice配置
-```
+```xml
 <bean id="webServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
     <property name="defaultUri"
               value="http://testclock.bone/WebService/services/test" />
@@ -41,11 +41,11 @@ java.lang.ClassNotFoundException: org.springframework.aop.interceptor
 ```
 > 注意这里不定不能加`?wsdl`
 否则会抛出一个异常如下：
-```
+```java
 Java Spring WS org.springframework.ws.soap.saaj.SaajSoapEnvelopeException: Could not access envelope
 ```
 #### 3、如何调用webServiceTemplate
-```
+```java
  public String getUserInfoResult(String parameter1)throws UnsupportedEncodingException{
         String requestMessage = message();
         System.out.println("参数:\r\n"+ requestMessage);
@@ -76,7 +76,7 @@ wsimport  -keep -p com.clockbone.ws -s codesrc http://webservice.test.cc/WebServ
 `-p:`指定包名，这里包名最好和工程目录下放的webservice客户端的包名一致，避免生成后的webservice客户代码放到工程目录时还要修改包名
 `-s:`指定生成webservice客户代码所在的文件夹目录，没有些目录需要手动建立
 #### 2、配置
-```
+```xml
 <bean id="webservice" class="org.springframework.remoting.jaxws.JaxWsPortProxyFactoryBean">
         <property name="serviceInterface" value="com.clockbone.ws.GWWSPortType" />
         <property name="wsdlDocumentUrl" value="http://webservice.test.cc/WebService/services/test?wsdl" />

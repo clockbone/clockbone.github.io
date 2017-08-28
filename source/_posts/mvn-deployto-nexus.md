@@ -6,7 +6,7 @@ tags: maven
 ---
 目前maven项目是用的比较多的，那么上传本地jar到maven仓库也是常会有事，下面介绍一下如何上传jar到本地仓库和远程仓库。
 ### 一、用命令上传jar包到本地仓库
-```
+```xml
 <dependency>
     <groupId>com.spreada</groupId>
     <artifactId>ZHConverter</artifactId>

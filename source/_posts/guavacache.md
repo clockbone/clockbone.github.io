@@ -10,7 +10,7 @@ tag: [ guava , cache]
 mytabis框架缓存可用于数据库查找等数据的缓存
 #### 1、添加缓存依赖
 <!-- more -->
-```
+```xml
 <dependency>
             <groupId>com.googlecode.ehcache-spring-annotations</groupId>
             <artifactId>ehcache-spring-annotations</artifactId>
@@ -35,7 +35,7 @@ mytabis框架缓存可用于数据库查找等数据的缓存
 ```
 这里需要注意jar的冲突，如果有jar包冲突就如上解决冲突jar，如果没有就不用
 #### 2、整合合spring配置如下
-```
+```xml
 <ehcache:annotation-driven cache-manager="cacheManager" proxy-target-class="true"/>
 
 	<ehcache:config cache-manager="cacheManager">
@@ -48,7 +48,7 @@ mytabis框架缓存可用于数据库查找等数据的缓存
     </bean>
 ```
 其中ehcache.xml如下：
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
@@ -80,7 +80,7 @@ mytabis框架缓存可用于数据库查找等数据的缓存
 ```
 #### 3、代码中运用
 可以在需要缓存的方法前加cache注解，如在一个service方法上添加@Cacheable
-```
+```java
 @Cacheable(cacheName = "preCache")
     public Test getType(String type){
         Test test = mapper.getType(type);
@@ -93,7 +93,7 @@ mytabis框架缓存可用于数据库查找等数据的缓存
 ### 二、guava cache缓存
 可用于数据库数据结果集缓存，或常用接口数据缓存
 #### 1、先引入guava依赖
-```
+```xml
 <dependency>
     <groupId>com.google.guava</groupId>
     <artifactId>guava</artifactId>
@@ -102,7 +102,7 @@ mytabis框架缓存可用于数据库查找等数据的缓存
 ```
 #### 2、以登录后缓存登录用户信息为例
 功能描述：当用户登录后，需要根据用户id获取用户信息，并且用户信息使用频繁，可用guava缓存
-```
+```java
 @Component
 public class AccountCache {
     @Autowired
@@ -151,7 +151,7 @@ public class AccountCache {
 可以用test类，连续几次调用`getAccountById`方法，发现短是时间为在，只有一次调用，其它都是直接从缓存获取
 #### 3、以不常更新数据为例
 ##### a、新建一个缓存变量类
-```
+```java
 public class TeamInfoCache {
     //可以定义各种不同的缓存变量，用于需要缓存的数据,参数可根据需求再定,Cache泛型第一个参数表示：获取不同缓存关键值类型，第二个参数表示：缓存结果集类型
     public static final Cache<String,Map<String,Map<String,List<Test>>>> TestCache = CacheBuilder.newBuilder()
@@ -160,7 +160,7 @@ public class TeamInfoCache {
 }
 ```
 ##### b、缓存调用及实现
-```
+```java
 public  Map<String,Map<String,List<TeamInfo>>>  getTestInfo(String areaId,String level){
         final  Map<String,Map<String,List<Test>>> arealMap = new HashMap<String,Map<String,List<Test>>>();
         try {
