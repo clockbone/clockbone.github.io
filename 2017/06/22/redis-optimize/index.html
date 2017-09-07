@@ -84,16 +84,19 @@
 
 
 
-<meta name="description" content="一、问题描述在通过redis缓存进行了一系列的接口性能优化后,大部分接口返回在1ms~200ms间,这都是redis的功劳,但随着接口redis缓存越来越多,新的问题产生了,从redis取数据竟然用了5s = =,通过观察日志,并不是每次取数据都是5s,大部分情况从redis取数据还是很快的不会超过5ms.">
+<meta name="description" content="一、问题描述在通过redis缓存进行了一系列的接口性能优化后,大部分接口返回在1ms~200ms间,这都是redis的功劳,但随着接口redis缓存越来越多,新的问题产生了,从redis取数据竟然用了5s = =,通过观察日志,并不是每次取数据都是5s,大部分情况从redis取数据还是很快的不会超过5ms.
+二、解决1 在查看代码后,发现有些redis的key设计的过长,于是首先重命名了redis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="redis配置优化(记一次线上redis问题排查)">
 <meta property="og:url" content="/2017/06/22/redis-optimize/index.html">
 <meta property="og:site_name" content="clock |">
-<meta property="og:description" content="一、问题描述在通过redis缓存进行了一系列的接口性能优化后,大部分接口返回在1ms~200ms间,这都是redis的功劳,但随着接口redis缓存越来越多,新的问题产生了,从redis取数据竟然用了5s = =,通过观察日志,并不是每次取数据都是5s,大部分情况从redis取数据还是很快的不会超过5ms.">
-<meta property="og:updated_time" content="2017-08-23T07:42:56.000Z">
+<meta property="og:description" content="一、问题描述在通过redis缓存进行了一系列的接口性能优化后,大部分接口返回在1ms~200ms间,这都是redis的功劳,但随着接口redis缓存越来越多,新的问题产生了,从redis取数据竟然用了5s = =,通过观察日志,并不是每次取数据都是5s,大部分情况从redis取数据还是很快的不会超过5ms.
+二、解决1 在查看代码后,发现有些redis的key设计的过长,于是首先重命名了redis">
+<meta property="og:updated_time" content="2017-09-07T01:38:44.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redis配置优化(记一次线上redis问题排查)">
-<meta name="twitter:description" content="一、问题描述在通过redis缓存进行了一系列的接口性能优化后,大部分接口返回在1ms~200ms间,这都是redis的功劳,但随着接口redis缓存越来越多,新的问题产生了,从redis取数据竟然用了5s = =,通过观察日志,并不是每次取数据都是5s,大部分情况从redis取数据还是很快的不会超过5ms.">
+<meta name="twitter:description" content="一、问题描述在通过redis缓存进行了一系列的接口性能优化后,大部分接口返回在1ms~200ms间,这都是redis的功劳,但随着接口redis缓存越来越多,新的问题产生了,从redis取数据竟然用了5s = =,通过观察日志,并不是每次取数据都是5s,大部分情况从redis取数据还是很快的不会超过5ms.
+二、解决1 在查看代码后,发现有些redis的key设计的过长,于是首先重命名了redis">
 
 
 
@@ -312,10 +315,10 @@
       
 
       
-        <h3 id="一、问题描述"><a href="#一、问题描述" class="headerlink" title="一、问题描述"></a>一、问题描述</h3><p>在通过redis缓存进行了一系列的接口性能优化后,大部分接口返回在1ms~200ms间,这都是redis的功劳,但随着接口redis缓存越来越多,新的问题产生了,从redis取数据竟然用了5s = =,通过观察日志,并不是每次取数据都是5s,<br>大部分情况从redis取数据还是很快的不会超过5ms.<br><a id="more"></a></p>
+        <h3 id="一、问题描述"><a href="#一、问题描述" class="headerlink" title="一、问题描述"></a>一、问题描述</h3><p>在通过redis缓存进行了一系列的接口性能优化后,大部分接口返回在1ms~200ms间,这都是redis的功劳,但随着接口redis缓存越来越多,新的问题产生了,从redis取数据竟然用了5s = =,通过观察日志,并不是每次取数据都是5s,<br>大部分情况从redis取数据还是很快的不会超过5ms.</p>
 <h3 id="二、解决"><a href="#二、解决" class="headerlink" title="二、解决"></a>二、解决</h3><p>1 在查看代码后,发现有些redis的key设计的过长,于是首先重命名了rediskey尽量减少其长度,但观察发现这种情况还<br>是存在,并且观察日志,redis取数据耗时长的问题大概隔一段时间才发生<br>2 查看redis配置,发现redis初始化线程池大小没有设置= =,需要知道的是redis初始化线程大默认是0,在了解redis模式<br>和服务器端设置的连数大小后,果断加上redis初始化线程大小.问题解决,如果以后发现这种问题,但检察初始连接数已配置,可考虑初始连接数是否配置过小.</p>
 <blockquote>
-<p>注意:<br>redis初始化线程数大小是需要根据redis并发数来设置的.</p>
+<p>注意:<br>redis初始化线程数大小是需要根据redis并发数来设置的.<br><a id="more"></a></p>
 </blockquote>
 <p>首先确定本项目reids是从主模式,单机配置,和服务端设置的最大连接数为10000,以及综合考虑redis并发数大小<br>所以redis初始化连接数大小设置 100,具体redis配置如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;bean id=&quot;jedisPoolConfig&quot; class=&quot;redis.clients.jedis.JedisPoolConfig&quot;&gt;</div><div class="line">        &lt;!--最大连接连接--&gt;</div><div class="line">      	&lt;property name=&quot;maxTotal&quot; value=&quot;500&quot; /&gt;</div><div class="line">      	&lt;!--最大空闲连接数,在连接空闲一段时间后,会自动回收,并恢复到最小空闲连接数个数--&gt;</div><div class="line">        &lt;property name=&quot;maxIdle&quot; value=&quot;300&quot;/&gt;</div><div class="line">        &lt;!--初始化连接数或最小空闲连接--&gt;</div><div class="line">        &lt;property name=&quot;minIdle&quot; value=&quot;100&quot;/&gt;</div><div class="line">         &lt;!--最大等待连接数--&gt;</div><div class="line">        &lt;property name=&quot;maxWaitMillis&quot; value=&quot;2000&quot; /&gt;</div><div class="line">        &lt;property name=&quot;testOnBorrow&quot; value=&quot;true&quot;/&gt;</div><div class="line">    &lt;/bean&gt;</div></pre></td></tr></table></figure></p>
 <p>在配置完连接数后,还可观察redis目前最大连数,最小连接数,来适当调整redis连接数大小</p>
@@ -375,24 +378,11 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2017/06/22/redis-optimize/"
-     data-title="redis配置优化(记一次线上redis问题排查)"
-     data-content=""
-     data-url="/2017/06/22/redis-optimize/">
-  <div class="ds-share-inline">
-    <ul  class="ds-share-icons-16">
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
 
-      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-
-    </ul>
-    <div class="ds-share-icons-more">
-    </div>
-  </div>
-</div>
       
     </div>
   </div>
@@ -451,7 +441,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">26</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -468,7 +458,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

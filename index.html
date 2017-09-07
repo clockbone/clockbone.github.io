@@ -245,6 +245,129 @@
             
               
                 
+                <a class="post-title-link" href="/2017/09/05/volatile/" itemprop="url">
+                  volatile
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-09-05T11:03:55+08:00" content="2017-09-05">
+              2017-09-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/09/05/volatile/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/05/volatile/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="一-内存模型的相关概念"><a href="#一-内存模型的相关概念" class="headerlink" title="一.内存模型的相关概念"></a>一.内存模型的相关概念</h3><p>cpu从内存读取数据的速度跟不上cpu执行的速度,所以cpu中有了高速缓存。当程序在运行时,会将运算需要的数据从主存复制一份到cpu的高速缓存,那么CPU进行计算时就可以直接从它的高速缓存读取数据和向其中写入数据，<br>当运算结束之后，再将高速缓存中的数据刷新到主存当中。在单线程中是没有问题,但到多线程环境下可能就会出现缓存不一致性的问题.<br>如何解决缓存不一致性问题，通常来说有以下2种解决方法：</p>
+<p>1&gt; 通过总线加#LOCK方式<br>   早期cpu是通过这种方式实现的,但是这个做会导致效率低下.因为cpu和其他部件进行通信都是通过总线来进行的，如果对总线加LOCK#锁的话，也就是说阻塞了其他CPU对其他部件访问（如内存），从而使得只能有一个CPU能使用这个变量的内存。<br>2&gt; 通过缓存一致性协议<br>   当CPU写数据时，如果发现操作的变量是共享变量，即在其他CPU中也存在该变量的副本，会发出信号通知其他CPU将该变量的缓存行置为无效状态，因此当其他CPU需要读取这个变量时，发现自己缓存中缓存该变量的缓存行是无效的，那么它就会从内存重新读取。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/09/05/volatile/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/08/28/cas/" itemprop="url">
                   cas
                 </a>
@@ -314,8 +437,8 @@
 
       
         
-          <h3 id="一、cas简介"><a href="#一、cas简介" class="headerlink" title="一、cas简介"></a>一、cas简介</h3><p><code>java.util.concurrent</code>包完全建立在<code>CAS</code>之上的，没有<code>CAS</code>就不会有此包<br>ava.util.concurrent包中借助CAS实现了区别于synchronouse同步锁的一种乐观锁。</p>
-<h3 id="二、cas原理"><a href="#二、cas原理" class="headerlink" title="二、cas原理"></a>二、cas原理</h3><p>CAS:Compare and Swap  比较并交换<br>CAS有三个参数,内存位置V、旧的预期值A、新的预期值B。<strong>当且仅当V符合预期值A的时候，CAS用新值B原子化<br>的更新V的值；否则他什么都不做。在任何情况下都会返回V的真实值。</strong>（这个变量称为compare-and-set，无论操作是否成功都会返回。）CAS的意思是，“ 我任务V的值应该是A，如果是A则将其赋值给B，若不是，则不修改，<br>并告诉我应该为多少。”CAS是以项乐观技术–它抱着成功的希望进行更新，并且如果，另一个线程在上次检查后更新了变量，它能够发现错误。<br>
+          <h3 id="一、cas简介"><a href="#一、cas简介" class="headerlink" title="一、cas简介"></a>一、cas简介</h3><p><code>java.util.concurrent</code>包完全建立在<code>CAS</code>之上的，没有<code>CAS</code>就不会有此包<br>ava.util.concurrent包中借助CAS实现了区别于<code>synchronouse</code>同步锁的一种乐观锁。</p>
+<h3 id="二、cas原理"><a href="#二、cas原理" class="headerlink" title="二、cas原理"></a>二、cas原理</h3><p>CAS:<code>Compare and Swap</code>  比较并交换<br>CAS有三个参数,内存位置V、旧的预期值A、新的预期值B。<strong>当且仅当V符合预期值A的时候，CAS用新值B原子化<br>的更新V的值；否则他什么都不做。在任何情况下都会返回V的真实值。</strong>（这个变量称为<code>compare-and-set</code>，无论操作是否成功都会返回。）CAS的意思是，“ 我任务V的值应该是A，如果是A则将其赋值给B，若不是，则不修<br>改，并告诉我应该为多少。”CAS是以项乐观技术–它抱着成功的希望进行更新，并且如果，另一个线程在上次检查后更新了变量，它能够发现错误。<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2017/08/28/cas/#more" rel="contents">
               阅读全文 &raquo;
@@ -437,7 +560,8 @@
 
       
         
-          <h3 id="一、cyclicBarrier简介"><a href="#一、cyclicBarrier简介" class="headerlink" title="一、cyclicBarrier简介"></a>一、cyclicBarrier简介</h3><p>CyclicBarrier允许N个线程相互等待。<br>
+          <h3 id="一、cyclicBarrier简介"><a href="#一、cyclicBarrier简介" class="headerlink" title="一、cyclicBarrier简介"></a>一、cyclicBarrier简介</h3><p>CyclicBarrier允许N个线程相互等待。</p>
+<p>基本使用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//启动主方法</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> ROWS=<span class="number">10000</span>;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> NUMBERS=<span class="number">1000</span>;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> SEARCH=<span class="number">5</span>;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> PARTICIPANTS=<span class="number">5</span>;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> LINES_PARTICIPANT=<span class="number">2000</span>;</div><div class="line">        MatrixMock mock=<span class="keyword">new</span> MatrixMock(ROWS, NUMBERS,SEARCH);</div><div class="line">        Results results=<span class="keyword">new</span> Results(ROWS);</div><div class="line">        Grouper grouper=<span class="keyword">new</span> Grouper(results,mock.getDatas());</div><div class="line">        <span class="comment">//需要等待5个线程执行完，执行grouper</span></div><div class="line">        <span class="keyword">final</span> CyclicBarrier barrier=<span class="keyword">new</span> CyclicBarrier(PARTICIPANTS,grouper);</div><div class="line"></div><div class="line">        Searcher searchers[]=<span class="keyword">new</span> Searcher[PARTICIPANTS];</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;PARTICIPANTS; i++)&#123;</div><div class="line">            <span class="keyword">if</span>(i==PARTICIPANTS-<span class="number">1</span>)&#123;</div><div class="line">                searchers[i]=<span class="keyword">new</span> Searcher(i*LINES_PARTICIPANT, (i*LINES_PARTICIPANT)+LINES_PARTICIPANT-<span class="number">1</span>, mock, results, <span class="number">5</span>,barrier);</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                searchers[i]=<span class="keyword">new</span> Searcher(i*LINES_PARTICIPANT, (i*LINES_PARTICIPANT)+LINES_PARTICIPANT-<span class="number">1</span>, mock, results, <span class="number">5</span>,barrier);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            Thread thread=<span class="keyword">new</span> Thread(searchers[i]);</div><div class="line">            thread.start();</div><div class="line">        &#125;</div><div class="line">        System.out.printf(<span class="string">"Main: The main thread has finished.\n"</span>);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2017/08/28/cyclicBarrier/#more" rel="contents">
               阅读全文 &raquo;
@@ -811,7 +935,7 @@
       
         
           <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>  不太擅长记录原理类东西,但另一方面这些理论确实比较重要,只有掌握了这些东西,在出现问题的时候才能更好的解决.</p>
-<h3 id="一、ReentrantLock涉及到几个概念"><a href="#一、ReentrantLock涉及到几个概念" class="headerlink" title="一、ReentrantLock涉及到几个概念"></a>一、ReentrantLock涉及到几个概念</h3><h4 id="1、什么是AQS-AQS即是AbstractQueuedSynchronize抽象类"><a href="#1、什么是AQS-AQS即是AbstractQueuedSynchronize抽象类" class="headerlink" title="1、什么是AQS:AQS即是AbstractQueuedSynchronize抽象类"></a>1、什么是AQS:AQS即是AbstractQueuedSynchronize抽象类</h4><p> AQS是java中管理“锁”的抽象类，锁的许多公共方法都是在这个类中实现。AQS是独占锁(例如，ReentrantLock)和共享锁(例如，Semaphore)的公共父类。<br>
+<h3 id="一、ReentrantLock涉及到几个概念"><a href="#一、ReentrantLock涉及到几个概念" class="headerlink" title="一、ReentrantLock涉及到几个概念"></a>一、ReentrantLock涉及到几个概念</h3><h4 id="1、什么是AQS-AQS即是AbstractQueuedSynchronize抽象类"><a href="#1、什么是AQS-AQS即是AbstractQueuedSynchronize抽象类" class="headerlink" title="1、什么是AQS:AQS即是AbstractQueuedSynchronize抽象类"></a>1、什么是AQS:AQS即是AbstractQueuedSynchronize抽象类</h4><p> AQS是java中管理“锁”的抽象类，锁的许多公共方法都是在这个类中实现。AQS是独占锁(例如，ReentrantLock)和共享锁(例如，Semaphore)的公共父类。它是基于FIFO等待队列实现的一个用于实现同步器的基础框架。<br> JCU包里面几乎所有的有关锁、多线程并发以及线程同步器等重要组件的实现都是基于AQS这个框架。AQS核心是基于volatile int state这样的一个属性同时配合Unsafe工具对其原子性的操作来实现对当前锁的状态进行修改。当state的值为0的时候，标识改为Lock不被任何线程所占有。<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2017/08/23/ReentrantLock/#more" rel="contents">
               阅读全文 &raquo;
@@ -914,12 +1038,9 @@
 
       
         
-          
-          前言主要记录在项目中使用spring-taks作为定时任务需要注意的地方
-一、spring-task 配置文件123456&lt;!--使用注解方式启动task --&gt;&lt;task:annotation-driven /&gt;&lt;task:scheduled-tasks &gt;    &lt;task:scheduled ref="serviceTestTask" method="test1" cron="0 0/30 0,1,2,3,4,22,23 * * ?" /&gt;    &lt;task:scheduled ref="serviceTestTask" method="test2" cron="0 0/30 0,1,2,3,4,22,23 * * ?" /&gt;&lt;/task:scheduled-tasks&gt;
-大概只要这样配置就可以运行了,注意这样的
-          ...
-
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>主要记录在项目中使用spring-taks作为定时任务需要注意的地方</p>
+<h3 id="一、spring-task-配置文件"><a href="#一、spring-task-配置文件" class="headerlink" title="一、spring-task 配置文件"></a>一、spring-task 配置文件</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--使用注解方式启动task --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">task:annotation-driven</span> /&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">task:scheduled-tasks</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">task:scheduled</span> <span class="attr">ref</span>=<span class="string">"serviceTestTask"</span> <span class="attr">method</span>=<span class="string">"test1"</span> <span class="attr">cron</span>=<span class="string">"0 0/30 0,1,2,3,4,22,23 * * ?"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">task:scheduled</span> <span class="attr">ref</span>=<span class="string">"serviceTestTask"</span> <span class="attr">method</span>=<span class="string">"test2"</span> <span class="attr">cron</span>=<span class="string">"0 0/30 0,1,2,3,4,22,23 * * ?"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">task:scheduled-tasks</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>大概只要这样配置就可以运行了,注意这样的配置,单个定时任务之间是串行的,就是说一个时间点只有一个job在执<br>行,因为spring-task默认的线程数是1,但我们需要的是在不同的定进任务之间是并行,需要修改成:<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2017/07/25/spring-task/#more" rel="contents">
               阅读全文 &raquo;
@@ -1041,7 +1162,10 @@
 
       
         
-          <h3 id="一、问题描述"><a href="#一、问题描述" class="headerlink" title="一、问题描述"></a>一、问题描述</h3><p>在通过redis缓存进行了一系列的接口性能优化后,大部分接口返回在1ms~200ms间,这都是redis的功劳,但随着接口redis缓存越来越多,新的问题产生了,从redis取数据竟然用了5s = =,通过观察日志,并不是每次取数据都是5s,<br>大部分情况从redis取数据还是很快的不会超过5ms.<br>
+          <h3 id="一、问题描述"><a href="#一、问题描述" class="headerlink" title="一、问题描述"></a>一、问题描述</h3><p>在通过redis缓存进行了一系列的接口性能优化后,大部分接口返回在1ms~200ms间,这都是redis的功劳,但随着接口redis缓存越来越多,新的问题产生了,从redis取数据竟然用了5s = =,通过观察日志,并不是每次取数据都是5s,<br>大部分情况从redis取数据还是很快的不会超过5ms.</p>
+<h3 id="二、解决"><a href="#二、解决" class="headerlink" title="二、解决"></a>二、解决</h3><p>1 在查看代码后,发现有些redis的key设计的过长,于是首先重命名了rediskey尽量减少其长度,但观察发现这种情况还<br>是存在,并且观察日志,redis取数据耗时长的问题大概隔一段时间才发生<br>2 查看redis配置,发现redis初始化线程池大小没有设置= =,需要知道的是redis初始化线程大默认是0,在了解redis模式<br>和服务器端设置的连数大小后,果断加上redis初始化线程大小.问题解决,如果以后发现这种问题,但检察初始连接数已配置,可考虑初始连接数是否配置过小.</p>
+<blockquote>
+<p>注意:<br>redis初始化线程数大小是需要根据redis并发数来设置的.<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2017/06/22/redis-optimize/#more" rel="contents">
               阅读全文 &raquo;
@@ -1113,6 +1237,25 @@
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
@@ -1300,129 +1443,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/26/spring-ws-core/" itemprop="url">
-                  调用webservice客户端几种常用方式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-26T10:49:46+08:00" content="2016-07-26">
-              2016-07-26
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/26/spring-ws-core/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/26/spring-ws-core/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="一、spring-ws-core的WebServiceTemplate不需要生成webservice客户端调用webservice"><a href="#一、spring-ws-core的WebServiceTemplate不需要生成webservice客户端调用webservice" class="headerlink" title="一、spring-ws-core的WebServiceTemplate不需要生成webservice客户端调用webservice"></a>一、spring-ws-core的WebServiceTemplate不需要生成webservice客户端调用webservice</h3><h4 id="1、先加spring-ws-core依赖"><a href="#1、先加spring-ws-core依赖" class="headerlink" title="1、先加spring-ws-core依赖"></a>1、先加spring-ws-core依赖</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.ws<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-ws-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.4.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>当spring-ws-core整合spring-webmvc 4.1.2时会出现一个异常如下：<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/26/spring-ws-core/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1468,7 +1488,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">26</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1485,7 +1505,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

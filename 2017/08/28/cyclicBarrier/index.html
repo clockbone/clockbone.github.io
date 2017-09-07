@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="thread,java," />
+  <meta name="keywords" content="thread," />
 
 
 
@@ -84,16 +84,19 @@
 
 
 
-<meta name="description" content="一、cyclicBarrier简介CyclicBarrier允许N个线程相互等待。">
+<meta name="description" content="一、cyclicBarrier简介CyclicBarrier允许N个线程相互等待。
+基本使用1234567891011121314151617181920212223242526//启动主方法public static void main(String[] args)&amp;#123;        final int ROWS=10000;        final int NUMBERS=1000;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="cyclicBarrier">
 <meta property="og:url" content="/2017/08/28/cyclicBarrier/index.html">
 <meta property="og:site_name" content="clock |">
-<meta property="og:description" content="一、cyclicBarrier简介CyclicBarrier允许N个线程相互等待。">
-<meta property="og:updated_time" content="2017-08-28T09:18:54.000Z">
+<meta property="og:description" content="一、cyclicBarrier简介CyclicBarrier允许N个线程相互等待。
+基本使用1234567891011121314151617181920212223242526//启动主方法public static void main(String[] args)&amp;#123;        final int ROWS=10000;        final int NUMBERS=1000;">
+<meta property="og:updated_time" content="2017-09-07T01:46:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cyclicBarrier">
-<meta name="twitter:description" content="一、cyclicBarrier简介CyclicBarrier允许N个线程相互等待。">
+<meta name="twitter:description" content="一、cyclicBarrier简介CyclicBarrier允许N个线程相互等待。
+基本使用1234567891011121314151617181920212223242526//启动主方法public static void main(String[] args)&amp;#123;        final int ROWS=10000;        final int NUMBERS=1000;">
 
 
 
@@ -312,7 +315,9 @@
       
 
       
-        <h3 id="一、cyclicBarrier简介"><a href="#一、cyclicBarrier简介" class="headerlink" title="一、cyclicBarrier简介"></a>一、cyclicBarrier简介</h3><p>CyclicBarrier允许N个线程相互等待。<br><a id="more"></a><br>基本使用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//启动主方法</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> ROWS=<span class="number">10000</span>;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> NUMBERS=<span class="number">1000</span>;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> SEARCH=<span class="number">5</span>;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> PARTICIPANTS=<span class="number">5</span>;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> LINES_PARTICIPANT=<span class="number">2000</span>;</div><div class="line">        MatrixMock mock=<span class="keyword">new</span> MatrixMock(ROWS, NUMBERS,SEARCH);</div><div class="line">        Results results=<span class="keyword">new</span> Results(ROWS);</div><div class="line">        Grouper grouper=<span class="keyword">new</span> Grouper(results,mock.getDatas());</div><div class="line">        <span class="comment">//需要等待5个线程执行完，执行grouper</span></div><div class="line">        <span class="keyword">final</span> CyclicBarrier barrier=<span class="keyword">new</span> CyclicBarrier(PARTICIPANTS,grouper);</div><div class="line"></div><div class="line">        Searcher searchers[]=<span class="keyword">new</span> Searcher[PARTICIPANTS];</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;PARTICIPANTS; i++)&#123;</div><div class="line">            <span class="keyword">if</span>(i==PARTICIPANTS-<span class="number">1</span>)&#123;</div><div class="line">                searchers[i]=<span class="keyword">new</span> Searcher(i*LINES_PARTICIPANT, (i*LINES_PARTICIPANT)+LINES_PARTICIPANT-<span class="number">1</span>, mock, results, <span class="number">5</span>,barrier);</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                searchers[i]=<span class="keyword">new</span> Searcher(i*LINES_PARTICIPANT, (i*LINES_PARTICIPANT)+LINES_PARTICIPANT-<span class="number">1</span>, mock, results, <span class="number">5</span>,barrier);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            Thread thread=<span class="keyword">new</span> Thread(searchers[i]);</div><div class="line">            thread.start();</div><div class="line">        &#125;</div><div class="line">        System.out.printf(<span class="string">"Main: The main thread has finished.\n"</span>);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+        <h3 id="一、cyclicBarrier简介"><a href="#一、cyclicBarrier简介" class="headerlink" title="一、cyclicBarrier简介"></a>一、cyclicBarrier简介</h3><p>CyclicBarrier允许N个线程相互等待。</p>
+<p>基本使用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//启动主方法</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> ROWS=<span class="number">10000</span>;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> NUMBERS=<span class="number">1000</span>;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> SEARCH=<span class="number">5</span>;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> PARTICIPANTS=<span class="number">5</span>;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> LINES_PARTICIPANT=<span class="number">2000</span>;</div><div class="line">        MatrixMock mock=<span class="keyword">new</span> MatrixMock(ROWS, NUMBERS,SEARCH);</div><div class="line">        Results results=<span class="keyword">new</span> Results(ROWS);</div><div class="line">        Grouper grouper=<span class="keyword">new</span> Grouper(results,mock.getDatas());</div><div class="line">        <span class="comment">//需要等待5个线程执行完，执行grouper</span></div><div class="line">        <span class="keyword">final</span> CyclicBarrier barrier=<span class="keyword">new</span> CyclicBarrier(PARTICIPANTS,grouper);</div><div class="line"></div><div class="line">        Searcher searchers[]=<span class="keyword">new</span> Searcher[PARTICIPANTS];</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;PARTICIPANTS; i++)&#123;</div><div class="line">            <span class="keyword">if</span>(i==PARTICIPANTS-<span class="number">1</span>)&#123;</div><div class="line">                searchers[i]=<span class="keyword">new</span> Searcher(i*LINES_PARTICIPANT, (i*LINES_PARTICIPANT)+LINES_PARTICIPANT-<span class="number">1</span>, mock, results, <span class="number">5</span>,barrier);</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                searchers[i]=<span class="keyword">new</span> Searcher(i*LINES_PARTICIPANT, (i*LINES_PARTICIPANT)+LINES_PARTICIPANT-<span class="number">1</span>, mock, results, <span class="number">5</span>,barrier);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            Thread thread=<span class="keyword">new</span> Thread(searchers[i]);</div><div class="line">            thread.start();</div><div class="line">        &#125;</div><div class="line">        System.out.printf(<span class="string">"Main: The main thread has finished.\n"</span>);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Searcher</span> <span class="keyword">implements</span>  <span class="title">Runnable</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> firstRow;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> lastRow;</div><div class="line">    <span class="keyword">private</span> MatrixMock mock;</div><div class="line">    <span class="keyword">private</span> Results results;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> number;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> CyclicBarrier barrier;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Searcher</span><span class="params">(<span class="keyword">int</span> firstRow, <span class="keyword">int</span> lastRow, MatrixMock mock, Results results, <span class="keyword">int</span> number, CyclicBarrier barrier)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.firstRow = firstRow;</div><div class="line">        <span class="keyword">this</span>.lastRow = lastRow;</div><div class="line">        <span class="keyword">this</span>.mock = mock;</div><div class="line">        <span class="keyword">this</span>.results = results;</div><div class="line">        <span class="keyword">this</span>.number = number;</div><div class="line">        <span class="keyword">this</span>.barrier = barrier;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">//do something</span></div><div class="line">    &#125;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            barrier.await();</div><div class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; <span class="keyword">catch</span> (BrokenBarrierException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="二、主要方法"><a href="#二、主要方法" class="headerlink" title="二、主要方法"></a>二、主要方法</h3><p>1、构造方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">CyclicBarrier</span><span class="params">(<span class="keyword">int</span> parties, Runnable barrierAction)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (parties &lt;= <span class="number">0</span>) <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</div><div class="line">    <span class="comment">// parties表示“必须同时到达barrier的线程个数”。</span></div><div class="line">    <span class="keyword">this</span>.parties = parties;</div><div class="line">    <span class="comment">// count表示“处在等待状态的线程个数”。</span></div><div class="line">    <span class="keyword">this</span>.count = parties;</div><div class="line">    <span class="comment">// barrierCommand表示“parties个线程到达barrier时，会执行的动作”。</span></div><div class="line">    <span class="keyword">this</span>.barrierCommand = barrierAction;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>count计数器初始化,表示需要等待count个线程执行完<br>2、等待方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">await</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException, BrokenBarrierException </span>&#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="keyword">return</span> dowait(<span class="keyword">false</span>, <span class="number">0L</span>);</div><div class="line">    &#125; <span class="keyword">catch</span> (TimeoutException toe) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> Error(toe); <span class="comment">// cannot happen;</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -340,8 +345,6 @@
         <div class="post-tags">
           
             <a href="/tags/thread/" rel="tag">#thread</a>
-          
-            <a href="/tags/java/" rel="tag">#java</a>
           
         </div>
       
@@ -375,24 +378,11 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2017/08/28/cyclicBarrier/"
-     data-title="cyclicBarrier"
-     data-content=""
-     data-url="/2017/08/28/cyclicBarrier/">
-  <div class="ds-share-inline">
-    <ul  class="ds-share-icons-16">
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
 
-      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-
-    </ul>
-    <div class="ds-share-icons-more">
-    </div>
-  </div>
-</div>
       
     </div>
   </div>
@@ -451,7 +441,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">25</span>
+              <span class="site-state-item-count">26</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -468,7 +458,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
