@@ -2,7 +2,7 @@ layout: post
 title: cas
 date: 2017-08-28 16:19:38
 categories: java
-tags: [thread , java]
+tags: [thread]
 ---
 ### 一、cas简介
 `java.util.concurrent`包完全建立在`CAS`之上的，没有`CAS`就不会有此包

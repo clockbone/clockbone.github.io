@@ -2,7 +2,7 @@ layout: post
 title: CountDownLatch共享锁
 date: 2017-08-23 17:27:06
 categories: java
-tags: [thread , java]
+tags: [thread]
 ---
 ### 一、CountDownLatch简介
 CountDownLatch是同步工具类之一，可以指定一个计数值，在并发环境下由线程进行减1操作，当计数值变为0之后，被await方法阻塞的线程将会唤醒，实现线程间的同步。

@@ -2,7 +2,7 @@ layout: post
 title: 线程安全的实现方法
 date: 2014-07-19 18:48:17
 categories: java
-tag: [thread , java]
+tag: [thread]
 ---
 要想知道如何实现线安全，首先要了解什么是线程安全，下面来看下什么是线程安全以及如何实现。
 ### 一、什么是线程安全

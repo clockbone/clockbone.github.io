@@ -1,7 +1,8 @@
 layout: post
 title: mybatis使用PageHelper分页插件原理
 date: 2017-01-11 12:22:06
-tags:
+categories: java
+tags: mybatis
 ---
 
 ### 1、官方介绍：

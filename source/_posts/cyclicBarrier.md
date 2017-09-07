@@ -2,11 +2,11 @@ layout: post
 title: cyclicBarrier
 date: 2017-08-28 10:52:13
 categories: java
-tags: [thread , java]
+tags: [thread]
 ---
 ### 一、cyclicBarrier简介
 CyclicBarrier允许N个线程相互等待。
-<!-- more -->
+
 基本使用
 ```java
 //启动主方法
@@ -37,6 +37,7 @@ public static void main(String[] args){
     }
 
 ```
+<!-- more -->
 ```java
 public class Searcher implements  Runnable {
     private int firstRow;

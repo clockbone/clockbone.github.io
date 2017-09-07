@@ -2,7 +2,7 @@ layout: post
 title: guavacache
 date: 2015-08-12 16:20:59
 categories: java
-tag: [ guava , cache]
+tag: [ guava , cache, java]
 ---
 缓存的主要作用是暂时在内存中保存业务系统的数据处理结果，并且等待下次访问时再次使用。在很多场景下对于经常会请求并且实时性要求不高的数缓存是很有必要的。
 当redis可以实现缓存，并且是基于第三方服务的缓存，也是比较常用的。这里来说明一下基于全内存的本地缓存实现，常用到基于内存的缓存有1、mybatis框架缓存2、guava cache缓存
