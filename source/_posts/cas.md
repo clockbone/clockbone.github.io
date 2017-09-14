@@ -47,6 +47,6 @@ concurrent通用实现模式
 2、使用CAS的原子条件更新来实现线程之间的同步；
 3、配合以volatile的读/写和CAS所具有的volatile读和写的内存语义来实现线程之间的通信
 AQS，非阻塞数据结构和原子变量类（java.util.concurrent.atomic包中的类），这些concurrent包中的基础类都是使用这种模式来实现的，而concurrent包中的高层类又是依赖于这些基础类来实现的。从整体来看，concurrent包的实现示意图如下：
-valatile变量读写,cas->AQS,非阻塞数据结构,原子变量类
+![cas](/images/cas.png)
 
 
