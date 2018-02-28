@@ -92,7 +92,7 @@
 <meta property="og:site_name" content="clock |">
 <meta property="og:description" content="一、cyclicBarrier简介CyclicBarrier允许N个线程相互等待。
 基本使用1234567891011121314151617181920212223242526//启动主方法public static void main(String[] args)&amp;#123;        final int ROWS=10000;        final int NUMBERS=1000;">
-<meta property="og:updated_time" content="2017-09-07T01:46:31.000Z">
+<meta property="og:updated_time" content="2017-09-11T08:08:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cyclicBarrier">
 <meta name="twitter:description" content="一、cyclicBarrier简介CyclicBarrier允许N个线程相互等待。
@@ -108,8 +108,8 @@
     fancybox: true,
     motion: true,
     duoshuo: {
-      userId: 6290795255344137000,
-      author: 'clockbone'
+      userId: undefined,
+      author: '博主'
     }
   };
 </script>
@@ -289,13 +289,6 @@
 
           
             
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/08/28/cyclicBarrier/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/08/28/cyclicBarrier/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -321,6 +314,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Searcher</span> <span class="keyword">implements</span>  <span class="title">Runnable</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> firstRow;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> lastRow;</div><div class="line">    <span class="keyword">private</span> MatrixMock mock;</div><div class="line">    <span class="keyword">private</span> Results results;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> number;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> CyclicBarrier barrier;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Searcher</span><span class="params">(<span class="keyword">int</span> firstRow, <span class="keyword">int</span> lastRow, MatrixMock mock, Results results, <span class="keyword">int</span> number, CyclicBarrier barrier)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.firstRow = firstRow;</div><div class="line">        <span class="keyword">this</span>.lastRow = lastRow;</div><div class="line">        <span class="keyword">this</span>.mock = mock;</div><div class="line">        <span class="keyword">this</span>.results = results;</div><div class="line">        <span class="keyword">this</span>.number = number;</div><div class="line">        <span class="keyword">this</span>.barrier = barrier;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">//do something</span></div><div class="line">    &#125;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            barrier.await();</div><div class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125; <span class="keyword">catch</span> (BrokenBarrierException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="二、主要方法"><a href="#二、主要方法" class="headerlink" title="二、主要方法"></a>二、主要方法</h3><p>1、构造方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">CyclicBarrier</span><span class="params">(<span class="keyword">int</span> parties, Runnable barrierAction)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (parties &lt;= <span class="number">0</span>) <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</div><div class="line">    <span class="comment">// parties表示“必须同时到达barrier的线程个数”。</span></div><div class="line">    <span class="keyword">this</span>.parties = parties;</div><div class="line">    <span class="comment">// count表示“处在等待状态的线程个数”。</span></div><div class="line">    <span class="keyword">this</span>.count = parties;</div><div class="line">    <span class="comment">// barrierCommand表示“parties个线程到达barrier时，会执行的动作”。</span></div><div class="line">    <span class="keyword">this</span>.barrierCommand = barrierAction;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>count计数器初始化,表示需要等待count个线程执行完<br>2、等待方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">await</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException, BrokenBarrierException </span>&#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="keyword">return</span> dowait(<span class="keyword">false</span>, <span class="number">0L</span>);</div><div class="line">    &#125; <span class="keyword">catch</span> (TimeoutException toe) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> Error(toe); <span class="comment">// cannot happen;</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">dowait</span><span class="params">(<span class="keyword">boolean</span> timed, <span class="keyword">long</span> nanos)</span></span></div><div class="line">        <span class="keyword">throws</span> InterruptedException, BrokenBarrierException,</div><div class="line">               TimeoutException &#123;</div><div class="line">        <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</div><div class="line">        lock.lock();  <span class="comment">//获取锁</span></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">final</span> Generation g = generation;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (g.broken)</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> BrokenBarrierException();</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (Thread.interrupted()) &#123;</div><div class="line">                breakBarrier();</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">int</span> index = --count;  <span class="comment">////还在等待的线程数-1</span></div><div class="line">            <span class="keyword">if</span> (index == <span class="number">0</span>) &#123;  <span class="comment">// tripped</span></div><div class="line">                <span class="keyword">boolean</span> ranAction = <span class="keyword">false</span>;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    <span class="keyword">final</span> Runnable command = barrierCommand;</div><div class="line">                    <span class="keyword">if</span> (command != <span class="keyword">null</span>)</div><div class="line">                        command.run();</div><div class="line">                    ranAction = <span class="keyword">true</span>;</div><div class="line">                    nextGeneration();</div><div class="line">                    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">                &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                    <span class="keyword">if</span> (!ranAction)</div><div class="line">                        breakBarrier();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="comment">// loop until tripped, broken, interrupted, or timed out</span></div><div class="line">            <span class="keyword">for</span> (;;) &#123;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    <span class="keyword">if</span> (!timed)</div><div class="line">                        <span class="comment">//将当前线程加入到condition队列，释放lock锁资源,使得下一个线程能获得锁资源进入lock块</span></div><div class="line">                        trip.await();</div><div class="line">                    <span class="keyword">else</span> <span class="keyword">if</span> (nanos &gt; <span class="number">0L</span>)</div><div class="line">                        nanos = trip.awaitNanos(nanos);</div><div class="line">                &#125; <span class="keyword">catch</span> (InterruptedException ie) &#123;</div><div class="line">                    <span class="keyword">if</span> (g == generation &amp;&amp; ! g.broken) &#123;</div><div class="line">                        breakBarrier();</div><div class="line">                        <span class="keyword">throw</span> ie;</div><div class="line">                    &#125; <span class="keyword">else</span> &#123;</div><div class="line">                        <span class="comment">// We're about to finish waiting even if we had not</span></div><div class="line">                        <span class="comment">// been interrupted, so this interrupt is deemed to</span></div><div class="line">                        <span class="comment">// "belong" to subsequent execution.</span></div><div class="line">                        Thread.currentThread().interrupt();</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                <span class="keyword">if</span> (g.broken)</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> BrokenBarrierException();</div><div class="line"></div><div class="line">                <span class="keyword">if</span> (g != generation)</div><div class="line">                    <span class="keyword">return</span> index;</div><div class="line"></div><div class="line">                <span class="keyword">if</span> (timed &amp;&amp; nanos &lt;= <span class="number">0L</span>) &#123;</div><div class="line">                    breakBarrier();</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> TimeoutException();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">finally</span> &#123;</div><div class="line">            lock.unlock();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <p>等待方法,将count计数器<code>-1</code>,判断<code>if(index==0)</code>表明count个线程已经执行完,<code>if action is not null</code>,执行action线程<br>dowait通过lock实现作用就是让当前线程阻塞，直到“有parties个线程到达barrier” 或 “当前线程被中断” 或 “超时”这3者之一发生，当前线程才继续执行。</p>
 <h3 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h3>
       
@@ -395,10 +389,6 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/08/28/cyclicBarrier/"
-           data-title="cyclicBarrier" data-url="/2017/08/28/cyclicBarrier/">
-      </div>
-    
   </div>
 
 
@@ -441,7 +431,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-count">28</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -458,7 +448,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -612,30 +602,9 @@
 
   
 
-  
-    
-  
-
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"clockbone"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
-
-  
-    
-    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
-    <script src="/js/src/hook-duoshuo.js"></script>
-  
 
 
+  
 
 
 

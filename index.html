@@ -101,8 +101,8 @@
     fancybox: true,
     motion: true,
     duoshuo: {
-      userId: 6290795255344137000,
-      author: 'clockbone'
+      userId: undefined,
+      author: '博主'
     }
   };
 </script>
@@ -245,6 +245,202 @@
             
               
                 
+                <a class="post-title-link" href="/2018/02/28/spring-quartz/" itemprop="url">
+                  spring-quartz实现周末节假日排除的定时任务配置
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2018-02-28T19:14:18+08:00" content="2018-02-28">
+              2018-02-28
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          一、前言最新开发基金数据相关的需求,理财的同学知道对基金的开盘收盘是每天9:15-15:30之间,如果遇到某些数据只需要在开盘期间基金更新,那么我们需要设置定时任务运行时间为每天9:15-15:30之间,经过学习quartz,发现我们常用使用的SimperTrigger和CronTrgger这两种触发器都无法满足这种需求的表达.经过不停查找相关资料,终于发现Calender插件是可以实现的,下面看下具体配置
+二、quartz配置首先申明一下quartz maven版号,因为不同版本下的calender配置有可能是不一同的:12345678910&lt;dependency&gt;    &lt;groupId&gt;org.quartz-scheduler&lt;/groupId&gt;    &lt;artifactId&gt;quartz&lt;/artifactId&gt;    &
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2018/02/28/spring-quartz/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/09/08/jvm-model/" itemprop="url">
+                  jvm内存模型
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-09-08T16:27:33+08:00" content="2017-09-08">
+              2017-09-08
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="一、-并发编程模型分类"><a href="#一、-并发编程模型分类" class="headerlink" title="一、 并发编程模型分类"></a>一、 并发编程模型分类</h3><p>在并发编程中中,我们通常需要处理2个关键问题:线程之间如何通信,如何同步.<br>通信:是指线程怎么交换信息,线程之间通信机制有2种:共享内存,消息传递.<br>    共享内存:线程之间通过写-读内存中的公共状态来隐式通信<br>    消息传递:线程间没有公共状态,线程间通过明确的发送消息来显式通信.<br>同步:是指程序控制不同线程之间操作发生相对顺序的机制,<br>    共享内存:程序员必须显式指定某个方法或某段代码需要在线程之间互斥执行,是显示进行的<br>    消息传递:消息的发送必须在消息的接收之前，因此同步是隐式进行的.<br>java的并发采用共享内存模型,Java线程之间的通信总是隐式进行，整个通信过程对程序员完全透明。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/09/08/jvm-model/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/09/05/volatile/" itemprop="url">
                   volatile
                 </a>
@@ -286,13 +482,6 @@
           
 
           
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/09/05/volatile/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/09/05/volatile/" itemprop="commentsCount"></span>
-                </a>
-              </span>
             
           
 
@@ -410,13 +599,6 @@
 
           
             
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/08/28/cas/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/08/28/cas/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -533,13 +715,6 @@
 
           
             
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/08/28/cyclicBarrier/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/08/28/cyclicBarrier/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -655,13 +830,6 @@
           
 
           
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/08/25/ReentrantReadWriteLock/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/08/25/ReentrantReadWriteLock/" itemprop="commentsCount"></span>
-                </a>
-              </span>
             
           
 
@@ -782,13 +950,6 @@
 
           
             
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/08/23/CountDownLatch/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/08/23/CountDownLatch/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -907,13 +1068,6 @@
 
           
             
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/08/23/ReentrantLock/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/08/23/ReentrantLock/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -1010,13 +1164,6 @@
           
 
           
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/07/25/spring-task/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/07/25/spring-task/" itemprop="commentsCount"></span>
-                </a>
-              </span>
             
           
 
@@ -1135,13 +1282,6 @@
 
           
             
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/06/22/redis-optimize/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/06/22/redis-optimize/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -1168,252 +1308,6 @@
 <p>注意:<br>redis初始化线程数大小是需要根据redis并发数来设置的.<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2017/06/22/redis-optimize/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/11/mybatis-pagehelper/" itemprop="url">
-                  mybatis使用PageHelper分页插件原理
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-01-11T12:22:06+08:00" content="2017-01-11">
-              2017-01-11
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/01/11/mybatis-pagehelper/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/11/mybatis-pagehelper/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="1、官方介绍："><a href="#1、官方介绍：" class="headerlink" title="1、官方介绍："></a>1、官方介绍：</h3><p><a href="https://github.com/pagehelper/Mybatis-PageHelper/blob/master/README_zh.md">https://github.com/pagehelper/Mybatis-PageHelper/blob/master/README_zh.md</a><br>官方介绍文档中已经说明了详细的配置方法和使用方法，这里不再详细介绍。</p>
-<h3 id="2、简单说一下本项目的配置案例。"><a href="#2、简单说一下本项目的配置案例。" class="headerlink" title="2、简单说一下本项目的配置案例。"></a>2、简单说一下本项目的配置案例。</h3><h4 id="a、spring配置文-件"><a href="#a、spring配置文-件" class="headerlink" title="a、spring配置文 件"></a>a、spring配置文 件</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"sqlSessionFactory"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.SqlSessionFactoryBean"</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 注意其他配置 --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"plugins"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">array</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"com.github.pagehelper.PageInterceptor"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"properties"</span>&gt;</span></div><div class="line">          <span class="comment">&lt;!--使用下面的方式配置参数，一行配置一个 --&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">value</span>&gt;</span></div><div class="line">            params=value1</div><div class="line">          <span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">array</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2017/01/11/mybatis-pagehelper/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/07/29/mvn-deployto-nexus/" itemprop="url">
-                  上传本地jar包到nexus私服
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-29T11:07:47+08:00" content="2016-07-29">
-              2016-07-29
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/maven/" itemprop="url" rel="index">
-                    <span itemprop="name">maven</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/07/29/mvn-deployto-nexus/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/29/mvn-deployto-nexus/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>目前maven项目是用的比较多的，那么上传本地jar到maven仓库也是常会有事，下面介绍一下如何上传jar到本地仓库和远程仓库。</p>
-<h3 id="一、用命令上传jar包到本地仓库"><a href="#一、用命令上传jar包到本地仓库" class="headerlink" title="一、用命令上传jar包到本地仓库"></a>一、用命令上传jar包到本地仓库</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.spreada<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ZHConverter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">mvn install:install-file -Dfile=jar包的位置 -DgroupId=上面的groupId -DartifactId=上面的artifactId -Dversion=上面的version -Dpackaging=jar</div></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/07/29/mvn-deployto-nexus/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1488,7 +1382,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-count">28</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1505,7 +1399,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1644,30 +1538,9 @@
 
   
 
-  
-    
-  
-
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"clockbone"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
-
-  
-    
-    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
-    <script src="/js/src/hook-duoshuo.js"></script>
-  
 
 
+  
 
 
 

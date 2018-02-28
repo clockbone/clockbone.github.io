@@ -101,8 +101,8 @@
     fancybox: true,
     motion: true,
     duoshuo: {
-      userId: 6290795255344137000,
-      author: 'clockbone'
+      userId: undefined,
+      author: '博主'
     }
   };
 </script>
@@ -245,6 +245,270 @@
             
               
                 
+                <a class="post-title-link" href="/2015/06/03/redis-monitor/" itemprop="url">
+                  redis-monitor
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-03T00:18:15+08:00" content="2015-06-03">
+              2015-06-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           Redis-Server 监控机安装
+一、安装redis此过程请参考　这里
+
+复制可执行文件
+12sudo cp /usr/local/redis/src/redis-server /usr/local/binsudo cp /usr/local/redis/src/redis-cli /usr/local/bin
+
+创建 redis-monitor 的软链
+12cd /usr/local/binsudo ln -s /usr/local/bin/redis-server redis-monitor
+
+
+二、配置监控
+创建redis目录
+12sudo mkdir /etc/redissudo mkdir /etc/log/redis
+
+赋予redis目录权限
+12sudo chown -R admin:admin /etc/redissudo chown -R admin:admin /
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/06/03/redis-monitor/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/06/03/redis-cluster/" itemprop="url">
+                  redis-cluster
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-03T00:18:04+08:00" content="2015-06-03">
+              2015-06-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           Redis-Server 集群指南
+一、前置条件1、服务器清单(主从):1234从机1 	-&gt; 	172.17.121.31从机2 	-&gt; 	172.17.121.32主机		-&gt; 	172.17.121.33监控		-&gt;	172.17.121.34
+2、服务器拓扑图![](/documentation/raw/master/snapshot/deploy/redis/cluster.jpg)
+
+SLAVE 及 MASTER 都已按单机模式安装启动成功
+  单机安装教程请参考 这里
+
+MONITOR 已安装并成功启动
+  监控安装教程请参考 这里
+
+
+二、Redis MASTER(主机)配置
+创建主机的服务启动脚本 /etc/init.d/redis-session、/etc/init.d/redis-site
+12sudo touch /etc/init.d/r
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/06/03/redis-cluster/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/06/03/redis-install/" itemprop="url">
                   redis-install
                 </a>
@@ -286,13 +550,6 @@
           
 
           
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/06/03/redis-install/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/03/redis-install/" itemprop="commentsCount"></span>
-                </a>
-              </span>
             
           
 
@@ -427,13 +684,6 @@ redis-s
 
           
             
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/05/24/Hexo-create/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/24/Hexo-create/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -554,13 +804,6 @@ redis-s
 
           
             
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/04/15/redis-app/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/15/redis-app/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -657,13 +900,6 @@ redis-s
           
 
           
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/09/02/chinesegarbled/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/09/02/chinesegarbled/" itemprop="commentsCount"></span>
-                </a>
-              </span>
             
           
 
@@ -779,13 +1015,6 @@ redis-s
           
 
           
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/07/19/threadsafe/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/07/19/threadsafe/" itemprop="commentsCount"></span>
-                </a>
-              </span>
             
           
 
@@ -910,13 +1139,6 @@ redis-s
 
           
             
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/06/28/spring-aop/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/28/spring-aop/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -1014,7 +1236,7 @@ redis-s
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-count">28</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1031,7 +1253,7 @@ redis-s
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1170,30 +1392,9 @@ redis-s
 
   
 
-  
-    
-  
-
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"clockbone"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
-
-  
-    
-    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
-    <script src="/js/src/hook-duoshuo.js"></script>
-  
 
 
+  
 
 
 
