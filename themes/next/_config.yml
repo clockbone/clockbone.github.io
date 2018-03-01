@@ -121,7 +121,7 @@ font:
 # Key is the link label showing to end users.
 # Value is the target link (E.g. GitHub: https://github.com/iissnan)
 social:
-  GitHub: https://github.com/
+  GitHub: https://github.com/clockbone/
   #Twitter: https://twitter.com/your-user-name
 
 
