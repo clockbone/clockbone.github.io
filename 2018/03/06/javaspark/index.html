@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="maven," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -84,16 +84,31 @@
 
 
 
-<meta name="description" content="wagon-maven-plugin 让你运行mvn package时就可以将项目部署远程服务器的插件，只需在你的pom.xml文件中添加：">
+<meta name="description" content="1.基本概念并发变并行多线程转变多JVM计算内存计算(内存为主,磁盘为车铺),延迟计算,分阶段计算
+RDD Resilient Distributed DataSet弹性式分布计算集合 – 可并行计算、可重复计算
+
+分区(partition) – 一个基本的计算单元,也是Spark并行计算的基础
+分区计算函数 – 处理分区的数据,计算逻辑封装
+Partitioner – 如何分布分区中的数据典型的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在打包时就推送项目到远程服务器的maven插件wagon-maven-plugin">
-<meta property="og:url" content="/2015/11/14/wagon-maven-plugin/index.html">
+<meta property="og:title" content="spark基础">
+<meta property="og:url" content="/2018/03/06/javaspark/index.html">
 <meta property="og:site_name" content="clock |">
-<meta property="og:description" content="wagon-maven-plugin 让你运行mvn package时就可以将项目部署远程服务器的插件，只需在你的pom.xml文件中添加：">
-<meta property="og:updated_time" content="2017-01-10T10:55:34.000Z">
+<meta property="og:description" content="1.基本概念并发变并行多线程转变多JVM计算内存计算(内存为主,磁盘为车铺),延迟计算,分阶段计算
+RDD Resilient Distributed DataSet弹性式分布计算集合 – 可并行计算、可重复计算
+
+分区(partition) – 一个基本的计算单元,也是Spark并行计算的基础
+分区计算函数 – 处理分区的数据,计算逻辑封装
+Partitioner – 如何分布分区中的数据典型的">
+<meta property="og:updated_time" content="2018-03-06T05:17:44.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在打包时就推送项目到远程服务器的maven插件wagon-maven-plugin">
-<meta name="twitter:description" content="wagon-maven-plugin 让你运行mvn package时就可以将项目部署远程服务器的插件，只需在你的pom.xml文件中添加：">
+<meta name="twitter:title" content="spark基础">
+<meta name="twitter:description" content="1.基本概念并发变并行多线程转变多JVM计算内存计算(内存为主,磁盘为车铺),延迟计算,分阶段计算
+RDD Resilient Distributed DataSet弹性式分布计算集合 – 可并行计算、可重复计算
+
+分区(partition) – 一个基本的计算单元,也是Spark并行计算的基础
+分区计算函数 – 处理分区的数据,计算逻辑封装
+Partitioner – 如何分布分区中的数据典型的">
 
 
 
@@ -114,9 +129,9 @@
 
 
 
-  <link rel="canonical" href="/2015/11/14/wagon-maven-plugin/"/>
+  <link rel="canonical" href="/2018/03/06/javaspark/"/>
 
-  <title> 在打包时就推送项目到远程服务器的maven插件wagon-maven-plugin | clock | </title>
+  <title> spark基础 | clock | </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -246,7 +261,7 @@
             
             
               
-                在打包时就推送项目到远程服务器的maven插件wagon-maven-plugin
+                spark基础
               
             
           </h1>
@@ -258,30 +273,11 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-14T13:44:47+08:00" content="2015-11-14">
-              2015-11-14
+            <time itemprop="dateCreated" datetime="2018-03-06T12:40:32+08:00" content="2018-03-06">
+              2018-03-06
             </time>
           </span>
 
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/maven/" itemprop="url" rel="index">
-                    <span itemprop="name">maven</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
           
 
           
@@ -305,8 +301,51 @@
       
 
       
-        <p>wagon-maven-plugin 让你运行<code>mvn package</code>时就可以将项目部署远程服务器的插件，只需在你的pom.xml文件中添加：<br><a id="more"></a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">&lt;build&gt;</div><div class="line">    &lt;finalName&gt;<span class="variable">$&#123;finalName.name&#125;</span>&lt;/finalName&gt;</div><div class="line">     &lt;extensions&gt;</div><div class="line">        &lt;extension&gt;</div><div class="line">            &lt;groupId&gt;org.apache.maven.wagon&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;wagon-ssh&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;2.8&lt;/version&gt;</div><div class="line">        &lt;/extension&gt;</div><div class="line">    &lt;/extensions&gt;</div><div class="line">    &lt;plugins&gt;</div><div class="line">         &lt;plugin&gt;</div><div class="line">            &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;</div><div class="line">            &lt;artifactId&gt;wagon-maven-plugin&lt;/artifactId&gt;</div><div class="line">            &lt;version&gt;1.0&lt;/version&gt;</div><div class="line">            &lt;executions&gt;</div><div class="line">                &lt;execution&gt;</div><div class="line">                    &lt;id&gt;upload-deploy&lt;/id&gt;</div><div class="line">                    &lt;!--运行package打包的同时运行upload-single和sshexec--&gt;</div><div class="line">                    &lt;phase&gt;package&lt;/phase&gt;</div><div class="line">                    &lt;goals&gt;</div><div class="line">                        &lt;goal&gt;upload-single&lt;/goal&gt;</div><div class="line">                        &lt;goal&gt;sshexec&lt;/goal&gt;</div><div class="line">                    &lt;/goals&gt;</div><div class="line">                    &lt;configuration&gt;</div><div class="line">                        &lt;fromFile&gt;target/<span class="variable">$&#123;finalName.name&#125;</span>.war&lt;/fromFile&gt;</div><div class="line">                        &lt;url&gt;scp://username:password@127.0.0.1/usr/<span class="built_in">local</span>/tomcat/webapps&lt;/url&gt;</div><div class="line">                        &lt;commands&gt;</div><div class="line">                            &lt;<span class="built_in">command</span>&gt;sh /usr/<span class="built_in">local</span>/tomcat/webapps/bash.sh <span class="variable">$&#123;finalName.name&#125;</span>&lt;/<span class="built_in">command</span>&gt;</div><div class="line">                        &lt;/commands&gt;</div><div class="line">                        &lt;!-- 显示运行命令的输出结果 --&gt;</div><div class="line">                        &lt;displayCommandOutputs&gt;<span class="literal">true</span>&lt;/displayCommandOutputs&gt;</div><div class="line">                    &lt;/configuration&gt;</div><div class="line">                &lt;/execution&gt;</div><div class="line">            &lt;/executions&gt;</div><div class="line">        &lt;/plugin&gt;</div><div class="line">    &lt;/plugins&gt;</div><div class="line">&lt;/build&gt;</div></pre></td></tr></table></figure></p>
-<p>以后只需要在执行<code>mvn clean package -P proFileId</code> 打包命令就可以将打包好的war或jar包上传到指定的远程服务器。<br><code>&lt;commands&gt;</code>标签中可根据需要执行脚本。</p>
+        <h3 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1.基本概念"></a>1.基本概念</h3><p>并发变并行<br>多线程转变多JVM计算<br>内存计算(内存为主,磁盘为车铺),延迟计算,分阶段计算</p>
+<h4 id="RDD-Resilient-Distributed-DataSet"><a href="#RDD-Resilient-Distributed-DataSet" class="headerlink" title="RDD Resilient Distributed DataSet"></a>RDD Resilient Distributed DataSet</h4><p>弹性式分布计算集合 – 可并行计算、可重复计算</p>
+<ul>
+<li>分区(partition) – 一个基本的计算单元,也是Spark并行计算的基础</li>
+<li>分区计算函数 – 处理分区的数据,计算逻辑封装</li>
+<li>Partitioner – 如何分布分区中的数据<br>典型的就是在RDD之间按键值对进行Shuffle操作的时候(如reduceByKey,join),Spark需要 根据某种规则来决定分区中的键被重新分配到哪些分区(一般是通过键的哈希,类似于Kafka往 分区中发送消息的策略)。<h4 id="重要概念"><a href="#重要概念" class="headerlink" title="重要概念"></a>重要概念</h4></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>术语</th>
+<th style="text-align:right">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Application jar</td>
+<td style="text-align:right">包含应用程序的jar包,一般会使用maven-assembly打成fat.jar</td>
+</tr>
+<tr>
+<td>Driver program</td>
+<td style="text-align:right">运行main方法的进程,sparkcontext启动程序</td>
+</tr>
+<tr>
+<td>Worker node &amp;&amp; Excutor</td>
+<td style="text-align:right">Executor是在Worker Node负责执行任务(Task)的,一个应用可能会启动多个Executor每一个Executor对应一个JVM进程</td>
+</tr>
+<tr>
+<td>Executor Cores</td>
+<td style="text-align:right">定义了Executor的核数,与同时能运行的Task数一致</td>
+</tr>
+<tr>
+<td>Job/Stage/Task</td>
+<td style="text-align:right">当RDD的action被调用时,就会触发一个Job; 而每一个Job又可以 被分为若干个Stage,每一个Stage又对应多个Task, 而Task和 Partition一一对应</td>
+</tr>
+</tbody>
+</table>
+<p> 简单执行:<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"> List&lt;Integer&gt; data = Arrays.asList(1, 2, 3, 4, 5);</div><div class="line">//并行集合，是通过对于驱动程序中的集合调用JavaSparkContext.parallelize来构建的RDD</div><div class="line">JavaRDD&lt;Integer&gt; distData = spark.parallelize(data);</div><div class="line"></div><div class="line"></div><div class="line">JavaRDD&lt;Integer&gt; lineLengths = distData.map(a-&gt;a);</div><div class="line"></div><div class="line">// 运行reduce 这是一个动作action 这时候，spark才将计算拆分成不同的task，</div><div class="line">// 并运行在独立的机器上，每台机器运行他自己的map部分和本地的reducation，并返回结果集给去驱动程序</div><div class="line">int totalLength = lineLengths.reduce((a,b)-&gt;a+b);</div><div class="line"></div><div class="line">System.out.println(&quot;总和&quot; + totalLength);</div><div class="line">// 为了以后复用 持久化到内存...</div></pre></td></tr></table></figure></p>
+<h3 id="2-性能调优"><a href="#2-性能调优" class="headerlink" title="2.性能调优"></a>2.性能调优</h3><p>减少内存占用,更充分的利用并行,提高执行速度。</p>
+<h4 id="1-参数调优"><a href="#1-参数调优" class="headerlink" title="(1) 参数调优"></a>(1) 参数调优</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># KyroSerializer提供更好的压缩和解压功能</div><div class="line"> spark.serializer org.apache.spark.serializer.KryoSerializer</div><div class="line"></div><div class="line"># SQL shuffle操作之后的分区大小</div><div class="line">spark.sql.shuffle.partitions 20</div><div class="line"></div><div class="line"># join, reduceByKey, parallelize等操作之后RDD分区大小</div><div class="line">spark.default.parallelism 100</div></pre></td></tr></table></figure>
+<h4 id="2-操作优化"><a href="#2-操作优化" class="headerlink" title="(2) 操作优化"></a>(2) 操作优化</h4><ul>
+<li>适时缓存 – RDD在action调用的时候回被计算(实际上是分区的运算),如果我们需要对 RDD反复操作的话,那么我们应该对其进行缓存,从而避免分区的再次计算。</li>
+<li>避免使用collect – 所有executor的数据拉取到driver上</li>
+<li>reduceByKey over groupByKey; Spark SQL operation over reduceByKey<br>两者之间的核心区别在于是否使用了mapSideCombine,也就是在shuffle write之前是否进 行分区内同键记录的聚合。</li>
+</ul>
 
       
     </div>
@@ -327,28 +366,18 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/maven/" rel="tag">#maven</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/08/12/guavacache/" rel="next" title="guavacache">
-                <i class="fa fa-chevron-left"></i> guavacache
+              <a href="/2018/02/28/spring-quartz/" rel="next" title="spring-quartz实现周末节假日排除的定时任务配置">
+                <i class="fa fa-chevron-left"></i> spring-quartz实现周末节假日排除的定时任务配置
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/11/14/maven-profile/" rel="prev" title="maven profile打包时实现可指定不同环境配置文件">
-                maven profile打包时实现可指定不同环境配置文件 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -479,7 +508,7 @@
               
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-基本概念"><span class="nav-text">1.基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RDD-Resilient-Distributed-DataSet"><span class="nav-text">RDD Resilient Distributed DataSet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重要概念"><span class="nav-text">重要概念</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-性能调优"><span class="nav-text">2.性能调优</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-参数调优"><span class="nav-text">(1) 参数调优</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-操作优化"><span class="nav-text">(2) 操作优化</span></a></li></ol></li></ol></div>
             
           </div>
         </section>

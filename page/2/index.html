@@ -245,6 +245,124 @@
             
               
                 
+                <a class="post-title-link" href="/2017/06/22/redis-optimize/" itemprop="url">
+                  redis配置优化(记一次线上redis问题排查)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-06-22T15:32:31+08:00" content="2017-06-22">
+              2017-06-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/redis/" itemprop="url" rel="index">
+                    <span itemprop="name">redis</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="一、问题描述"><a href="#一、问题描述" class="headerlink" title="一、问题描述"></a>一、问题描述</h3><p>在通过redis缓存进行了一系列的接口性能优化后,大部分接口返回在1ms~200ms间,这都是redis的功劳,但随着接口redis缓存越来越多,新的问题产生了,从redis取数据竟然用了5s = =,通过观察日志,并不是每次取数据都是5s,<br>大部分情况从redis取数据还是很快的不会超过5ms.</p>
+<h3 id="二、解决"><a href="#二、解决" class="headerlink" title="二、解决"></a>二、解决</h3><p>1 在查看代码后,发现有些redis的key设计的过长,于是首先重命名了rediskey尽量减少其长度,但观察发现这种情况还<br>是存在,并且观察日志,redis取数据耗时长的问题大概隔一段时间才发生<br>2 查看redis配置,发现redis初始化线程池大小没有设置= =,需要知道的是redis初始化线程大默认是0,在了解redis模式<br>和服务器端设置的连数大小后,果断加上redis初始化线程大小.问题解决,如果以后发现这种问题,但检察初始连接数已配置,可考虑初始连接数是否配置过小.</p>
+<blockquote>
+<p>注意:<br>redis初始化线程数大小是需要根据redis并发数来设置的.<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/06/22/redis-optimize/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/01/11/mybatis-pagehelper/" itemprop="url">
                   mybatis使用PageHelper分页插件原理
                 </a>
@@ -1267,134 +1385,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/06/03/redis-shell/" itemprop="url">
-                  redis-shell
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-03T00:18:25+08:00" content="2015-06-03">
-              2015-06-03
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/redis/" itemprop="url" rel="index">
-                    <span itemprop="name">redis</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           Redis-Server 集群指南
-一、服务命令1、启动顺序12341. Master2. Slave13. Slave24. Monitor
-2、启动命令+ Master
-1234# 启动session主sudo service redis-session start# 启动site主sudo service redis-site start
-
-+ Slave1
-1234# 启动session从1sudo service redis-session start# 启动site从1sudo service redis-site start
-+ Slave2
-1234# 启动session从2sudo service redis-session start# 启动site从2sudo service redis-site start
-+ Monitor
-12# 启动 Monitorsudo
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/06/03/redis-shell/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1440,7 +1430,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-count">29</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
