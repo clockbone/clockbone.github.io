@@ -100,7 +100,7 @@ RDD Resilient Distributed DataSet弹性式分布计算集合 – 可并行计算
 分区(partition) – 一个基本的计算单元,也是Spark并行计算的基础
 分区计算函数 – 处理分区的数据,计算逻辑封装
 Partitioner – 如何分布分区中的数据典型的">
-<meta property="og:updated_time" content="2018-03-06T05:17:44.000Z">
+<meta property="og:updated_time" content="2018-03-06T05:21:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spark基础">
 <meta name="twitter:description" content="1.基本概念并发变并行多线程转变多JVM计算内存计算(内存为主,磁盘为车铺),延迟计算,分阶段计算
@@ -306,7 +306,8 @@ Partitioner – 如何分布分区中的数据典型的">
 <ul>
 <li>分区(partition) – 一个基本的计算单元,也是Spark并行计算的基础</li>
 <li>分区计算函数 – 处理分区的数据,计算逻辑封装</li>
-<li>Partitioner – 如何分布分区中的数据<br>典型的就是在RDD之间按键值对进行Shuffle操作的时候(如reduceByKey,join),Spark需要 根据某种规则来决定分区中的键被重新分配到哪些分区(一般是通过键的哈希,类似于Kafka往 分区中发送消息的策略)。<h4 id="重要概念"><a href="#重要概念" class="headerlink" title="重要概念"></a>重要概念</h4></li>
+<li>Partitioner – 如何分布分区中的数据<br>典型的就是在RDD之间按键值对进行Shuffle操作的时候(如reduceByKey,join),Spark需要 根据某种规则来决定分区中的键被重新分配到哪些分区(一般是通过键的哈希,类似于Kafka往 分区中发送消息的策略)。<a id="more"></a>
+<h4 id="重要概念"><a href="#重要概念" class="headerlink" title="重要概念"></a>重要概念</h4></li>
 </ul>
 <table>
 <thead>

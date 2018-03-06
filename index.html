@@ -288,30 +288,12 @@
 
       
         
-          
-          1.基本概念并发变并行多线程转变多JVM计算内存计算(内存为主,磁盘为车铺),延迟计算,分阶段计算
-RDD Resilient Distributed DataSet弹性式分布计算集合 – 可并行计算、可重复计算
-
-分区(partition) – 一个基本的计算单元,也是Spark并行计算的基础
-分区计算函数 – 处理分区的数据,计算逻辑封装
-Partitioner – 如何分布分区中的数据典型的就是在RDD之间按键值对进行Shuffle操作的时候(如reduceByKey,join),Spark需要 根据某种规则来决定分区中的键被重新分配到哪些分区(一般是通过键的哈希,类似于Kafka往 分区中发送消息的策略)。重要概念
-
-
-
-
-术语
-含义
-
-
-
-
-Application jar
-包含应用程序的jar包,一般会使用maven-assembly打成fat.jar
-
-
-Driver prog
-          ...
-
+          <h3 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1.基本概念"></a>1.基本概念</h3><p>并发变并行<br>多线程转变多JVM计算<br>内存计算(内存为主,磁盘为车铺),延迟计算,分阶段计算</p>
+<h4 id="RDD-Resilient-Distributed-DataSet"><a href="#RDD-Resilient-Distributed-DataSet" class="headerlink" title="RDD Resilient Distributed DataSet"></a>RDD Resilient Distributed DataSet</h4><p>弹性式分布计算集合 – 可并行计算、可重复计算</p>
+<ul>
+<li>分区(partition) – 一个基本的计算单元,也是Spark并行计算的基础</li>
+<li>分区计算函数 – 处理分区的数据,计算逻辑封装</li>
+<li>Partitioner – 如何分布分区中的数据<br>典型的就是在RDD之间按键值对进行Shuffle操作的时候(如reduceByKey,join),Spark需要 根据某种规则来决定分区中的键被重新分配到哪些分区(一般是通过键的哈希,类似于Kafka往 分区中发送消息的策略)。
           <div class="post-more-link text-center">
             <a class="btn" href="/2018/03/06/javaspark/#more" rel="contents">
               阅读全文 &raquo;
