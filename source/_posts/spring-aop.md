@@ -173,6 +173,52 @@ public class LogAspect {
         </tx:attributes>
  </tx:advice>
  ```
+ ### 五、spring事物原理
+ ####  1、spring事物的传播类型
+ spring事物的传播属性:多个事物同时存在(事物方法A中调用事物方法B),spring如何处理这些事物.
+
+ | 事物传播类型        |                                                      |
+ | --------   | -----:            |
+ | PROPAGATION_REQUIRED   | 支持当前事物,如果当前没有事物,新建一个事物,spring默认传播类型 |
+ | PROPAGATION_REQUIRES_NEW       |   新建事物,如果当前事物存在,把当前事物挂起.新建事物和挂起事物没有关系,外层事物回滚不能回滚内层事物,内层事物失败,抛出异常,外层事物也可不作处理  |
+ | PROPAGATION_SUPPORTS        |    支持当前事物,如果当前没有事物,以非事物执行(方法A调用事物方法B)|
+  | PROPAGATION_MANDATORY        |   支持当前事务，如果当前没有事务，就抛出异常。|
+  | PROPAGATION_NOT_SUPPORTED     |  以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。 |
+   | PROPAGATION_NEVER    |  以非事务方式执行，如果当前存在事务，则抛出异常。 |
+    | PROPAGATION_NESTED     |  以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。 |
+
+ ####  2、Spring中的隔离级别
+ | 隔离级别类型        |                                                      |
+  | --------   | -----:            |
+  | ISOLATION_DEFAULT   |  |
+  | ISOLATION_READ_UNCOMMITTED       |  事务最低的隔离级别，充许另外一个事务可以看到这个事务未提交的数据。这种隔离级别会产生脏读，不可重复读和幻像读。  |
+  | ISOLATION_READ_COMMITTED       |   保证一个事务修改的数据提交后才能被另外一个事务读取。另外一个事务不能读取该事务未提交的数据。|
+   | ISOLATION_REPEATABLE_READ       |  防止脏读，不可重复读。但是可能出现幻像读。|
+   | ISOLATION_SERIALIZABLE    | 这是花费最高代价但是最可靠的事务隔离级别。事务被处理为顺序执行。 |
+ ####  3、事务嵌套场景
+ 假设外层事务ServiceA的MethodA()调用内层ServiceB的MethodB()
+  #####  1、PROPAGATION_REQUIRED(spring 默认)
+  如果`serviceB.methodB()`事物级别定义`PROPAGATION_REQUIRED`,那么执行`serviceA.methodA()`的时候起事物,调用`serviceB.methodB()`时,`serviceB.methodB()`看到自己运行在`serviceA.methodA()`里面,不再起新事物.
+   假如`serviceB.methodB()`运行时没发现自己不在事物中,就会开启一个事物.当`serviceA.methodA()`或`serviceB.methodB()`出现任何异常,事物都会回滚.
+  #####  2、PROPAGATION_REQUIRES_NEW
+ 比如`ServiceA.methodA()` 的事务级别为 `PROPAGATION_REQUIRED`，`ServiceB.methodB()` 的事务级别为 `PROPAGATION_REQUIRES_NEW`。
+ 执行到 `ServiceB.methodB()` 的时候，`ServiceA.methodA()` 所在的事务就会挂起，`ServiceB.methodB()` 会起一个新的事务，等待 `ServiceB.methodB()`` 的事务完成以后，它才继续执行。
+ #####  3、PROPAGATION_SUPPORTS
+  `serviceB.methodB()` 的事务级别为 `PROPAGATION_SUPPORTS`,当执行`serviceB.methodB()`,如果serviceA.methodA()开启了一个事物,则自己也不开启事物.这种时候，内部方法的事务性完全依赖于最外层的事务。
+  #####  4、PROPAGATION_NESTED
+  `serviceB.methodB()` 的事务属性被配置为 `PROPAGATION_NESTED`,`serviceB.methodB()` rollback,回滚到savepoint的外部事物`serviceA.methodA()`
+  可以有2种处理:
+  a 捕获异常，执行异常分支逻辑
+  ```
+  void methodA() {
+      try {
+          ServiceB.methodB();
+      } catch (SomeException) {
+          // 执行其他业务, 如 ServiceC.methodC();
+      }
+  }
+  ```
+  b 外部事务回滚/提交 代码不做任何修改, 那么如果内部事务serviceB.methodB() rollback, 那么首先 serviceB.methodB 回滚到它执行之前的 SavePoint(在任何情况下都会如此), 外部事务serviceA.methodA 将根据具体的配置决定自己是 commit 还是 rollback
 
  ### 补充理解
  1、AOP是一种面向切面编程的思想类似于oop(面向对象编程)，spring aop运用aop的编程思想，aspectj是spring aop的具体实现方案，spring整合了aspectj，使得在spring框架中可以运用aspectj语法来实现aop。
@@ -219,6 +265,9 @@ public class LogAspect {
 
  }
  ```
+
+ spring事物原理参考:
+ https://www.jianshu.com/p/99f8787f9eaa
 
 
 
