@@ -90,7 +90,7 @@
 <meta property="og:url" content="/2014/06/28/spring-aop/index.html">
 <meta property="og:site_name" content="clock |">
 <meta property="og:description" content="一、给出的一些aop概念：切面（Aspect）：我们加入的切面类（比如log类）,在Spring AOP中，切面可以使用基于模式）或者基于Aspect注解方式来实现。连接点（Joinpoint）：在程序执行过程中某个特定的点，比如某方法调用的时候或者处理异常的时候。在Spring AOP中，一个连接点总是表示一个方法的执行。连接点就是告诉aop切面需要在哪些具体地方执行通知（Advice）：在切面">
-<meta property="og:updated_time" content="2017-08-28T09:32:59.000Z">
+<meta property="og:updated_time" content="2018-03-13T05:04:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring-aop基本概念及配置">
 <meta name="twitter:description" content="一、给出的一些aop概念：切面（Aspect）：我们加入的切面类（比如log类）,在Spring AOP中，切面可以使用基于模式）或者基于Aspect注解方式来实现。连接点（Joinpoint）：在程序执行过程中某个特定的点，比如某方法调用的时候或者处理异常的时候。在Spring AOP中，一个连接点总是表示一个方法的执行。连接点就是告诉aop切面需要在哪些具体地方执行通知（Advice）：在切面">
@@ -318,8 +318,84 @@
 <h4 id="3、配置注解的事务管理"><a href="#3、配置注解的事务管理" class="headerlink" title="3、配置注解的事务管理"></a>3、配置注解的事务管理</h4> <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">”txManager”</span> <span class="attr">class</span>=<span class="string">”org.springframework.jdbc.datasource.DataSourceTransactionManager”</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">”dataSource”</span> <span class="attr">ref</span>=<span class="string">”spring中配置的数据源bean的id”/</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div></pre></td></tr></table></figure>
 <h4 id="4、配置事物管理的切面"><a href="#4、配置事物管理的切面" class="headerlink" title="4、配置事物管理的切面"></a>4、配置事物管理的切面</h4> <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></div><div class="line">       <span class="comment">&lt;!--配置事务切入点--&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">”transactionPointcut”</span></span></div><div class="line"><span class="attr">Expression</span>=<span class="string">”execution(*</span> <span class="attr">com.test.service..</span>*<span class="attr">.</span>*(<span class="attr">..</span>))”/&gt;</div><div class="line"><span class="comment">&lt;!--配置事务通知--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">aop:advisor</span> <span class="attr">advice-ref</span>=<span class="string">”txAdvice”</span> <span class="attr">pointcut-ref</span>=<span class="string">”transactionPointcut”/</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></div></pre></td></tr></table></figure>
 <h4 id="5、为事务通知添加事物处理特性"><a href="#5、为事务通知添加事物处理特性" class="headerlink" title="5、为事务通知添加事物处理特性"></a>5、为事务通知添加事物处理特性</h4> <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">tx:advice</span> <span class="attr">id</span>=<span class="string">”txAdvice”</span> <span class="attr">transactionManager</span>=<span class="string">”txManager”</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">tx:attributes</span>&gt;</span></div><div class="line">              <span class="comment">&lt;!--这里举例将以get开头的查询方法设置为只读，不支持事务--&gt;</span></div><div class="line">              <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">”get*”</span> <span class="attr">read-only</span>=<span class="string">”true”</span> <span class="attr">propagation</span>=<span class="string">”NOT_SUPPORTED”/</span>&gt;</span></div><div class="line">              <span class="comment">&lt;!--其他的方法设置为spring默认的事物行为--&gt;</span></div><div class="line">              <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">”*”/</span>&gt;</span></div><div class="line">       <span class="tag">&lt;/<span class="name">tx:attributes</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">tx:advice</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="五、spring事物原理"><a href="#五、spring事物原理" class="headerlink" title="五、spring事物原理"></a>五、spring事物原理</h3><h4 id="1、spring事物的传播类型"><a href="#1、spring事物的传播类型" class="headerlink" title="1、spring事物的传播类型"></a>1、spring事物的传播类型</h4><p> spring事物的传播属性:多个事物同时存在(事物方法A中调用事物方法B),spring如何处理这些事物.</p>
+<table>
+<thead>
+<tr>
+<th>事物传播类型</th>
+<th style="text-align:right"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PROPAGATION_REQUIRED</td>
+<td style="text-align:right">支持当前事物,如果当前没有事物,新建一个事物,spring默认传播类型</td>
+</tr>
+<tr>
+<td>PROPAGATION_REQUIRES_NEW</td>
+<td style="text-align:right">新建事物,如果当前事物存在,把当前事物挂起.新建事物和挂起事物没有关系,外层事物回滚不能回滚内层事物,内层事物失败,抛出异常,外层事物也可不作处理</td>
+</tr>
+<tr>
+<td>PROPAGATION_SUPPORTS</td>
+<td style="text-align:right">支持当前事物,如果当前没有事物,以非事物执行(方法A调用事物方法B)</td>
+</tr>
+<tr>
+<td>PROPAGATION_MANDATORY</td>
+<td style="text-align:right">支持当前事务，如果当前没有事务，就抛出异常。</td>
+</tr>
+<tr>
+<td>PROPAGATION_NOT_SUPPORTED</td>
+<td style="text-align:right">以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。</td>
+</tr>
+<tr>
+<td>PROPAGATION_NEVER</td>
+<td style="text-align:right">以非事务方式执行，如果当前存在事务，则抛出异常。</td>
+</tr>
+<tr>
+<td>PROPAGATION_NESTED</td>
+<td style="text-align:right">以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="2、Spring中的隔离级别"><a href="#2、Spring中的隔离级别" class="headerlink" title="2、Spring中的隔离级别"></a>2、Spring中的隔离级别</h4><table>
+<thead>
+<tr>
+<th>隔离级别类型</th>
+<th style="text-align:right"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ISOLATION_DEFAULT</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>ISOLATION_READ_UNCOMMITTED</td>
+<td style="text-align:right">事务最低的隔离级别，充许另外一个事务可以看到这个事务未提交的数据。这种隔离级别会产生脏读，不可重复读和幻像读。</td>
+</tr>
+<tr>
+<td>ISOLATION_READ_COMMITTED</td>
+<td style="text-align:right">保证一个事务修改的数据提交后才能被另外一个事务读取。另外一个事务不能读取该事务未提交的数据。</td>
+</tr>
+<tr>
+<td>ISOLATION_REPEATABLE_READ</td>
+<td style="text-align:right">防止脏读，不可重复读。但是可能出现幻像读。</td>
+</tr>
+<tr>
+<td>ISOLATION_SERIALIZABLE</td>
+<td style="text-align:right">这是花费最高代价但是最可靠的事务隔离级别。事务被处理为顺序执行。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="3、事务嵌套场景"><a href="#3、事务嵌套场景" class="headerlink" title="3、事务嵌套场景"></a>3、事务嵌套场景</h4><p> 假设外层事务ServiceA的MethodA()调用内层ServiceB的MethodB()</p>
+<h5 id="1、PROPAGATION-REQUIRED-spring-默认"><a href="#1、PROPAGATION-REQUIRED-spring-默认" class="headerlink" title="1、PROPAGATION_REQUIRED(spring 默认)"></a>1、PROPAGATION_REQUIRED(spring 默认)</h5><p>  如果<code>serviceB.methodB()</code>事物级别定义<code>PROPAGATION_REQUIRED</code>,那么执行<code>serviceA.methodA()</code>的时候起事物,调用<code>serviceB.methodB()</code>时,<code>serviceB.methodB()</code>看到自己运行在<code>serviceA.methodA()</code>里面,不再起新事物.<br>   假如<code>serviceB.methodB()</code>运行时没发现自己不在事物中,就会开启一个事物.当<code>serviceA.methodA()</code>或<code>serviceB.methodB()</code>出现任何异常,事物都会回滚.</p>
+<h5 id="2、PROPAGATION-REQUIRES-NEW"><a href="#2、PROPAGATION-REQUIRES-NEW" class="headerlink" title="2、PROPAGATION_REQUIRES_NEW"></a>2、PROPAGATION_REQUIRES_NEW</h5><p> 比如<code>ServiceA.methodA()</code> 的事务级别为 <code>PROPAGATION_REQUIRED</code>，<code>ServiceB.methodB()</code> 的事务级别为 <code>PROPAGATION_REQUIRES_NEW</code>。<br> 执行到 <code>ServiceB.methodB()</code> 的时候，<code>ServiceA.methodA()</code> 所在的事务就会挂起，<code>ServiceB.methodB()</code> 会起一个新的事务，等待 `ServiceB.methodB()`` 的事务完成以后，它才继续执行。</p>
+<h5 id="3、PROPAGATION-SUPPORTS"><a href="#3、PROPAGATION-SUPPORTS" class="headerlink" title="3、PROPAGATION_SUPPORTS"></a>3、PROPAGATION_SUPPORTS</h5><p>  <code>serviceB.methodB()</code> 的事务级别为 <code>PROPAGATION_SUPPORTS</code>,当执行<code>serviceB.methodB()</code>,如果serviceA.methodA()开启了一个事物,则自己也不开启事物.这种时候，内部方法的事务性完全依赖于最外层的事务。</p>
+<h5 id="4、PROPAGATION-NESTED"><a href="#4、PROPAGATION-NESTED" class="headerlink" title="4、PROPAGATION_NESTED"></a>4、PROPAGATION_NESTED</h5><p>  <code>serviceB.methodB()</code> 的事务属性被配置为 <code>PROPAGATION_NESTED</code>,<code>serviceB.methodB()</code> rollback,回滚到savepoint的外部事物<code>serviceA.methodA()</code><br>  可以有2种处理:<br>  a 捕获异常，执行异常分支逻辑<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">void methodA() &#123;</div><div class="line">    try &#123;</div><div class="line">        ServiceB.methodB();</div><div class="line">    &#125; catch (SomeException) &#123;</div><div class="line">        // 执行其他业务, 如 ServiceC.methodC();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>  b 外部事务回滚/提交 代码不做任何修改, 那么如果内部事务serviceB.methodB() rollback, 那么首先 serviceB.methodB 回滚到它执行之前的 SavePoint(在任何情况下都会如此), 外部事务serviceA.methodA 将根据具体的配置决定自己是 commit 还是 rollback</p>
 <h3 id="补充理解"><a href="#补充理解" class="headerlink" title="补充理解"></a>补充理解</h3><p> 1、AOP是一种面向切面编程的思想类似于oop(面向对象编程)，spring aop运用aop的编程思想，aspectj是spring aop的具体实现方案，spring整合了aspectj，使得在spring框架中可以运用aspectj语法来实现aop。<br> 2、spring aop拦截器，只拦截spring管理bean的访问（业务层service）<br> 3、srping mvc里的Interceptor拦截器，需要定义到springmvc-servlet.xml文件中，去拦截url请求资源<br> 一个具体配置如下：<br> <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">//用来用户访问权限的控制，当请求admin匹配的url时会执行AdminInterceptor，此方法中获取用户信息，对用户进行校验，只有admin权限用户才可以执行相应操作</div><div class="line"><span class="tag">&lt;<span class="name">mvc:interceptors</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 --&gt;</span></div><div class="line">        <span class="comment">&lt;!--&lt;bean class="com.test.clockbone.interceptor.AdminInterceptor"/&gt;--&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mvc:interceptor</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">mvc:mapping</span> <span class="attr">path</span>=<span class="string">"/admin/*"</span>/&gt;</span></div><div class="line">            <span class="comment">&lt;!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 --&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"com.test.clockbone.interceptor.AdminInterceptor"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">mvc:interceptor</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">mvc:interceptors</span>&gt;</span></div></pre></td></tr></table></figure></p>
 <p> AdminInterceptor：<br> <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdminInterceptor</span>  <span class="keyword">implements</span> <span class="title">HandlerInterceptor</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Autowired</span></div><div class="line">    <span class="keyword">private</span> LoginService loginService;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">preHandle</span><span class="params">(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        String userName=loginService.getUsername(httpServletRequest);<span class="comment">//获取用户名</span></div><div class="line">        <span class="keyword">if</span>(StringUtils.isEmpty(userName))&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(Constant.adminAccount.contains(userName))&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postHandle</span><span class="params">(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterCompletion</span><span class="params">(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p> spring事物原理参考:<br> <a href="https://www.jianshu.com/p/99f8787f9eaa" target="_blank" rel="external">https://www.jianshu.com/p/99f8787f9eaa</a></p>
 
       
     </div>
@@ -488,7 +564,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、给出的一些aop概念："><span class="nav-text">一、给出的一些aop概念：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、通知类型："><span class="nav-text">二、通知类型：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、下面是aop配置："><span class="nav-text">三、下面是aop配置：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、spring-aop事物的配置"><span class="nav-text">四、spring-aop事物的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、配置事物管理器"><span class="nav-text">1、配置事物管理器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、-支持注解方式的事务配置项"><span class="nav-text">2、 支持注解方式的事务配置项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、配置注解的事务管理"><span class="nav-text">3、配置注解的事务管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、配置事物管理的切面"><span class="nav-text">4、配置事物管理的切面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、为事务通知添加事物处理特性"><span class="nav-text">5、为事务通知添加事物处理特性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#补充理解"><span class="nav-text">补充理解</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、给出的一些aop概念："><span class="nav-text">一、给出的一些aop概念：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、通知类型："><span class="nav-text">二、通知类型：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、下面是aop配置："><span class="nav-text">三、下面是aop配置：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、spring-aop事物的配置"><span class="nav-text">四、spring-aop事物的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、配置事物管理器"><span class="nav-text">1、配置事物管理器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、-支持注解方式的事务配置项"><span class="nav-text">2、 支持注解方式的事务配置项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、配置注解的事务管理"><span class="nav-text">3、配置注解的事务管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、配置事物管理的切面"><span class="nav-text">4、配置事物管理的切面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、为事务通知添加事物处理特性"><span class="nav-text">5、为事务通知添加事物处理特性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、spring事物原理"><span class="nav-text">五、spring事物原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、spring事物的传播类型"><span class="nav-text">1、spring事物的传播类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、Spring中的隔离级别"><span class="nav-text">2、Spring中的隔离级别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、事务嵌套场景"><span class="nav-text">3、事务嵌套场景</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、PROPAGATION-REQUIRED-spring-默认"><span class="nav-text">1、PROPAGATION_REQUIRED(spring 默认)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、PROPAGATION-REQUIRES-NEW"><span class="nav-text">2、PROPAGATION_REQUIRES_NEW</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、PROPAGATION-SUPPORTS"><span class="nav-text">3、PROPAGATION_SUPPORTS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、PROPAGATION-NESTED"><span class="nav-text">4、PROPAGATION_NESTED</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#补充理解"><span class="nav-text">补充理解</span></a></li></ol></div>
             
           </div>
         </section>
