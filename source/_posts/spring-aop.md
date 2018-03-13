@@ -134,8 +134,6 @@ public class LogAspect {
 
  ### 四、spring-aop事物的配置
 
-
-
  #### 1、配置事物管理器
  ```xml
  <bean id=”txManager” class=”org.springframework.jdbc.datasource.DataSourceTransactionManager”>
@@ -209,7 +207,7 @@ public class LogAspect {
   `serviceB.methodB()` 的事务属性被配置为 `PROPAGATION_NESTED`,`serviceB.methodB()` rollback,回滚到savepoint的外部事物`serviceA.methodA()`
   可以有2种处理:
   a 捕获异常，执行异常分支逻辑
-  ```
+  ```java
   void methodA() {
       try {
           ServiceB.methodB();
@@ -220,7 +218,47 @@ public class LogAspect {
   ```
   b 外部事务回滚/提交 代码不做任何修改, 那么如果内部事务serviceB.methodB() rollback, 那么首先 serviceB.methodB 回滚到它执行之前的 SavePoint(在任何情况下都会如此), 外部事务serviceA.methodA 将根据具体的配置决定自己是 commit 还是 rollback
 
- ### 补充理解
+### 六、AOP 代理的两种实现
+####  1、Java 动态代理
+代码参考:
+```java
+//代理类实现ProxyHandler,重写invoke方法(代理方法)
+public class ProxyHandler implements InvocationHandler{
+    // 真实业务对象
+    private Object target;
+    public ProxyHandler(Class clazz){
+        try {
+          this.target = clazz.newInstance();
+        } catch (InstantiationException | IllegalAccessException ex) {
+          LOG.error("Create proxy for {} failed", clazz.getName());
+        }
+    }
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        // 增强逻辑
+        System.out.println("PROXY : " + proxy.getClass().getName());
+        // 反射调用，目标方法
+        Object result = method.invoke(target, args);
+        // 增强逻辑
+        System.out.println(method.getName() + " : " + result);
+        return result;
+    }
+
+}
+
+public class JDKDynamicProxyClient {
+  public static void main(String[] args) {
+    InvocationHandler handler = new ProxyHandler(ConcreteSubject.class);
+    ISubject proxy =
+        (ISubject) Proxy.newProxyInstance(JDKDynamicProxyClient.class.getClassLoader(),
+            new Class[] {ISubject.class}, handler);
+    proxy.action();
+  }
+}
+
+```
+####  2、GCLIB代理代理
+ ### 七、补充理解
  1、AOP是一种面向切面编程的思想类似于oop(面向对象编程)，spring aop运用aop的编程思想，aspectj是spring aop的具体实现方案，spring整合了aspectj，使得在spring框架中可以运用aspectj语法来实现aop。
  2、spring aop拦截器，只拦截spring管理bean的访问（业务层service）
  3、srping mvc里的Interceptor拦截器，需要定义到springmvc-servlet.xml文件中，去拦截url请求资源
